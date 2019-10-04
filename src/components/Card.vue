@@ -1,6 +1,8 @@
 <template>
     <v-card
+    min-width="350"
     max-width="350"
+    min-height="200"
     class="mx-auto"
     >
         <v-list-item>
@@ -36,6 +38,7 @@
 <script>
 export default {
     props: {
+        id: String,
         title: String,
         avatar: String,
         advisors: Array,
