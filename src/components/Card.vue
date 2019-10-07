@@ -14,12 +14,17 @@
                 <v-list-item-subtitle v-text=advisors.toString()></v-list-item-subtitle>
             </v-list-item-content>
             <v-btn v-if=starred icon>
-                <v-icon>mdi-star</v-icon>
-            </v-btn >
+                <v-icon v-on:click="toggle()" v-bind:color="starred ? 'yellow accent-4' : 'primary'">mdi-star</v-icon>
+            </v-btn>
             <v-btn v-else icon>
-                <v-icon>mdi-star-outline</v-icon>
+                <v-icon>mdi-star</v-icon>
             </v-btn>
         </v-list-item>
+        <v-divider></v-divider>
+        <v-img
+            :src=img
+            height="194"
+        ></v-img>
         <v-divider></v-divider>
         <v-card-text>
             <div v-if="desc.length < maxChar" v-text="desc"></div>
@@ -37,14 +42,31 @@
 
 <script>
 export default {
+    data() {
+        return {
+        id: props.id,
+        title: props.title,
+        avatar: props.avatar,
+        img: props.img,
+        advisors: props.advisors,
+        desc: props.desc,
+        starred: props.starred,
+        tags: props.tags,
+        }
+    },
     props: {
         id: String,
         title: String,
         avatar: String,
+        img: String,
         advisors: Array,
         desc: String,
         starred: Boolean,
         tags: Array,
+    },
+    methods: {
+        toggle() {
+        }
     },
     data: () => ({
         maxChar: 250,

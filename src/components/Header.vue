@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar height="100">
+  <v-toolbar dark height="100">
     <img class="logo" :src="require('../assets/logo.png')" height="50px"/>
     <v-toolbar-title class="title">&nbsp;marqetplace.</v-toolbar-title>
     <v-spacer></v-spacer>
