@@ -9,7 +9,7 @@
         <v-row>
           <v-col
             v-for="item in props.items"
-            :key="item.id"
+            :key="item.idNum"
           >
             <Card
                 v-bind:title=item.title
@@ -49,7 +49,7 @@ import Card from '../components/Card.vue';
           },
           {
             id: "2",
-            title: "marqetplace.",
+            title: "different.",
             avatar: "https://lh3.google.com/u/0/d/1pmiS_zouaeok8JDWFLZSTieLF_JE6OOSu9wA5Cr1SQY=w200-h190-p-k-nu-iv1",
             img: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
             advisors: ['Vesonder'],

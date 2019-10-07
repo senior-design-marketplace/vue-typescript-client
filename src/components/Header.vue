@@ -1,7 +1,8 @@
 <template>
   <v-toolbar dark height="100">
-    <img class="logo" :src="require('../assets/logo.png')" height="50px"/>
-    <v-toolbar-title class="title">&nbsp;marqetplace.</v-toolbar-title>
+    <img class="logo" :src="require('../assets/logo.png')"/>
+    <img :src="require('../assets/title.png')" height="50px"/>
+    <!--<v-toolbar-title class="title">&nbsp;marqetplace.</v-toolbar-title>-->
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn text class="item">Projects</v-btn>
@@ -28,7 +29,7 @@ export default {
 
 <style>
 .title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif; 
   font-size: 30px !important;
   font-weight: bold;
 }
@@ -39,5 +40,6 @@ export default {
 }
 .logo {
     width: 50px;
+    height: 50px
 }
 </style>

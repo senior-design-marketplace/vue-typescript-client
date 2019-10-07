@@ -3,7 +3,6 @@
     <div id="app">
       <Header></Header>
       <CardDeck></CardDeck>
-      <Project></Project>
     </div>
   </v-app>
 </template>
@@ -11,14 +10,12 @@
 <script>
 import Header from './components/Header.vue';
 import CardDeck from './components/CardDeck.vue';
-import Project from './components/Project.vue';
 
 export default {
   name: 'app',
   components: {
     Header,
     CardDeck,
-    Project,
   },
 };
 </script>

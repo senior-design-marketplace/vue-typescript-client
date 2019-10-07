@@ -1,4 +1,4 @@
-<template>
+<template :id="id">
     <v-card
     min-width="350"
     max-width="350"
@@ -13,11 +13,8 @@
                 <v-list-item-title class="headline" v-text=title></v-list-item-title>
                 <v-list-item-subtitle v-text=advisors.toString()></v-list-item-subtitle>
             </v-list-item-content>
-            <v-btn v-if=starred icon>
-                <v-icon v-on:click="toggle()" v-bind:color="starred ? 'yellow accent-4' : 'primary'">mdi-star</v-icon>
-            </v-btn>
-            <v-btn v-else icon>
-                <v-icon>mdi-star</v-icon>
+            <v-btn icon>
+                <v-icon v-on:click="toggle(id, starred)" v-bind:color="starred ? 'yellow accent-4' : 'gray'">mdi-star</v-icon>
             </v-btn>
         </v-list-item>
         <v-divider></v-divider>
@@ -34,25 +31,19 @@
             </v-chip-group>
         </v-card-text>
         <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn text>Read More</v-btn>
+            <Project
+                v-bind:title=title
+            ></Project>
         </v-card-actions>
     </v-card>
 </template>
 
 <script>
+import Project from '../components/Project.vue';
+
 export default {
-    data() {
-        return {
-        id: props.id,
-        title: props.title,
-        avatar: props.avatar,
-        img: props.img,
-        advisors: props.advisors,
-        desc: props.desc,
-        starred: props.starred,
-        tags: props.tags,
-        }
+    components: {
+        Project,
     },
     props: {
         id: String,
@@ -64,13 +55,17 @@ export default {
         starred: Boolean,
         tags: Array,
     },
-    methods: {
-        toggle() {
-        }
-    },
     data: () => ({
         maxChar: 250,
     }),
+    methods: {
+        toggle(id, starred) {
+            console.log(starred)
+            starred = !starred
+            console.log(starred)
+            //backend code here to update starred given id
+        }
+    },
   }
 </script>
 
