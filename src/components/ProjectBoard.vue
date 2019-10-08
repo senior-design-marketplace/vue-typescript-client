@@ -1,33 +1,36 @@
 <template>
-  <div id="app">
-    <v-app id="inspire">
-      <div>
-        <v-timeline :reverse="!reverse" dense>
-          <v-timeline-item>
-            <v-card class="elevation-2">
-              <v-card-title class="headline">October 2019:</v-card-title>
-              <v-card-text>
-                Simple UI generation from client in response to a live call from the server.
-                Initial UI mockups for web client finished and handed over to SDEs.
-              </v-card-text>
-            </v-card>
-          </v-timeline-item>
-          <v-timeline-item>
-            <v-card class="elevation-2">
-              <v-card-title class="headline">September 2019:</v-card-title>
-              <v-card-text>Schemas validated and initial routes stubbed for future implementation. Requirements validation with EMs and generation of an ordered product backlog. Developer middlewares and other tooling written to facilitate further development. Server capable of being stood up and responding to simple requests with valid data fetched from the cloud.</v-card-text>
-            </v-card>
+  <v-container fluid>
+    <v-data-iterator :items="items" :items-per-page="50" hide-default-footer>
+      <template v-slot:default="props">
+        <v-timeline :reverse="false" dense>
+          <v-timeline-item v-for="item in props.items" :key="item.id">
+            <BoardBlock v-bind:date="item.date" v-bind:desc="item.desc" v-bind:img="item.img"></BoardBlock>
           </v-timeline-item>
         </v-timeline>
-      </div>
-    </v-app>
-  </div>
+      </template>
+    </v-data-iterator>
+  </v-container>
 </template>
 
 <script>
+import BoardBlock from "../components/BoardBlock.vue";
+
 export default {
+  components: {
+    BoardBlock
+  },
   data: () => ({
-    reverse: true
+    items: [
+      {
+        date: "October 2019",
+        desc: "Simple UI generation from client in response to a live call from the server. Initial UI mockups for web client finished and handed over to SDEs.",
+        img: []
+      },
+      {
+        date: "September 2019",
+        desc: "Schemas validated and initial routes stubbed for future implementation. Requirements validation with EMs and generation of an ordered product backlog. Developer middlewares and other tooling written to facilitate further development. Server capable of being stood up and responding to simple requests with valid data fetched from the cloud.",
+      },
+    ]
   })
 };
 </script>

@@ -9,7 +9,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-flex class="headline" v-text="title"></v-flex>
-            <v-list-item-subtitle v-if="advisors != null" v-text="advisors.toString()"></v-list-item-subtitle>
+            <v-list-item-subtitle v-if="advisors != null" v-text="advisors.join(', ')"></v-list-item-subtitle>
           </v-list-item-content>
           <v-item v-slot:default="{ active, toggle }">
             <v-btn icon @click="toggle">

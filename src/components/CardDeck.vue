@@ -3,7 +3,7 @@
     <v-data-iterator :items="items" :items-per-page="50" hide-default-footer>
       <template v-slot:default="props">
         <v-row>
-          <v-col v-for="item in props.items" :key="item.idNum">
+          <v-col v-for="item in props.items" :key="item.id">
             <Card
               v-bind:title="item.title"
               v-bind:avatar="item.avatar"
@@ -44,10 +44,10 @@ export default {
           starred: true,
           tags: [
             "Computer Science",
-            "Software Engineering",
+            "Software Eng.",
             "Engineering Management"
           ],
-          members: ["Herb", "Ruthy"],
+          members: ["Herb Zieger", "Ruthy Levi", "Mark Freeman", "Jason Chlus"],
           contact: "Phone: (+1) 610-428-6898",
         },
         {
@@ -63,7 +63,7 @@ export default {
           starred: true,
           tags: [
             "Computer Science",
-            "Software Engineering",
+            "Software Eng.",
             "Quantitative Finance",
             "Engineering Management"
           ],
@@ -81,10 +81,10 @@ export default {
             "The ultimate goal in collegiate rocketry is to develop an affordable ground-launched platform capable of surpassing the Karman Line (an altitude of 100 km).",
           starred: true,
           tags: [
-            "Computer Engineering",
+            "Computer Eng.",
             "Computer Science",
-            "Chemical Engineering",
-            "Mechanical Engineering"
+            "Chemical Eng.",
+            "Mechanical Eng."
           ]
         },
         {
@@ -99,10 +99,10 @@ export default {
             "AlzFall's mission is to provide a technology that will help those who have been diagnosed with Alzeimer's disease.",
           starred: true,
           tags: [
-            "Electrical Engineering",
+            "Electrical Eng.",
             "Computer Science",
-            "Software Engineering",
-            "Mechanical Engineering"
+            "Software Eng.",
+            "Mechanical Eng."
           ]
         },
         {
@@ -118,7 +118,7 @@ export default {
           starred: true,
           tags: [
             "Computer Science",
-            "Software Engineering",
+            "Software Eng.",
             "Engineering Management"
           ]
         },
@@ -133,7 +133,7 @@ export default {
           desc:
             "For electric vehicle drivers who need a more convenient way to charge their EVs, the EVisualize module is an add-on to the Liberty Hydra app that optimizes charger usage for both users and facilities managers.",
           starred: true,
-          tags: ["Computer Engineering", "Electrical Engineering"]
+          tags: ["Computer Eng.", "Electrical Eng."]
         }
       ]
     };
