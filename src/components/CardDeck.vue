@@ -208,36 +208,6 @@ export default {
             "Mechanical Eng."
           ]
         },
-        {
-          id: "5",
-          title: "Life Skills Software",
-          avatar:
-            "https://peopleforeducation.ca/wp-content/uploads/2017/05/PFE_Icon_Public-education.png",
-          img:
-            "https://www.northeastern.edu/graduate/blog/wp-content/uploads/2019/06/Equity-in-the-Classroom-HERO.jpeg",
-          advisors: ["Vesonder"],
-          desc:
-            "Our platform gamifies developing skills critical for special-needs students, namely across three broad categories: academic, social, and transitional.",
-          starred: true,
-          tags: [
-            "Computer Science",
-            "Software Eng.",
-            "Engineering Management"
-          ]
-        },
-        {
-          id: "6",
-          title: "EVisualize",
-          avatar:
-            "https://s3.amazonaws.com/dntstatic//4294a95c-62de-46b8-53e2-f575b513d793_122_120.png",
-          img:
-            "https://assets.greentechmedia.com/assets/content/cache/made/assets/content/cache/remote/https_assets.greentechmedia.com/content/images/articles/Charging_EVs_Infrastructure_XL_721_420_80_s_c1.jpg",
-          advisors: ["Vesonder"],
-          desc:
-            "For electric vehicle drivers who need a more convenient way to charge their EVs, the EVisualize module is an add-on to the Liberty Hydra app that optimizes charger usage for both users and facilities managers.",
-          starred: true,
-          tags: ["Computer Eng.", "Electrical Eng."]
-        }, 
       ]
     };
   }
