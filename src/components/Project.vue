@@ -5,12 +5,15 @@
         <v-btn color="primary" dark v-on="on">Read More</v-btn>
       </template>
       <v-card>
-        <v-toolbar @click="dialog = false" dark color="primary">
+        <v-toolbar dark color="primary">
           <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title style=" font-family: Montserrat, font-size: 30px" v-text="title"></v-toolbar-title>
+          <v-toolbar-title @click="dialog = false" style=" font-family: Montserrat, font-size: 30px" v-text="title"></v-toolbar-title>
           <div class="flex-grow-1"></div>
+          <v-btn>
+            Apply
+          </v-btn>
         </v-toolbar>
         <v-img :src="img" height="350"></v-img>
         <v-row>
