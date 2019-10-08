@@ -11,7 +11,14 @@
           </v-btn>
           <v-toolbar-title v-text="title"></v-toolbar-title>
           <div class="flex-grow-1"></div>
-        </v-toolbar>
+        </v-toolbar> <!--this is where you put the project data in-->
+              <v-img :src=img></v-img> 
+              <p class="text-left">
+              Description:              
+                <v-img :desc=desc>{{desc}}</v-img> 
+              Advisors:
+                <v-img :advisors=advisors>{{advisors}}</v-img> 
+               </p>
       </v-card>
     </v-dialog>
   </v-row>
@@ -19,8 +26,15 @@
 
 <script>
   export default {
-    props: {
-      title: String,
+ props: {
+        id: String,
+        title: String,
+        avatar: String,
+        img: String,
+        advisors: Array,
+        desc: String,
+        starred: Boolean,
+        tags: Array,
     },
     data () {
       return {
