@@ -1,37 +1,46 @@
 <template :id="id">
   <v-card min-width="350" max-width="350" min-height="200" class="mx-auto">
     <v-container class="pa-1">
-      <v-item-group v-model="selected" multiple>
+      <v-item-group>
         <v-list-item>
           <v-list-item-avatar tile>
-            <v-img :src="avatar"></v-img>
+            <v-img v-if="avatar != null" :src="avatar"></v-img>
+            <span v-else class="black--text headline" v-text="title.substring(0,1)"></span>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="headline" v-text="title"></v-list-item-title>
-            <v-list-item-subtitle v-text="advisors.toString()"></v-list-item-subtitle>
+            <v-flex class="headline" v-text="title"></v-flex>
+            <v-list-item-subtitle v-if="advisors != null" v-text="advisors.toString()"></v-list-item-subtitle>
           </v-list-item-content>
           <v-item v-slot:default="{ active, toggle }">
             <v-btn icon @click="toggle">
-              <v-icon>
-                {{ active ? 'mdi-star' : 'mdi-star-outline' }}
-                <!-- <v-icon v-on:click="toggle(id, starred)" v-bind:color="starred ? 'yellow accent-4' : 'gray'">mdi-star</v-icon> -->
-              </v-icon>
+              <v-icon v-bind:color="active ? 'yellow accent-4' : 'gray'">mdi-star</v-icon>
             </v-btn>
           </v-item>
         </v-list-item>
         <v-divider></v-divider>
-        <v-img :src="img" height="194"></v-img>
-        <v-divider></v-divider>
+        <v-img v-if="img != null" :src="img" height="194"></v-img>
         <v-card-text>
-          <div v-if="desc.length < maxChar" v-text="desc"></div>
-          <div v-else v-text="desc.substring(0,maxChar)+'...'"></div>
+          <div v-if="desc != null">
+            <div v-if="desc.length < maxChar" v-text="desc"></div>
+            <div v-else v-text="desc.substring(0,maxChar)+'...'"></div>
+          </div>
           <v-chip-group column>
             <v-chip label v-for="tag in tags" :key="tag" class="noClick">{{tag}}</v-chip>
           </v-chip-group>
         </v-card-text>
 
         <v-card-actions>
-          <Project v-bind:title="title"></Project>
+          <Project
+            v-bind:title="title"
+            v-bind:avatar="avatar"
+            v-bind:img="img"
+            v-bind:advisors="advisors"
+            v-bind:desc="desc"
+            v-bind:starred="starred"
+            v-bind:tags="tags"
+            v-bind:members="members"
+            v-bind:contact="contact"
+          ></Project>
         </v-card-actions>
       </v-item-group>
     </v-container>
@@ -51,9 +60,11 @@ export default {
     avatar: String,
     img: String,
     advisors: Array,
+    members: Array,
     desc: String,
     starred: Boolean,
-    tags: Array
+    tags: Array,
+    contact: String
   },
   data: () => ({
     maxChar: 250
