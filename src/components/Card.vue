@@ -68,15 +68,7 @@ export default {
   },
   data: () => ({
     maxChar: 250
-  }),
-  methods: {
-    toggle(id, starred) {
-      console.log(starred);
-      starred = !starred;
-      console.log(starred);
-      //backend code here to update starred given id
-    }
-  }
+  })
 };
 </script>
 
