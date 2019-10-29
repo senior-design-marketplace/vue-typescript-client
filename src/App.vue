@@ -2,37 +2,18 @@
   <v-app>
     <div id="app">
       <Header />
-      <SortBar @order="updateOrder" @sort="sortbyUpdate" />
-      <CardDeck :orderUpdate="orderData" :sortbyUpdate="sortbyData" />
+      <router-view />
     </div>
   </v-app>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
-import CardDeck from "./components/CardDeck.vue";
-import SortBar from "./components/SortBar.vue";
+import Header from "@/components/Header.vue";
 
 export default {
   name: "app",
   components: {
-    Header,
-    CardDeck,
-    SortBar
-  },
-  data: function() {
-    return {
-      orderData: "",
-      sortbyData: ""
-    };
-  },
-  methods: {
-    updateOrder(variable) {
-      this.orderData = variable;
-    },
-    sortbyUpdate(variable) {
-      this.sortbyData = variable;
-    }
+    Header
   }
 };
 </script>

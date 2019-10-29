@@ -14,7 +14,6 @@
         </v-list-item>
       </v-list>
     </v-menu>
-      <v-divider vertical></v-divider>
       <v-btn @click="orderUpdate">
         <v-icon>{{order=="descending" ? 'mdi-sort-descending' : 'mdi-sort-ascending'}}</v-icon>
       </v-btn>
