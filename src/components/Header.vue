@@ -1,8 +1,10 @@
 <template>
   <v-toolbar dark height="100">
-    <img class="logo" :src="require('../../public/assets/logo.png')" />
+    <router-link to="/">
+      <img class="logo" :src="require('@/../public/assets/logo.png')" />
 
-    <img :src="require('../../public/assets/title.png')" height="50px" />
+      <img :src="require('@/../public/assets/title.png')" height="50px" />
+    </router-link>
     <!--<v-toolbar-title class="title">&nbsp;marqetplace.</v-toolbar-title>-->
     <v-spacer></v-spacer>
     <v-toolbar-items>

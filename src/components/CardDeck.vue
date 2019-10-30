@@ -6,15 +6,12 @@
           <v-col v-for="item in props.items" :key="item.id">
             <Card
               v-bind:id="item.id"
-              v-bind:title="item.title"
               v-bind:avatar="item.thumbnail_link"
-              v-bind:img="item.img"
-              v-bind:advisors="item.advisors"
-              v-bind:desc="item.tagline"
+              v-bind:title="item.title"
               v-bind:starred="item.starred"
+              v-bind:coverImg="item.coverImg"
+              v-bind:tagline="item.tagline"
               v-bind:tags="item.tags"
-              v-bind:members="item.members"
-              v-bind:contact="item.contact"
             ></Card>
           </v-col>
         </v-row>
@@ -24,7 +21,7 @@
 </template>
 
 <script>
-import Card from "../components/Card.vue";
+import Card from "@/components/Card.vue";
 import axios from "axios";
 
 export default {
