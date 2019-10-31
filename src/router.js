@@ -1,15 +1,15 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
 
 Vue.use(Router);
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: "/",
       name: "home",
-      component: Home
+      component: () => import("./views/Home.vue")
     },
     {
       path: "/my-projects",
@@ -40,6 +40,11 @@ export default new Router({
       path: "/project/:id",
       name: "project",
       component: () => import("./views/Project.vue")
-    }
+    },
+    {
+      path: "*",
+      name: "404",
+      component: () => import("./views/NotFound.vue")
+    },
   ]
 });
