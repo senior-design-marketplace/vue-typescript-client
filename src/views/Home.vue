@@ -10,6 +10,7 @@ import CardDeck from "@/components/CardDeck.vue";
 import SortBar from "@/components/SortBar.vue";
 
 export default {
+  name: "home",
   components: {
     CardDeck,
     SortBar

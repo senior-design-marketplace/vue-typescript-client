@@ -14,14 +14,13 @@
         </v-list-item>
       </v-list>
     </v-menu>
-      <v-btn @click="orderUpdate">
-        <v-icon>{{order=="descending" ? 'mdi-sort-descending' : 'mdi-sort-ascending'}}</v-icon>
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-
-      <div class="mx-4"></div>
+    <v-btn @click="orderUpdate">
+      <v-icon>{{order=="descending" ? 'mdi-sort-descending' : 'mdi-sort-ascending'}}</v-icon>
+    </v-btn>
+    <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
+    <div class="mx-4"></div>
   </v-toolbar>
 </template>
 

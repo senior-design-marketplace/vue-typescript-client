@@ -1,32 +1,36 @@
 <template>
   <div>
+    <v-toolbar>
+      <v-img v-if="avatar != null" :src="avatar" max-height="50" max-width="50"></v-img>&nbsp;&nbsp;&nbsp;&nbsp;
+      <v-toolbar-title class="headline" v-text="title" />
+      <v-item-group>
+        <v-list-item>
+          <v-item v-slot:default="{ active, toggle }">
+            <v-btn icon @click="toggle">
+              <v-icon v-bind:color="active ? 'yellow accent-4' : 'gray'">mdi-star</v-icon>
+            </v-btn>
+          </v-item>
+        </v-list-item>
+      </v-item-group>
+    </v-toolbar>
+    <p />
     <v-card>
-      <v-toolbar flat>
-        <v-img :src="avatar" max-height="50" max-width="50"></v-img>
-        <v-toolbar-title style=" font-family: Montserrat, font-size: 30px" v-text="title"></v-toolbar-title>
-      </v-toolbar>
       <v-img :src="coverImg" contain max-height="350"></v-img>
     </v-card>
+    <p />
     <v-card>
-      <v-row>
-        <v-col>
-          <v-list-item-title class="headline text-left">Description:</v-list-item-title>
-          <v-list-item class="text-left" v-text="description"></v-list-item>
-          <v-list-item-title class="headline text-left">Majors Required:</v-list-item-title>
-          <v-chip-group column>
-            <v-chip
-              label
-              v-for="major in majors"
-              :key="major[0]"
-              class="noClick"
-            >{{major[0] +": "+ major[1]}}</v-chip>
-          </v-chip-group>
-          <v-list-item-title class="headline text-left">Tags:</v-list-item-title>
-          <v-chip-group column>
-            <v-chip label v-for="tag in tags" :key="tag" class="noClick">{{tag}}</v-chip>
-          </v-chip-group>
-        </v-col>
-      </v-row>
+      <v-container>
+        <v-list-item-title class="headline text-left">Description:</v-list-item-title>
+        <v-list-item class="text-left" v-text="description"></v-list-item>
+        <v-list-item-title class="headline text-left">Majors:</v-list-item-title>
+        <v-chip-group column>
+          <v-chip label v-for="major in majors" :key="major" class="noClick">{{major}}</v-chip>
+        </v-chip-group>
+        <v-list-item-title class="headline text-left">Tags:</v-list-item-title>
+        <v-chip-group column>
+          <v-chip label v-for="tag in tags" :key="tag" class="noClick">{{tag}}</v-chip>
+        </v-chip-group>
+      </v-container>
     </v-card>
   </div>
 </template> 
@@ -37,11 +41,8 @@ export default {
     avatar: String,
     title: String,
     starred: Boolean,
-
     coverImg: String,
-
     description: String,
-
     majors: Array,
     tags: Array
   }
@@ -49,8 +50,7 @@ export default {
 </script>
 
 <style>
-.logo {
-  width: 50px;
-  height: 50px;
+.noClick {
+  pointer-events: none;
 }
 </style>
