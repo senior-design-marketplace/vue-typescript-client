@@ -1,7 +1,6 @@
 <template>
   <v-card>
-    <v-container>
-      <v-list-item-title class="headline text-left">Comments:</v-list-item-title>
+    <v-container><h2>Comments:</h2>
       <v-card flat max-height="700" class="overflow-y-auto">
         <v-container v-for="comment in comments" :key="comment.author">
           <v-card>

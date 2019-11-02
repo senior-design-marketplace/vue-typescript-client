@@ -2,7 +2,7 @@
   <div>
     <v-toolbar>
       <v-img v-if="avatar != null" :src="avatar" max-height="50" max-width="50"></v-img>&nbsp;&nbsp;&nbsp;&nbsp;
-      <v-toolbar-title class="headline" v-text="title" />
+      <h2 class="text-left">{{title}}</h2>
       <v-item-group>
         <v-list-item>
           <v-item v-slot:default="{ active, toggle }">
@@ -20,13 +20,15 @@
     <p />
     <v-card>
       <v-container>
-        <v-list-item-title class="headline text-left">Description:</v-list-item-title>
+        <h2 class="text-left">Description:</h2>
         <v-list-item class="text-left" v-text="description"></v-list-item>
-        <v-list-item-title class="headline text-left">Majors:</v-list-item-title>
+        <br>
+        <h2 class="text-left">Majors:</h2>
         <v-chip-group column>
           <v-chip label v-for="major in majors" :key="major" class="noClick">{{major}}</v-chip>
         </v-chip-group>
-        <v-list-item-title class="headline text-left">Tags:</v-list-item-title>
+        <br>
+        <h2 class="text-left">Tags:</h2>
         <v-chip-group column>
           <v-chip label v-for="tag in tags" :key="tag" class="noClick">{{tag}}</v-chip>
         </v-chip-group>

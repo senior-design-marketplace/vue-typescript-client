@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-container>
-      <v-list-item-title class="headline text-left">Advisors:</v-list-item-title>
+      <h2>Advisors:</h2>
       <v-container>
         <v-row v-for="advisor in advisors" :key="advisor" align="center" class="spacer">
           <v-col cols="4" sm="2" md="1">
@@ -10,11 +10,11 @@
             </v-avatar>
           </v-col>
           <v-col>
-            <strong v-html="advisor"></strong>
+            <v-text>{{advisor}}</v-text>
           </v-col>
         </v-row>
       </v-container>
-      <v-list-item-title class="headline text-left">Members:</v-list-item-title>
+      <h2>Members:</h2>
       <v-container>
         <v-row v-for="member in members" :key="member" align="center" class="spacer">
           <v-col cols="4" sm="2" md="1">
@@ -23,7 +23,7 @@
             </v-avatar>
           </v-col>
           <v-col>
-            <strong v-html="member"></strong>
+            <v-text>{{member}}</v-text>
           </v-col>
         </v-row>
       </v-container>

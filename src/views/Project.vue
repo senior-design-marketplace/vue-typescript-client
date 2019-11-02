@@ -17,7 +17,7 @@
       <v-col cols="12" sm="4">
         <v-card>
           <v-btn outlined block>
-            <strong>Apply</strong>
+            <h2>Apply</h2>
           </v-btn>
         </v-card>
         <p />

@@ -3,7 +3,7 @@
     <v-item-group>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="headline text-left">Project Board</v-list-item-title>
+      <h2 class="text-left">Project Board:</h2>
         </v-list-item-content>
       </v-list-item>
     </v-item-group>
