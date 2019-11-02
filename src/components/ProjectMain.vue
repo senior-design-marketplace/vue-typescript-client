@@ -22,12 +22,12 @@
       <v-container>
         <h2 class="text-left">Description:</h2>
         <v-list-item class="text-left" v-text="description"></v-list-item>
-        <br>
+        <br />
         <h2 class="text-left">Majors:</h2>
         <v-chip-group column>
           <v-chip label v-for="major in majors" :key="major" class="noClick">{{major}}</v-chip>
         </v-chip-group>
-        <br>
+        <br />
         <h2 class="text-left">Tags:</h2>
         <v-chip-group column>
           <v-chip label v-for="tag in tags" :key="tag" class="noClick">{{tag}}</v-chip>
