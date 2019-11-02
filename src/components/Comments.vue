@@ -24,6 +24,19 @@
           </v-card>
         </v-container>
       </v-card>
+      <br />
+      <v-textarea
+        outlined
+        name="newComment"
+        label="New Comment"
+        counter="256"
+        :rules="[rules.length(256)]"
+      ></v-textarea>
+      <v-container>
+        <v-row justify="end">
+          <v-btn>Submit</v-btn>
+        </v-row>
+      </v-container>
     </v-container>
   </v-card>
 </template>
@@ -32,6 +45,15 @@
 export default {
   props: {
     comments: Array
+  },
+  data() {
+    return {
+      rules: {
+        length: len => v =>
+          (v || "").length <= len ||
+          `Invalid character length, must be less than ${len}`
+      }
+    };
   }
 };
 </script>
