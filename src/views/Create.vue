@@ -5,30 +5,47 @@
         <h1>Create Project</h1>
         <br>
         <div>
-          <v-file-input
-            :rules="rules"
-            accept="image/png, image/jpeg, image/bmp"
-            placeholder="Pick an avatar"
-            prepend-icon="mdi-camera"
-            label="Avatar"
-          ></v-file-input>
-          <v-col cols="12" sm="6" md="12">
-            <v-text-field label="Project Title"></v-text-field>
-          </v-col>
-          <v-image-input v-model="imageData" :image-quality="0.85" clearable image-format="jpeg"/>
-          <v-toolbar>
-            <v-img v-if="avatar != null" :src="avatar" max-height="50" max-width="50"></v-img>&nbsp;&nbsp;&nbsp;&nbsp;
-            <v-toolbar-title class="headline" v-text="title"/>
-          </v-toolbar>
-          <p/>
           <v-card>
-            <v-img :src="coverImg" contain max-height="350"></v-img>
+            <v-container>
+              <v-row>
+                <v-col cols="12" sm="3">
+                  <v-file-input
+                    :rules="rules.avatarSize"
+                    accept="image/png, image/jpeg, image/bmp"
+                    placeholder="Avatar"
+                    prepend-icon="mdi-camera"
+                  ></v-file-input>
+                </v-col>
+                <v-col cols="12" sm="9">
+                  <v-text-field label="Project Title"></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
           </v-card>
           <p/>
           <v-card>
             <v-container>
-              <v-list-item-title class="headline text-left">Description:</v-list-item-title>
-              <v-list-item class="text-left" v-text="description"></v-list-item>
+              <v-image-input
+                v-model="imageData"
+                :image-quality="0.85"
+                imageWidth="500"
+                clearable
+                image-format="jpeg"
+              />
+            </v-container>
+          </v-card>
+          <p/>
+          <v-card>
+            <v-container>
+              <v-col cols="12" sm="6" md="12">
+                <v-textarea
+                  outlined
+                  name="description"
+                  label="Description"
+                  counter="2048"
+                  :rules="[rules.length(2048)]"
+                ></v-textarea>
+              </v-col>
               <v-list-item-title class="headline text-left">Majors:</v-list-item-title>
               <v-chip-group column>
                 <v-chip label v-for="major in majors" :key="major" class="noClick">{{major}}</v-chip>
@@ -76,12 +93,15 @@ export default {
   },
   data() {
     return {
-      rules: [
-        value =>
+      rules: {
+        avatarSize: value =>
           !value ||
           value.size < 2000000 ||
-          "Avatar size should be less than 2 MB!"
-      ],
+          "Avatar size should be less than 2 MB!",
+        length: len => v =>
+          (v || "").length <= len ||
+          `Invalid character length, must be less than ${len}`
+      },
       items: [],
       thumbnail_link:
         "https://images.theconversation.com/files/93616/original/image-20150902-6700-t2axrz.jpg",
