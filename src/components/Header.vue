@@ -8,21 +8,11 @@
     <!--<v-toolbar-title class="title">&nbsp;marqetplace.</v-toolbar-title>-->
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <router-link to="/">
-        <v-btn text class="item">Projects</v-btn>
-      </router-link>
-      <router-link to="/my-projects">
-        <v-btn text class="item">My Projects</v-btn>
-      </router-link>
-      <router-link to="/create">
-        <v-btn text class="item">Create Project</v-btn>
-      </router-link>
-      <router-link to="/applications">
-        <v-btn text class="item">Applications</v-btn>
-      </router-link>
-      <router-link to="/about">
-        <v-btn text class="item">About</v-btn>
-      </router-link>
+        <v-btn text class="item" to="/">Projects</v-btn>
+        <v-btn text class="item" to="/my-projects">My Projects</v-btn>
+        <v-btn text class="item" to="/create">Create Project</v-btn>
+        <v-btn text class="item" to="/applications">Applications</v-btn>
+        <v-btn text class="item" to="/about">About</v-btn>
     </v-toolbar-items>
     <template v-if="$vuetify.breakpoint.smAndUp">
       <v-btn icon>
