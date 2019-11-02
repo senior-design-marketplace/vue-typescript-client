@@ -34,7 +34,7 @@
                 v-model="imageData"
                 :image-quality="0.85"
                 imageWidth="500"
-                imageHeight="188"
+                imageHeight="203"
                 clearable
                 image-format="jpeg"
               />
@@ -47,13 +47,13 @@
       <v-col cols="12" sm="4">
         <v-card>
           <v-btn outlined block>
-            <strong>Submit</strong>
+            <h2>Submit</h2>
           </v-btn>
         </v-card>
         <p/>
         <v-card>
           <v-col cols="12" sm="6" md="12">
-            <h3>Add Project Info:</h3>
+            <h2>Add Project Info:</h2>
             <br>
             <v-textarea
               outlined
@@ -92,7 +92,7 @@
         <br>
         <v-card>
           <v-container>
-            <h3>Add Members:</h3>
+            <h2>Add Members:</h2>
             <br>
             <v-autocomplete
               v-model="values"
