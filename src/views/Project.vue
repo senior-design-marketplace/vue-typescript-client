@@ -58,7 +58,7 @@ export default {
         },
         {
           author: "Ruthy Levi",
-          text: "Example response here!",
+          text: "What it do bby",
           datetime: "Nov 13, 2019 1:00 PM"
         },
         {
