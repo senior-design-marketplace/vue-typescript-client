@@ -18,11 +18,9 @@
       <v-btn icon>
         <v-icon>mdi-bell</v-icon>
       </v-btn>
-      <router-link to="/account">
-        <v-btn icon>
+        <v-btn icon to="/account">
           <v-icon>mdi-account-circle</v-icon>
         </v-btn>
-      </router-link>
     </template>
   </v-toolbar>
 </template>
