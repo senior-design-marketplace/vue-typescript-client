@@ -1,33 +1,13 @@
 <template>
   <v-container fluid>
-    <v-data-iterator :items="items" :items-per-page="50" hide-default-footer>
-      <template v-slot:default="props">
-        <v-row>
-          <v-col v-for="item in props.items" :key="item.id">
-            <Card
-              v-bind:id="item.id"
-              v-bind:avatar="item.thumbnail_link"
-              v-bind:title="item.title"
-              v-bind:starred="item.starred"
-              v-bind:coverImg="item.coverImg"
-              v-bind:tagline="item.tagline"
-              v-bind:tags="item.tags"
-            ></Card>
-          </v-col>
-        </v-row>
-      </template>
-    </v-data-iterator>
+    <v-data-table :headers="headers" :items="items" :items-per-page="15" class="elevation-1" ></v-data-table>
   </v-container>
 </template>
 
 <script>
-import Card from "@/components/Card.vue";
 import axios from "axios";
 
 export default {
-  components: {
-    Card
-  },
   props: {
     sortbyUpdate: String,
     orderUpdate: String
@@ -36,24 +16,44 @@ export default {
     return {
       sortby: "new",
       order: "descending",
-      items: []
+      items: [],
+      headers: [
+        {
+          text: "Title",
+          align: "left",
+          sortable: false,
+          value: "title"
+        },
+        {
+          text: "Tagline",
+          align: "left",
+          sortable: false,
+          value: "tagline"
+        },
+        {
+          text: "Tags",
+          align: "left",
+          sortable: false,
+          value: "tags"
+        },
+      ],
     };
   },
   mounted() {
-    this.updateCards();
+    this.updateList();
   },
   watch: {
     sortbyUpdate: function() {
       this.sortby = this.sortbyUpdate;
-      this.updateCards();
+      this.updateList();
     },
     orderUpdate: function() {
       this.order = this.orderUpdate;
-      this.updateCards();
+      this.updateList();
     }
   },
   methods: {
-    updateCards() {
+    updateList() {
       var url =
         "https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects?sort_by=" +
         this.sortby;

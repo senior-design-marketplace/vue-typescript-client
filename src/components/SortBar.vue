@@ -14,15 +14,20 @@
         </v-list-item>
       </v-list>
     </v-menu>
-      <v-divider vertical></v-divider>
-      <v-btn @click="orderUpdate">
-        <v-icon>{{order=="descending" ? 'mdi-sort-descending' : 'mdi-sort-ascending'}}</v-icon>
+    <v-btn @click="orderUpdate">
+      <v-icon>{{order=="descending" ? 'mdi-sort-descending' : 'mdi-sort-ascending'}}</v-icon>
+    </v-btn>
+    <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
+    <v-btn-toggle v-model="view" mandatory>
+      <v-btn @click="viewUpdate(0)" default>
+        <v-icon >mdi-view-grid</v-icon>
       </v-btn>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-
-      <div class="mx-4"></div>
+      <v-btn @click="viewUpdate(1)">
+        <v-icon>mdi-view-list</v-icon>
+      </v-btn>
+    </v-btn-toggle>
   </v-toolbar>
 </template>
 
@@ -32,6 +37,7 @@ export default {
     return {
       order: "descending",
       sort: "new",
+      view: "0",
       dropdown_sort: [{ title: "new" }, { title: "popular" }]
     };
   },
@@ -47,6 +53,10 @@ export default {
     sortbyUpdate: function(newSort) {
       this.sort = newSort;
       this.$emit("sort", this.sort);
+    },
+    viewUpdate: function(newView) {
+      this.view = newView;
+      this.$emit("view", this.view);
     }
   }
 };
