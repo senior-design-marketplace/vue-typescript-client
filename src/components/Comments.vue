@@ -60,7 +60,7 @@ export default {
   methods: {
     submitComment: function() {
       this.$emit("comment", this.comment);
-      this.comment = null;
+      this.comment = "";
     }
   }
 };
