@@ -26,6 +26,7 @@
       </v-card>
       <br />
       <v-textarea
+        v-model="comment"
         outlined
         name="newComment"
         label="New Comment"
@@ -34,7 +35,7 @@
       ></v-textarea>
       <v-container>
         <v-row justify="end">
-          <v-btn>Submit</v-btn>
+          <v-btn :disabled="this.comment.length==0 || this.comment.length>256" @click="submitComment()">Submit</v-btn>
         </v-row>
       </v-container>
     </v-container>
@@ -48,12 +49,19 @@ export default {
   },
   data() {
     return {
+      comment: "",
       rules: {
         length: len => v =>
           (v || "").length <= len ||
           `Invalid character length, must be less than ${len}`
       }
     };
+  },
+  methods: {
+    submitComment: function() {
+      this.$emit("comment", this.comment);
+      this.comment = null;
+    }
   }
 };
 </script>

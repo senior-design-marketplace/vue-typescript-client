@@ -23,7 +23,7 @@
         <p />
         <ContactInfo v-bind:members="items.contributors" v-bind:advisors="items.advisors" />
         <p />
-        <Comments v-bind:comments="comments" />
+        <Comments @comment="updateComments" v-bind:comments="comments" />
       </v-col>
     </v-row>
   </v-container>
@@ -125,6 +125,17 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    updateComments(variable) {
+      var newComment = {
+        author: "Test User",
+        text: variable,
+        datetime: "Nov 5, 2019 2:45 PM"
+      };
+      console.log(this.comments);
+      console.log(newComment);
+      this.comments = this.comments.concat(newComment);
+      console.log(this.comments);
     }
   }
 };
