@@ -10,7 +10,7 @@ export default new Router({
       path: "/",
       name: "home",
       meta: {
-        keepAlive: true
+        keepAlive: false
       },
       component: () => import("./views/Home.vue")
     },
