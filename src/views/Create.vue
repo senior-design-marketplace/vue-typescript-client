@@ -3,60 +3,66 @@
     <v-row>
       <v-col cols="12" sm="8">
         <h1>Create Project</h1>
-        <br>
+        <br />
         <div>
           <v-card>
             <v-container>
               <v-row>
                 <v-col cols="12" sm="3">
                   <v-file-input
-                    :rules="rules.avatarSize"
+                    :rules="[rules.avatarSize]"
                     accept="image/png, image/jpeg, image/bmp"
                     placeholder="Avatar"
                     prepend-icon="mdi-camera"
                   ></v-file-input>
                 </v-col>
                 <v-col cols="12" sm="9">
-                  <v-text-field label="Project Title"></v-text-field>
+                  <v-text-field v-model="title" label="Project Title"></v-text-field>
                 </v-col>
               </v-row>
-              <v-text-field
-                label="Project Card Description"
-              ></v-text-field>
+              <v-text-field v-model="tagline" label="Project Card Description"></v-text-field>
             </v-container>
           </v-card>
-          <p/>
+          <p />
           <v-card>
             <v-container>
-              <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <v-image-input
-                v-model="imageData"
+                v-model="coverImage"
                 :image-quality="0.85"
-                imageWidth="500"
-                imageHeight="203"
+                :imageWidth="500"
+                :imageHeight="203"
                 clearable
                 image-format="jpeg"
               />
             </v-container>
           </v-card>
-          <p/>
+          <p />
         </div>
-        <p/>
+        <p />
       </v-col>
       <v-col cols="12" sm="4">
         <v-card>
-          <v-btn outlined block>
+          <v-btn :disabled="dialog" :loading="dialog" outlined block @click="submitProject()">
             <h2>Submit</h2>
           </v-btn>
+          <v-dialog v-model="dialog" hide-overlay persistent width="300">
+            <v-card color="primary" dark>
+              <v-card-text>
+                Please stand by
+                <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
         </v-card>
-        <p/>
+        <p />
         <v-card>
           <v-col cols="12" sm="6" md="12">
             <h2>Add Project Info:</h2>
-            <br>
+            <br />
             <v-textarea
               outlined
+              v-model="body"
               name="description"
               label="Description"
               counter="2048"
@@ -65,8 +71,8 @@
             <v-row align="center">
               <v-col cols="12">
                 <v-autocomplete
-                  v-model="values"
-                  :items="majors"
+                  v-model="majors"
+                  :items="availableMajors"
                   outlined
                   dense
                   chips
@@ -75,8 +81,8 @@
                   multiple
                 ></v-autocomplete>
                 <v-autocomplete
-                  v-model="values"
-                  :items="tags"
+                  v-model="tags"
+                  :items="availableTags"
                   autocomplete="off"
                   outlined
                   dense
@@ -89,14 +95,14 @@
             </v-row>
           </v-col>
         </v-card>
-        <br>
+        <br />
         <v-card>
           <v-container>
             <h2>Add Members:</h2>
-            <br>
+            <br />
             <v-autocomplete
-              v-model="values"
-              :items="advisors"
+              v-model="advisors"
+              :items="availableAdvisors"
               outlined
               dense
               chips
@@ -105,8 +111,8 @@
               multiple
             ></v-autocomplete>
             <v-autocomplete
-              v-model="values"
-              :items="students"
+              v-model="students"
+              :items="availableStudents"
               outlined
               dense
               chips
@@ -116,7 +122,7 @@
             ></v-autocomplete>
           </v-container>
         </v-card>
-        <p/>
+        <p />
       </v-col>
     </v-row>
   </v-container>
@@ -128,7 +134,8 @@ import ProjectMain from "@/components/ProjectMain.vue";
 import ContactInfo from "@/components/ContactInfo.vue";
 import Comments from "@/components/Comments.vue";
 import axios from "axios";
-import VImageInput from "vuetify-image-input/a-la-carte";
+import uuid from "uuid/v4";
+import VImageInput from 'vuetify-image-input/a-la-carte';
 
 export default {
   components: {
@@ -140,7 +147,17 @@ export default {
   },
   data() {
     return {
-      majors: [
+      id: uuid(),
+      title: null,
+      tagline: null,
+      body: null,
+      majors: null,
+      tags: null,
+      advisors: null,
+      students: null,
+      avatar: null,
+      coverImage: null,
+      availableMajors: [
         "Software Engineering",
         "Computer Science",
         "Computer Engineering",
@@ -178,7 +195,7 @@ export default {
         "Visual Arts & Technology",
         "Science, Technology, and Society"
       ],
-      tags: [
+      availableTags: [
         "Programming",
         "Artificial Intelligence",
         "Machine Learning",
@@ -200,18 +217,18 @@ export default {
         "Structural",
         "Transportation"
       ],
-      advisors: [
+      availableAdvisors: [
         "Gregg Vesonder",
         "Leslie Brunell",
         "Alex De Rosa",
         "Long Wang",
         "Brendan Englot"
       ],
-      students: [
+      availableStudents: [
         "Ruthy Levi",
         "Herbie Zieger",
         "Mark Freeman",
-        "Vlogger",
+        "Jason Chlus",
         "Julia Cahn",
         "Tyler Lowe",
         "Jakub Kolasinski"
@@ -224,8 +241,43 @@ export default {
         length: len => v =>
           (v || "").length <= len ||
           `Invalid character length, must be less than ${len}`
-      }
+      },
+      dialog: false
     };
+  },
+  methods: {
+    submitProject() {
+      this.dialog = true;
+      var url =
+        "https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects/";
+      var body = {
+        id: this.id,
+        title: this.title,
+        tagline: this.tagline,
+        body: this.body
+      };
+      axios
+        .post(url, body)
+        .then(response => {
+          console.log(response.data);
+          this.items = response.data;
+          this.dialog = false;
+          this.$router.push("/project/"+this.id)
+        })
+        .catch(error => {
+          console.log(error);
+          this.dialog = false;
+          alert("failed");
+        });
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      if (!val) return;
+
+      setTimeout(() => (this.dialog = false), 5000);
+    }
   }
 };
 </script>
