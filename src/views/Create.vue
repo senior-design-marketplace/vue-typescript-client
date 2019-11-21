@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" sm="8">
         <h1>Create Project</h1>
-        <br />
+        <br>
         <div>
           <v-card>
             <v-container>
@@ -23,23 +23,30 @@
               <v-text-field v-model="tagline" label="Project Card Description"></v-text-field>
             </v-container>
           </v-card>
-          <p />
+          <p/>
           <v-card>
             <v-container>
-              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <v-image-input
-                v-model="coverImage"
-                :image-quality="0.85"
-                :imageWidth="500"
-                :imageHeight="203"
-                clearable
-                image-format="jpeg"
-              />
+              <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <picture-input
+                ref="pictureInput"
+                width="600"
+                height="600"
+                margin="16"
+                accept="image/jpeg, image/png"
+                size="10"
+                button-class="btn"
+                :custom-strings="{
+                    upload: '<h1>Bummer!</h1>',
+                    drag: 'Upload a cover photo! 😺'
+                  }"
+                @change="onChange"
+              ></picture-input>
+              <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </v-container>
           </v-card>
-          <p />
+          <p/>
         </div>
-        <p />
+        <p/>
       </v-col>
       <v-col cols="12" sm="4">
         <v-card>
@@ -55,11 +62,11 @@
             </v-card>
           </v-dialog>
         </v-card>
-        <p />
+        <p/>
         <v-card>
           <v-col cols="12" sm="6" md="12">
             <h2>Add Project Info:</h2>
-            <br />
+            <br>
             <v-textarea
               outlined
               v-model="body"
@@ -95,11 +102,11 @@
             </v-row>
           </v-col>
         </v-card>
-        <br />
+        <br>
         <v-card>
           <v-container>
             <h2>Add Members:</h2>
-            <br />
+            <br>
             <v-autocomplete
               v-model="advisors"
               :items="availableAdvisors"
@@ -122,7 +129,7 @@
             ></v-autocomplete>
           </v-container>
         </v-card>
-        <p />
+        <p/>
       </v-col>
     </v-row>
   </v-container>
@@ -135,7 +142,7 @@ import ContactInfo from "@/components/ContactInfo.vue";
 import Comments from "@/components/Comments.vue";
 import axios from "axios";
 import uuid from "uuid/v4";
-import VImageInput from 'vuetify-image-input/a-la-carte';
+import PictureInput from "vue-picture-input";
 
 export default {
   components: {
@@ -143,7 +150,7 @@ export default {
     ProjectBoard,
     ContactInfo,
     Comments,
-    VImageInput
+    PictureInput
   },
   data() {
     return {
@@ -246,6 +253,15 @@ export default {
     };
   },
   methods: {
+    onChange(image) {
+      console.log("New picture selected!");
+      if (image) {
+        console.log("Picture loaded.");
+        this.coverImage = image;
+      } else {
+        console.log("FileReader API not supported: use the <form>, Luke!");
+      }
+    },
     submitProject() {
       this.dialog = true;
       var url =
@@ -262,7 +278,7 @@ export default {
           console.log(response.data);
           this.items = response.data;
           this.dialog = false;
-          this.$router.push("/project/"+this.id)
+          this.$router.push("/project/" + this.id);
         })
         .catch(error => {
           console.log(error);
