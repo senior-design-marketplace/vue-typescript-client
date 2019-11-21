@@ -9,7 +9,7 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="3">
-                  <v-file-input
+                  <v-file-input v-model=avatar
                     :rules="[rules.avatarSize]"
                     accept="image/png, image/jpeg, image/bmp"
                     placeholder="Avatar"
@@ -28,7 +28,7 @@
             <v-container>
               <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <picture-input
-                ref="pictureInput"
+                ref="coverImageInput"
                 width="600"
                 height="600"
                 margin="16"
@@ -253,13 +253,13 @@ export default {
     };
   },
   methods: {
-    onChange(image) {
-      console.log("New picture selected!");
-      if (image) {
-        console.log("Picture loaded.");
-        this.coverImage = image;
+    onChange () {
+      console.log('New picture selected!')
+      if (this.$refs.coverImageInput.file) {
+        console.log('Picture loaded.')
+        this.coverImage = this.$refs.coverImageInput.file;
       } else {
-        console.log("FileReader API not supported: use the <form>, Luke!");
+        console.log('FileReader API not supported: use the <form>, Luke!')
       }
     },
     submitProject() {
