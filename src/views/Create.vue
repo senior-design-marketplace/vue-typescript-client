@@ -33,8 +33,10 @@
                 height="600"
                 margin="16"
                 accept="image/jpeg, image/png"
+                removable="true"
+                removeButtonClass="v-btn"
+                hideChangeButton="true"
                 size="10"
-                button-class="btn"
                 :custom-strings="{
                     upload: '<h1>Bummer!</h1>',
                     drag: 'Upload a cover photo! 😺'
