@@ -246,12 +246,12 @@ export default {
   },
   methods: {
     onChange() {
-      console.log('New picture selected!');
+      // console.log('New picture selected!');
       if (this.$refs.coverImageInput.file) {
-        console.log('Picture loaded.');
+        // console.log('Picture loaded.');
         this.coverImage = this.$refs.coverImageInput.file;
       } else {
-        console.log('FileReader API not supported: use the <form>, Luke!');
+        // console.log('FileReader API not supported: use the <form>, Luke!');
       }
     },
     submitProject() {
@@ -266,13 +266,13 @@ export default {
       axios
         .post(url, body)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.items = response.data;
           this.dialog = false;
           this.$router.push(`/project/${this.id}`);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           this.dialog = false;
           alert('failed'); // eslint-disable-line
         });

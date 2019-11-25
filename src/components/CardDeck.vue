@@ -62,11 +62,11 @@ export default {
       axios
         .get(url)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.items = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     },
   },

@@ -118,11 +118,11 @@ export default {
       axios
         .get(url)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.items = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     },
     updateComments(variable) {
@@ -131,10 +131,10 @@ export default {
         text: variable,
         datetime: 'Nov 5, 2019 2:45 PM',
       };
-      console.log(this.comments);
-      console.log(newComment);
+      // console.log(this.comments);
+      // console.log(newComment);
       this.comments = this.comments.concat(newComment);
-      console.log(this.comments);
+      // console.log(this.comments);
     },
   },
 };
