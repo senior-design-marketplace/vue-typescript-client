@@ -7,22 +7,22 @@
 </template>
 
 <script>
-import CardDeck from "@/components/CardDeck.vue";
-import ProjectList from "@/components/ProjectList.vue";
-import SortBar from "@/components/SortBar.vue";
+import CardDeck from '@/components/CardDeck.vue';
+import ProjectList from '@/components/ProjectList.vue';
+import SortBar from '@/components/SortBar.vue';
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
     CardDeck,
     ProjectList,
-    SortBar
+    SortBar,
   },
-  data: function() {
+  data() {
     return {
-      orderData: "",
-      sortbyData: "",
-      viewData: ""
+      orderData: '',
+      sortbyData: '',
+      viewData: '',
     };
   },
   methods: {
@@ -35,6 +35,6 @@ export default {
     viewUpdate(variable) {
       this.viewData = variable;
     },
-  }
+  },
 };
 </script>

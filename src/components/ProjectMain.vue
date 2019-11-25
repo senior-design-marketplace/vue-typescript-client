@@ -1,8 +1,13 @@
 <template>
   <div>
     <v-toolbar>
-      <v-img v-if="avatar != null" :src="avatar" max-height="50" max-width="50"></v-img>&nbsp;&nbsp;&nbsp;&nbsp;
-      <h2 class="text-left">{{title}}</h2>
+      <v-img
+        v-if="avatar != null"
+        :src="avatar"
+        max-height="50"
+        max-width="50"
+      />&nbsp;&nbsp;&nbsp;&nbsp;
+      <h2 class="text-left">{{ title }}</h2>
       <v-item-group>
         <v-list-item>
           <v-item v-slot:default="{ active, toggle }">
@@ -25,17 +30,17 @@
         <br />
         <h2 class="text-left">Majors:</h2>
         <v-chip-group column>
-          <v-chip label v-for="major in majors" :key="major" class="noClick">{{major}}</v-chip>
+          <v-chip label v-for="major in majors" :key="major" class="noClick">{{ major }}</v-chip>
         </v-chip-group>
         <br />
         <h2 class="text-left">Tags:</h2>
         <v-chip-group column>
-          <v-chip label v-for="tag in tags" :key="tag" class="noClick">{{tag}}</v-chip>
+          <v-chip label v-for="tag in tags" :key="tag" class="noClick">{{ tag }}</v-chip>
         </v-chip-group>
       </v-container>
     </v-card>
   </div>
-</template> 
+</template>
 
 <script>
 export default {
@@ -46,8 +51,8 @@ export default {
     coverImg: String,
     description: String,
     majors: Array,
-    tags: Array
-  }
+    tags: Array,
+  },
 };
 </script>
 

@@ -48,11 +48,11 @@ export default {
     starred: Boolean,
     coverImg: String,
     tagline: String,
-    tags: Array
+    tags: Array,
   },
   data: () => ({
-    maxChar: 250
-  })
+    maxChar: 250,
+  }),
 };
 </script>
 

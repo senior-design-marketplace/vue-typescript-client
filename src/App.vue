@@ -11,13 +11,13 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import Header from '@/components/Header.vue';
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
-    Header
-  }
+    Header,
+  },
 };
 </script>
 

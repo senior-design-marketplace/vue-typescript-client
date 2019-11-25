@@ -138,21 +138,13 @@
 </template>
 
 <script>
-import ProjectBoard from "@/components/ProjectBoard.vue";
-import ProjectMain from "@/components/ProjectMain.vue";
-import ContactInfo from "@/components/ContactInfo.vue";
-import Comments from "@/components/Comments.vue";
-import axios from "axios";
-import uuid from "uuid/v4";
-import PictureInput from "vue-picture-input";
+import axios from 'axios';
+import uuid from 'uuid/v4';
+import PictureInput from 'vue-picture-input'; // eslint-disable-line
 
 export default {
   components: {
-    ProjectMain,
-    ProjectBoard,
-    ContactInfo,
-    Comments,
-    PictureInput
+    PictureInput,
   },
   data() {
     return {
@@ -167,135 +159,132 @@ export default {
       avatar: null,
       coverImage: null,
       availableMajors: [
-        "Software Engineering",
-        "Computer Science",
-        "Computer Engineering",
-        "Mechanical Engineering",
-        "Engineering Management",
-        "Electrical Engineering",
-        "Business and Technology",
-        "Civil Engineering",
-        "Environmental Engineering",
-        "Chemical Engineering",
-        "Biomedical Engineering",
-        "Music & Technology",
-        "Physics",
-        "Naval Engineering",
-        "Pure and Applied Mathematics",
-        "Engineering Physics",
-        "Cybersecurity",
-        "Chemistry",
-        "Biology",
-        "Chemical Biology",
-        "Computational Science",
-        "Industrial and Systems Engineering",
-        "Accounting & Analytics",
-        "Finance",
-        "Quantitative Finance",
-        "Marketing Innovation & Analytics",
-        "Information Systems",
-        "Economics",
-        "Management",
-        "History",
-        "Philosophy",
-        "Social Sciences",
-        "Literature",
-        "Science Communication",
-        "Visual Arts & Technology",
-        "Science, Technology, and Society"
+        'Software Engineering',
+        'Computer Science',
+        'Computer Engineering',
+        'Mechanical Engineering',
+        'Engineering Management',
+        'Electrical Engineering',
+        'Business and Technology',
+        'Civil Engineering',
+        'Environmental Engineering',
+        'Chemical Engineering',
+        'Biomedical Engineering',
+        'Music & Technology',
+        'Physics',
+        'Naval Engineering',
+        'Pure and Applied Mathematics',
+        'Engineering Physics',
+        'Cybersecurity',
+        'Chemistry',
+        'Biology',
+        'Chemical Biology',
+        'Computational Science',
+        'Industrial and Systems Engineering',
+        'Accounting & Analytics',
+        'Finance',
+        'Quantitative Finance',
+        'Marketing Innovation & Analytics',
+        'Information Systems',
+        'Economics',
+        'Management',
+        'History',
+        'Philosophy',
+        'Social Sciences',
+        'Literature',
+        'Science Communication',
+        'Visual Arts & Technology',
+        'Science, Technology, and Society',
       ],
       availableTags: [
-        "Programming",
-        "Artificial Intelligence",
-        "Machine Learning",
-        "Deep Learning",
-        "Data Mining",
-        "Virtual Reality",
-        "Augmented Reality",
-        "Automotive",
-        "Robotics",
-        "Mechatronics /Automation",
-        "Thermal / fluids",
-        "Aviation / Aerospace Systems",
-        "Biomedical",
-        "Product Development",
-        "Energy / Sustainability",
-        "Competition",
-        "Thermal / Fluids / Energy Sustainability",
-        "Site / Civil Design",
-        "Structural",
-        "Transportation"
+        'Programming',
+        'Artificial Intelligence',
+        'Machine Learning',
+        'Deep Learning',
+        'Data Mining',
+        'Virtual Reality',
+        'Augmented Reality',
+        'Automotive',
+        'Robotics',
+        'Mechatronics /Automation',
+        'Thermal / fluids',
+        'Aviation / Aerospace Systems',
+        'Biomedical',
+        'Product Development',
+        'Energy / Sustainability',
+        'Competition',
+        'Thermal / Fluids / Energy Sustainability',
+        'Site / Civil Design',
+        'Structural',
+        'Transportation',
       ],
       availableAdvisors: [
-        "Gregg Vesonder",
-        "Leslie Brunell",
-        "Alex De Rosa",
-        "Long Wang",
-        "Brendan Englot"
+        'Gregg Vesonder',
+        'Leslie Brunell',
+        'Alex De Rosa',
+        'Long Wang',
+        'Brendan Englot',
       ],
       availableStudents: [
-        "Ruthy Levi",
-        "Herbie Zieger",
-        "Mark Freeman",
-        "Jason Chlus",
-        "Julia Cahn",
-        "Tyler Lowe",
-        "Jakub Kolasinski"
+        'Ruthy Levi',
+        'Herbie Zieger',
+        'Mark Freeman',
+        'Jason Chlus',
+        'Julia Cahn',
+        'Tyler Lowe',
+        'Jakub Kolasinski',
       ],
       rules: {
-        avatarSize: value =>
-          !value ||
-          value.size < 2000000 ||
-          "Avatar size should be less than 2 MB!",
-        length: len => v =>
-          (v || "").length <= len ||
-          `Invalid character length, must be less than ${len}`
+        avatarSize: value => !value
+          || value.size < 2000000
+          || 'Avatar size should be less than 2 MB!',
+        length: len => v => (v || '').length <= len
+          || `Invalid character length, must be less than ${len}`,
       },
-      dialog: false
+      dialog: false,
     };
   },
   methods: {
-    onChange () {
-      console.log('New picture selected!')
+    onChange() {
+      console.log('New picture selected!');
       if (this.$refs.coverImageInput.file) {
-        console.log('Picture loaded.')
+        console.log('Picture loaded.');
         this.coverImage = this.$refs.coverImageInput.file;
       } else {
-        console.log('FileReader API not supported: use the <form>, Luke!')
+        console.log('FileReader API not supported: use the <form>, Luke!');
       }
     },
     submitProject() {
       this.dialog = true;
-      var url =
-        "https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects/";
-      var body = {
+      const url = 'https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects/';
+      const body = {
         id: this.id,
         title: this.title,
         tagline: this.tagline,
-        body: this.body
+        body: this.body,
       };
       axios
         .post(url, body)
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           this.items = response.data;
           this.dialog = false;
-          this.$router.push("/project/" + this.id);
+          this.$router.push(`/project/${this.id}`);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           this.dialog = false;
-          alert("failed");
+          alert('failed'); // eslint-disable-line
         });
-    }
+    },
   },
 
   watch: {
     dialog(val) {
       if (!val) return;
 
-      setTimeout(() => (this.dialog = false), 5000);
-    }
-  }
+      setTimeout(() => (this.dialog = false), 5000); // eslint-disable-line
+    },
+  },
 };
 </script>
