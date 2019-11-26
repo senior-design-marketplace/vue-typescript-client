@@ -1,31 +1,30 @@
 <template>
   <v-app>
     <div id="app">
-      <Header />
-      <keep-alive>
-        <router-view v-if="$route.meta.keepAlive"/>
-      </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive"/>
+      <Header></Header>
+      <CardDeck></CardDeck>
     </div>
   </v-app>
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import Header from './components/Header.vue';
+import CardDeck from './components/CardDeck.vue';
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
-    Header
-  }
+    Header,
+    CardDeck,
+  },
 };
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100");
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100');
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

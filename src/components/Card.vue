@@ -9,6 +9,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-flex class="headline" v-text="title"></v-flex>
+            <v-list-item-subtitle v-if="advisors != null" v-text="advisors.join(', ')"></v-list-item-subtitle>
           </v-list-item-content>
           <v-item v-slot:default="{ active, toggle }">
             <v-btn icon @click="toggle">
@@ -17,42 +18,65 @@
           </v-item>
         </v-list-item>
         <v-divider></v-divider>
-        <v-img v-if="coverImg != null" :src="coverImg" height="194"></v-img>
+        <v-img v-if="img != null" :src="img" height="194"></v-img>
         <v-card-text>
-          <div v-if="tagline != null">
-            <div v-text="tagline"></div>
+          <div v-if="desc != null">
+            <div v-if="desc.length < maxChar" v-text="desc"></div>
+            <div v-else v-text="desc.substring(0,maxChar)+'...'"></div>
           </div>
           <v-chip-group column>
             <v-chip label v-for="tag in tags" :key="tag" class="noClick">{{tag}}</v-chip>
           </v-chip-group>
         </v-card-text>
-        <v-row justify="end">
-          <v-card-actions>
-            <router-link :to=/project/+id>
-              <v-btn color="primary">Read More</v-btn>
-            </router-link>
-          </v-card-actions>
-        </v-row>
+
+        <v-card-actions>
+          <Project
+            v-bind:title="title"
+            v-bind:avatar="avatar"
+            v-bind:img="img"
+            v-bind:advisors="advisors"
+            v-bind:desc="desc"
+            v-bind:starred="starred"
+            v-bind:tags="tags"
+            v-bind:members="members"
+            v-bind:contact="contact"
+          ></Project>
+        </v-card-actions>
       </v-item-group>
     </v-container>
   </v-card>
 </template>
 
 <script>
+import Project from "../components/Project.vue";
+
 export default {
-  components: {},
+  components: {
+    Project
+  },
   props: {
     id: String,
-    avatar: String,
     title: String,
+    avatar: String,
+    img: String,
+    advisors: Array,
+    members: Array,
+    desc: String,
     starred: Boolean,
-    coverImg: String,
-    tagline: String,
-    tags: Array
+    tags: Array,
+    contact: String
   },
   data: () => ({
     maxChar: 250
-  })
+  }),
+  methods: {
+    toggle(id, starred) {
+      console.log(starred);
+      starred = !starred;
+      console.log(starred);
+      //backend code here to update starred given id
+    }
+  }
 };
 </script>
 
