@@ -3,13 +3,14 @@
     <v-row>
       <v-col cols="12" sm="8">
         <h1>Create Project</h1>
-        <br>
+        <br />
         <div>
           <v-card>
             <v-container>
               <v-row>
                 <v-col cols="12" sm="3">
-                  <v-file-input v-model=avatar
+                  <v-file-input
+                    v-model="avatar"
                     :rules="[rules.avatarSize]"
                     accept="image/png, image/jpeg, image/bmp"
                     placeholder="Avatar"
@@ -23,32 +24,32 @@
               <v-text-field v-model="tagline" label="Project Card Description"></v-text-field>
             </v-container>
           </v-card>
-          <p/>
+          <p />
           <v-card>
             <v-container>
-              <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <picture-input
                 ref="coverImageInput"
                 width="600"
                 height="600"
                 margin="16"
                 accept="image/jpeg, image/png"
-                removable="true"
+                :removable="true"
                 removeButtonClass="v-btn"
-                hideChangeButton="true"
+                :hideChangeButton="true"
                 size="10"
                 :custom-strings="{
-                    upload: '<h1>Bummer!</h1>',
-                    drag: 'Upload a cover photo! 😺'
-                  }"
+                  upload: '<h1>Bummer!</h1>',
+                  drag: 'Upload a cover photo! 😺'
+                }"
                 @change="onChange"
               ></picture-input>
-              <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </v-container>
           </v-card>
-          <p/>
+          <p />
         </div>
-        <p/>
+        <p />
       </v-col>
       <v-col cols="12" sm="4">
         <v-card>
@@ -64,11 +65,11 @@
             </v-card>
           </v-dialog>
         </v-card>
-        <p/>
+        <p />
         <v-card>
           <v-col cols="12" sm="6" md="12">
             <h2>Add Project Info:</h2>
-            <br>
+            <br />
             <v-textarea
               outlined
               v-model="body"
@@ -104,11 +105,11 @@
             </v-row>
           </v-col>
         </v-card>
-        <br>
+        <br />
         <v-card>
           <v-container>
             <h2>Add Members:</h2>
-            <br>
+            <br />
             <v-autocomplete
               v-model="advisors"
               :items="availableAdvisors"
@@ -131,7 +132,7 @@
             ></v-autocomplete>
           </v-container>
         </v-card>
-        <p/>
+        <p />
       </v-col>
     </v-row>
   </v-container>
@@ -140,7 +141,7 @@
 <script>
 import axios from 'axios';
 import uuid from 'uuid/v4';
-import PictureInput from 'vue-picture-input'; // eslint-disable-line
+import PictureInput from "vue-picture-input"; // eslint-disable-line
 
 export default {
   components: {
@@ -235,11 +236,8 @@ export default {
         'Jakub Kolasinski',
       ],
       rules: {
-        avatarSize: value => !value
-          || value.size < 2000000
-          || 'Avatar size should be less than 2 MB!',
-        length: len => v => (v || '').length <= len
-          || `Invalid character length, must be less than ${len}`,
+        avatarSize: value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
+        length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
       },
       dialog: false,
     };
@@ -274,7 +272,7 @@ export default {
         .catch((error) => {
           // console.log(error);
           this.dialog = false;
-          alert('failed'); // eslint-disable-line
+          alert("failed"); // eslint-disable-line
         });
     },
   },
