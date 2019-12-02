@@ -1,12 +1,11 @@
-// component access
-import { mount, createLocalVue } from '@vue/test-utils';
+import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
+import { mount, createLocalVue } from '@vue/test-utils';
 import Card from '@/components/Card.vue';
 
-const localVue = createLocalVue();
-localVue.use(Vuetify);
-localVue.use(VueRouter);
+Vue.use(Vuetify);
+Vue.use(VueRouter);
 
 const id = '00000000-0000-0000-0000-000000000000';
 const avatar = 'https://i.imgur.com/bv3cLys.png';
@@ -17,7 +16,6 @@ const tagline = 'The Senior Design Marketplace team’s mission is to expand on 
 const tags = ['Computer Science', 'Software Eng.', 'Engineering Management'];
 
 const wrapper = mount(Card, {
-  localVue,
   stubs: ['router-link', 'VChipGroup'],
   propsData: {
     id,

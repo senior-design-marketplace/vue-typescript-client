@@ -1,18 +1,16 @@
-// component access
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 import CardDeck from '@/components/CardDeck.vue';
 
-const localVue = createLocalVue();
-localVue.use(Vuetify);
-localVue.use(VueRouter);
+Vue.use(Vuetify);
+Vue.use(VueRouter);
 
 const sortby = 'new';
 const order = 'descending';
 
 const wrapper = shallowMount(CardDeck, {
-  localVue,
   propsData: {
     sortby,
     order,

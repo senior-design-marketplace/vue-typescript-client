@@ -1,18 +1,14 @@
-// component access
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Create from '@/views/Create.vue';
 
 const localVue = createLocalVue();
-localVue.use(Vuetify);
-localVue.use(VueRouter);
+Vue.use(Vuetify);
+Vue.use(VueRouter);
 
-
-const wrapper = shallowMount(Create, {
-  localVue,
-  stubs: ['PictureInput'],
-});
+const wrapper = shallowMount(Create, { stubs: ['PictureInput'] });
 // console.log(wrapper.html());
 describe('Create', () => {
   test('Sanity', () => {
