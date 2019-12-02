@@ -5,7 +5,9 @@
         <v-list-item>
           <v-list-item-avatar tile>
             <v-img v-if="avatar != null" :src="avatar"></v-img>
-            <span v-else class="black--text headline" v-text="title.substring(0,1)"></span>
+            <span v-else-if="title!=null"
+              class="black--text headline"
+              v-text="title.substring(0,1)"/>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-flex class="headline" v-text="title"></v-flex>
@@ -28,9 +30,7 @@
         </v-card-text>
         <v-row justify="end">
           <v-card-actions>
-            <router-link :to=/project/+id>
-              <v-btn color="primary">Read More</v-btn>
-            </router-link>
+              <v-btn :to=/project/+id color="primary">Read More</v-btn>
           </v-card-actions>
         </v-row>
       </v-item-group>
