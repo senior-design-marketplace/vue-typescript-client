@@ -5,23 +5,20 @@
 
       <img :src="require('@/../public/assets/title.png')" height="50px" />
     </router-link>
-    <!--<v-toolbar-title class="title">&nbsp;marqetplace.</v-toolbar-title>-->
     <v-spacer></v-spacer>
     <v-toolbar-items>
-        <v-btn text class="item" to="/">Projects</v-btn>
-        <v-btn text class="item" to="/my-projects">My Projects</v-btn>
-        <v-btn text class="item" to="/create">Create Project</v-btn>
-        <v-btn text class="item" to="/applications">Applications</v-btn>
-        <v-btn text class="item" to="/about">About</v-btn>
+      <v-btn text class="item" to="/">Projects</v-btn>
+      <v-btn text class="item" to="/my-projects">My Projects</v-btn>
+      <v-btn text class="item" to="/create">Create Project</v-btn>
+      <v-btn text class="item" to="/applications">Applications</v-btn>
+      <v-btn text class="item" to="/about">About</v-btn>
     </v-toolbar-items>
-    <template v-if="$vuetify.breakpoint.smAndUp">
-      <v-btn icon>
-        <v-icon>mdi-bell</v-icon>
-      </v-btn>
-        <v-btn icon to="/account">
-          <v-icon>mdi-account-circle</v-icon>
-        </v-btn>
-    </template>
+    <v-btn icon>
+      <v-icon>mdi-bell</v-icon>
+    </v-btn>
+    <v-btn icon to="/account">
+      <v-icon>mdi-account-circle</v-icon>
+    </v-btn>
   </v-toolbar>
 </template>
 

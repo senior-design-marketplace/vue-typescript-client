@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContactInfo Renders correctly 1`] = `
+<v-card-stub loaderheight="4" tag="div">
+  <v-container-stub tag="div">
+    <h2>Advisors:</h2>
+    <v-container-stub tag="div"></v-container-stub>
+    <h2>Members:</h2>
+    <v-container-stub tag="div"></v-container-stub>
+  </v-container-stub>
+</v-card-stub>
+`;

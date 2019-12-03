@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import Card from '@/components/Card.vue';
 
 Vue.use(Vuetify);
@@ -35,6 +35,10 @@ describe('Card', () => {
 
   test('Visible', () => {
     expect(wrapper.isVisible()).toBe(true);
+  });
+
+  test('Renders correctly', () => {
+    expect(wrapper).toMatchSnapshot();
   });
 
   test('Proper Text', () => {

@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import CardDeck from '@/components/CardDeck.vue';
+import { shallowMount } from '@vue/test-utils';
+import ProjectList from '@/components/ProjectList.vue';
 
 Vue.use(Vuetify);
 Vue.use(VueRouter);
@@ -10,20 +10,24 @@ Vue.use(VueRouter);
 const sortby = 'new';
 const order = 'descending';
 
-const wrapper = shallowMount(CardDeck, {
+const wrapper = shallowMount(ProjectList, {
   propsData: {
     sortby,
     order,
   },
 });
-// console.log(wrapper.html());
-describe('CardDeck', () => {
+
+describe('ProjectList', () => {
   test('Sanity', () => {
     expect(true).toBe(true);
   });
 
   test('Visible', () => {
     expect(wrapper.isVisible()).toBe(true);
+  });
+
+  test('Renders correctly', () => {
+    expect(wrapper).toMatchSnapshot();
   });
 
   test('Sort by', () => {

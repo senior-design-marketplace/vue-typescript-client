@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home Renders correctly 1`] = `
+<div>
+  <sortbar-stub></sortbar-stub>
+  <carddeck-stub sortbyupdate="" orderupdate=""></carddeck-stub>
+  <!---->
+</div>
+`;
