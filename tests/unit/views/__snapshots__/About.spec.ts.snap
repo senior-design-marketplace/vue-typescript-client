@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`About Renders correctly 1`] = `
+<v-container-stub tag="div"><br>
+  <h1>About Us</h1> <br>
+  <v-row-stub tag="div">
+    <v-col-stub cols="12" sm="8" tag="div">
+      <div>
+        <v-card-stub loaderheight="4" tag="div">
+          <v-container-stub tag="div">
+            <h2>Mission Statement</h2> <br>
+            <div class="text-start">
+              For students and advisors who currently lack a centralized application to organize
+              senior design projects, Marqetplace is a decentralized cloud-native application
+              suite that acts as a drop-in solution for organizations that allow users to submit,
+              join and keep up with the projects in which they are interested.
+            </div> <br>
+            <div class="text-start">
+              Unlike the current senior design organization system, which varies by department and
+              is not transparent for students, our product is fully available for all participants
+              so that students can learn and inquire about projects across disciplines and engage
+              more fully with other groups throughout the year.
+            </div> <br>
+            <h2>Project Scope</h2> <br>
+            <div class="text-start">
+              The current team formation process frequently causes delays to the Senior Design
+              schedule due to conflicting practices between departments, manual reorganization in
+              each section, and lack of early communication with students. These delays and the
+              interdepartmental lack of communication result in rushed team formation on behalf of
+              advisors and lack of complete project choice for students. The Marqetplace team aims
+              to build a platform for users, including students and advisors, to facilitate the
+              project selection process. This web technology will act as a drop-in solution to
+              allow students and advisors to keep up with the projects they are interested in.
+              They will be able to submit and join projects as well as update viewers on project
+              progress. Future versions of this platform will include the ability to fully
+              integrate with Canvas for further automation, so that advisors can make a change in
+              one system that will translate into the other. Unfortunately, that integration does
+              not currently fit into the 2019-2020 timeline of this project.
+            </div> <br>
+            <h2>Project Description</h2> <br>
+            <div class="text-start">
+              Currently, there is no centralized, organized system for finding and selecting a
+              senior design project for Stevens Institute of Technology and other universities.
+              Students and advisors must collaborate through unorganized means, meaning that
+              interdisciplinary teams are difficult to form. We are building a platform for users,
+              including students and advisors, to facilitate the project selection process. This
+              web technology will act as a drop-in solution to allow students and advisors to keep
+              up with the projects they are interested in. They will be able to submit and join
+              projects as well as update viewers on project progress. <br></div> <br>
+            <h2>Objective</h2> <br>
+            <div class="text-start">
+              Marqetplace is designed to help students and advisors of colleges who want a more
+              reliable and robust senior year experience by creating an online hub for organizing
+              and interacting with senior design teams and projects. Our platform will assist team
+              formation and project visibility, leading to increased student engagement across
+              disciplines and a single, streamlined team formation process for advisors.
+            </div>
+          </v-container-stub>
+        </v-card-stub>
+        <p></p>
+      </div>
+      <p></p>
+    </v-col-stub>
+    <v-col-stub cols="12" sm="4" tag="div">
+      <v-card-stub loaderheight="4" tag="div">
+        <v-col-stub cols="12" sm="6" md="12" tag="div">
+          <h2>Advisors</h2> <br>
+          <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
+            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+          </v-btn-stub>
+          &nbsp;
+          <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
+            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+          </v-btn-stub> <br> <br>
+          <h2>Meet The Team</h2> <br>
+          <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
+            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+          </v-btn-stub>
+          &nbsp;
+          <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
+            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+          </v-btn-stub>
+          &nbsp;
+          <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
+            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+          </v-btn-stub>
+          &nbsp;
+          <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
+            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+          </v-btn-stub>
+          &nbsp;
+          <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
+            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+          </v-btn-stub>
+          &nbsp;
+          <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
+            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+          </v-btn-stub>
+          &nbsp;
+          <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
+            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+          </v-btn-stub>
+          &nbsp;
+          <br> <br>
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+        </v-col-stub>
+      </v-card-stub> <br>
+    </v-col-stub>
+  </v-row-stub>
+</v-container-stub>
+`;

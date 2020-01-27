@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Card Renders correctly 1`] = `
-<div class="mx-auto v-card v-sheet theme--light" style="min-height: 200px; min-width: 350px; max-width: 350px;">
+<div class="mx-auto v-card v-sheet theme--light" style="min-height: 350px; min-width: 350px; max-width: 350px;">
   <div class="container pa-1">
     <div class="v-item-group theme--light">
       <div tabindex="-1" class="v-list-item theme--light">

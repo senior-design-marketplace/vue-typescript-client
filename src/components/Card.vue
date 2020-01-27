@@ -1,5 +1,5 @@
 <template :id="id">
-  <v-card min-width="350" max-width="350" min-height="200" class="mx-auto">
+  <v-card min-width="350" max-width="350" min-height="350" class="mx-auto">
     <v-container class="pa-1">
       <v-item-group>
         <v-list-item>
