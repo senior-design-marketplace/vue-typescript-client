@@ -137,7 +137,7 @@
 
             <v-card v-if="shown == 'Gregg'">
               <img :src="require('@/../public/assets/Gregg.png')" height="250px" />
-              <v-card-title>Gregg</v-card-title>
+              <v-card-title>Dr. Gregg Vesonder</v-card-title>
               <v-card-text>
                 <div>
                   Short Description
@@ -147,7 +147,7 @@
 
             <v-card v-if="shown == 'Eirik'">
               <img :src="require('@/../public/assets/Eirik.png')" height="250px" />
-              <v-card-title>Eirik</v-card-title>
+              <v-card-title>Eirik Hole</v-card-title>
               <v-card-text>
                 <div>
                   Short Description
@@ -157,70 +157,110 @@
 
             <v-card v-if="shown == 'Herb'">
               <img :src="require('@/../public/assets/Herb.png')" height="250px" />
-              <v-card-title>Herb</v-card-title>
+              <v-card-title>Herb Zieger</v-card-title>
               <v-card-text>
                 <div>
-                  Short Description
+                  Major: Software Engineering <br />
+                  Graduation Year: 2020 <br />
+                  Clubs/involvements: <br />
+                  Interests/passions: <br />
+                  Job after: <br />
+                  Inspirational quote:
                 </div>
               </v-card-text>
             </v-card>
 
             <v-card v-if="shown == 'Ruthy'">
               <img :src="require('@/../public/assets/Ruthy.png')" height="250px" />
-              <v-card-title>Ruthy</v-card-title>
+              <v-card-title>Ruthy Levi</v-card-title>
               <v-card-text>
                 <div>
-                  Short Description
+                  Major: Software Engineering <br />
+                  Graduation Year: 2020 <br />
+                  Clubs/involvements: SWE, SWICS, Amnesty International, Poetry Club, Software
+                  Engineering Club <br />
+                  Interests/passions: Barre (fusion of pilates+yoga+ballet), cooking,
+                  paddle-boarding, options trading, biking, theatre <br />
+                  Job after: Will be in the Technology Advisory Program at EY (Ernst & Young) <br />
+                  Inspirational quote:
                 </div>
               </v-card-text>
             </v-card>
 
             <v-card v-if="shown == 'Jason'">
               <img :src="require('@/../public/assets/Jason.png')" height="250px" />
-              <v-card-title>Jason</v-card-title>
+              <v-card-title>Jason Chlus</v-card-title>
               <v-card-text>
                 <div>
-                  Short Description
+                  Major: Software Engineering <br />
+                  Graduation Year: 2020 <br />
+                  Clubs/involvements: <br />
+                  Interests/passions: <br />
+                  Job after: <br />
+                  Inspirational quote:
                 </div>
               </v-card-text>
             </v-card>
 
             <v-card v-if="shown == 'Mark'">
               <img :src="require('@/../public/assets/Mark.png')" height="250px" />
-              <v-card-title>Mark</v-card-title>
+              <v-card-title>Mark Freeman</v-card-title>
               <v-card-text>
                 <div>
-                  Short Description
+                  Graduation Year: May 2020 <br />
+                  Clubs/involvements: I helped lead a series of on-campus hackathons to further the
+                  entrepreneurial interests of Stevens students. I also work in the machine
+                  laboratory, where we assist students with bringing engineering concepts into
+                  reality through manufacturing. <br />
+                  Interests/passions: I am interested in woodworking, machining, and applied
+                  electronics outside of Stevens. <br />
+                  Job after: I plan to continue on to graduate school if I am admitted. If not, I
+                  will join Amazon as an SDE I for the ReCommerce platform. <br />
                 </div>
               </v-card-text>
             </v-card>
 
             <v-card v-if="shown == 'Julia'">
               <img :src="require('@/../public/assets/Julia.png')" height="250px" />
-              <v-card-title>Julia</v-card-title>
+              <v-card-title>Julia Cahn</v-card-title>
               <v-card-text>
                 <div>
-                  Short Description
+                  Major: <br />
+                  Graduation Year: <br />
+                  Clubs/involvements: <br />
+                  Interests/passions: <br />
+                  Job after: <br />
+                  Inspirational quote:
                 </div>
               </v-card-text>
             </v-card>
 
             <v-card v-if="shown == 'Jakub'">
               <img :src="require('@/../public/assets/Jakub.png')" height="250px" />
-              <v-card-title>Jakub</v-card-title>
+              <v-card-title>Jakub Kolasinski</v-card-title>
               <v-card-text>
                 <div>
-                  Short Description
+                  Major: <br />
+                  Graduation Year: <br />
+                  Clubs/involvements: <br />
+                  Interests/passions: <br />
+                  Job after: <br />
+                  Inspirational quote:
                 </div>
               </v-card-text>
             </v-card>
 
             <v-card v-if="shown == 'Tyler'">
               <img :src="require('@/../public/assets/Tyler.png')" height="250px" />
-              <v-card-title>Tyler</v-card-title>
+              <v-card-title>Tyler Lowe</v-card-title>
               <v-card-text>
                 <div>
-                  Short Description
+                  Major: <br />
+                  Graduation Year: <br />
+                  Clubs/involvements: <br />
+                  Interests/passions: <br />
+                  Job after: <br />
+                  Inspirational quote:
                 </div>
               </v-card-text>
             </v-card>
