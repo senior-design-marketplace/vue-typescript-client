@@ -1,35 +1,61 @@
 <template>
-  <v-container fluid>
-    <v-data-table :headers="headers" :items="items" :items-per-page="15" class="elevation-1">
-      <template slot="item" slot-scope="props">
+<v-container>
+  <v-data-table
+    :headers="headers"
+    :items="projects"
+    :expanded="expanded"
+    item-key="name"
+    show-expand
+    class="elevation-1"
+    @click:row="clicked"
+  >
+    <template v-slot:expanded-item="{ headers }">
+      <td :colspan="headers.length">
+      <v-data-table
+  :headers="peopleHeaders"
+  :items="people"
+  item-key='name'
+  hide-default-footer
+  class='elevation-1'>
+  <template slot="item" slot-scope="props">
         <tr>
-          <td @click=$router.push(/project/+props.item.id)>{{props.item.name}}</td>
-          <td @click=$router.push(/project/+props.item.id)>{{props.item.major}}</td>
-          <td @click=$router.push(/project/+props.item.id)>{{props.item.date}}</td>
+          <td>{{props.item.name}}</td>
+          <td>{{props.item.major}}</td>
+          <td>{{props.item.preference}}</td>
+          <td>
           <v-btn color='success'>Accept</v-btn>
           <v-btn color='error'>Reject</v-btn>
+          </td>
         </tr>
       </template>
-    </v-data-table>
-  <ApplicationDialog />
-  </v-container>
+  </v-data-table>
+  </td>
+    </template>
+  </v-data-table>
+</v-container>
 </template>
 
 <script>
-import axios from 'axios';
-import ApplicationDialog from '@/components/ApplicationDialog.vue';
-
 export default {
-  components: { ApplicationDialog },
-  props: {},
   data() {
     return {
-      items: [{
-        name: 'Herb Zieger',
-        major: 'Software Engineering',
-        date: 'today',
-      }],
+      expanded: [],
       headers: [
+        {
+          text: 'Name',
+          align: 'left',
+          sortable: true,
+          value: 'name',
+        },
+        { text: 'Status', value: 'Status' },
+      ],
+      projects: [
+        {
+          name: '#this is the project they applied to',
+          Status: 'Status: Pending',
+        },
+      ],
+      peopleHeaders: [
         {
           text: 'Name',
           align: 'left',
@@ -43,33 +69,25 @@ export default {
           value: 'major',
         },
         {
-          text: 'Applied Date',
+          text: 'Preference',
           align: 'left',
           sortable: true,
-          value: 'date',
+          value: 'preference',
+        },
+      ],
+      people: [
+        {
+          name: 'BORB',
+          major: 'SWE',
+          preference: 'idk',
         },
       ],
     };
   },
-  // mounted() {
-  //   this.updateList();
-  // },
-  // methods: {
-  //   updateList() {
-  //     const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects?sort_by=${
-  //       this.sortby}`;
-  //     axios
-  //       .get(url)
-  //       .then((response) => {
-  //         // console.log(response.data);
-  //         this.items = response.data;
-  //       })
-  //       .catch((error) => {
-  //         // console.log(error);
-  //       });
-  //   },
-  // },
+  methods: {
+    clicked(value) {
+      this.expanded.push(value);
+    },
+  },
 };
 </script>
-
-  <ApplicationDialog>'@/components/';
