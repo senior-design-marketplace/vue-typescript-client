@@ -1,39 +1,36 @@
 <template>
-<div id="app">
-  <v-app>
-<v-container>
- <v-btn color="primary" small @click="collapseAll">Collapse All</v-btn>
-          <v-btn color="secondary" small @click="expandAll">Expand All</v-btn>
+  <v-container>
+    <h2>Grouping Table with expand/collapse all</h2>
 
-          <v-data-table ref="expandableTable"
-          :headers="headers"
-          :items="desserts" hide-actions item-key="name" group-key="category">
+    <v-btn color="primary" small @click="collapseAll">Collapse All</v-btn>
+    <v-btn color="secondary" small @click="expandAll">Expand All</v-btn>
 
-            <template slot="group" slot-scope="props">
-              <span class="font-weight-bold">
-                Group {{props.groupIndex + 1}} - {{props.groupName}}
-              </span>
-            </template>
+    <v-data-table
+      ref="expandableTable"
+      :headers="headers"
+      :items="desserts"
+      hide-actions
+      item-key="name"
+      group-by="category"
+      hide-default-header
+    >
 
-            <template slot="items" slot-scope="props">
-              <tr>
-                <td>{{ props.item.name }}</td>
-                <td>{{ props.item.calories }}</td>
-                <td>{{ props.item.fat }}</td>
-                <td>{{ props.item.carbs }}</td>
-                <td>{{ props.item.protein }}</td>
-                <td>{{ props.item.iron }}</td>
-              </tr>
-            </template>
-          </v-data-table>
-</v-container>
-  </v-app>
-</div>
-          </template>
+      <template slot="item" slot-scope="props">
+        <tr>
+          <td>{{ props.item.name }}</td>
+          <td>{{ props.item.calories }}</td>
+          <td>{{ props.item.fat }}</td>
+          <td>{{ props.item.carbs }}</td>
+          <td>{{ props.item.protein }}</td>
+          <td>{{ props.item.iron }}</td>
+        </tr>
+      </template>
+    </v-data-table>
+  </v-container>
+</template>
 
 <script>
 export default {
-
   methods: {
     collapseAll() {
       this.$refs.expandableTable.collapseAll();
@@ -107,5 +104,6 @@ export default {
     groupSortDescending: false,
   }),
 };
+
 
 </script>
