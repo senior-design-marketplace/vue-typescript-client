@@ -13,9 +13,19 @@
       <v-btn text class="item" to="/applications">Applications</v-btn>
       <v-btn text class="item" to="/about">About</v-btn>
     </v-toolbar-items>
-    <v-btn icon>
-      <v-icon>mdi-bell</v-icon>
-    </v-btn>
+    <v-menu offset-y>
+      <template v-slot:activator="{ on }">
+        <v-btn icon v-on="on">
+          <v-icon>mdi-bell</v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item v-for="(item, index) in items" :key="index"
+        @click="router.push('/applications')">
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
     <v-btn icon to="/account">
       <v-icon>mdi-account-circle</v-icon>
     </v-btn>
@@ -23,7 +33,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data: () => ({
+    items: [
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me 2' },
+    ],
+  }),
+};
 </script>
 
 <style>
