@@ -1,109 +1,61 @@
 <template>
   <v-container>
-    <h2>Grouping Table with expand/collapse all</h2>
-
-    <v-btn color="primary" small @click="collapseAll">Collapse All</v-btn>
-    <v-btn color="secondary" small @click="expandAll">Expand All</v-btn>
-
     <v-data-table
-      ref="expandableTable"
       :headers="headers"
-      :items="desserts"
-      hide-actions
+      :items="people"
+      :expanded="expanded"
       item-key="name"
-      group-by="category"
-      hide-default-header
+      class="elevation-1"
+      @click:row="clicked"
     >
-
-      <template slot="item" slot-scope="props">
-        <tr>
-          <td>{{ props.item.name }}</td>
-          <td>{{ props.item.calories }}</td>
-          <td>{{ props.item.fat }}</td>
-          <td>{{ props.item.carbs }}</td>
-          <td>{{ props.item.protein }}</td>
-          <td>{{ props.item.iron }}</td>
-        </tr>
-      </template>
+    <template v-slot:expanded-item="{ headers }">
+      <td :colspan="headers.length"> {{items}} </td>
+    </template>
+    <template slot="group" slot-scope="props">
+      <tr class="font-weight-bold">{{props.group}} {{props.items}}</tr>
+    </template>
     </v-data-table>
   </v-container>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      expanded: [],
+      headers: [
+        {
+          text: 'Name',
+          align: 'left',
+          value: 'name',
+        },
+        { text: 'Project', value: 'project' },
+      ],
+      people: [
+        {
+          name: 'Herb',
+          project: 'Project1',
+        },
+        {
+          name: 'Jason',
+          project: 'Project1',
+        },
+        {
+          name: 'Ruthy',
+          project: 'Project2',
+        },
+      ],
+    };
+  },
   methods: {
-    collapseAll() {
-      this.$refs.expandableTable.collapseAll();
-    },
-    expandAll() {
-      this.$refs.expandableTable.expandAll();
+    clicked(value) {
+      const index = this.expanded.indexOf(value);
+      if (index > -1) {
+        this.expanded.splice(index, 1);
+      } else {
+        this.expanded.push(value);
+      }
     },
   },
-  data: () => ({
-    headers: [
-      { text: 'Dessert (100g serving)', value: 'name' },
-      { text: 'Calories', value: 'calories' },
-      { text: 'Fat (g)', value: 'fat' },
-      { text: 'Carbs (g)', value: 'carbs' },
-      { text: 'Protein (g)', value: 'protein' },
-      { text: 'Iron (%)', value: 'iron' },
-    ],
-    desserts: [
-      {
-        value: false,
-        name: 'Orange Juice',
-        category: 'Beverage',
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        iron: '7%',
-      },
-      {
-        value: false,
-        name: 'Larabar',
-        category: 'Snack',
-        calories: 408,
-        fat: 3.2,
-        carbs: 87,
-        protein: 6.5,
-        iron: '45%',
-      },
-      {
-        value: false,
-        name: 'Donut',
-        category: 'Breakfast',
-        calories: 452,
-        fat: 25.0,
-        carbs: 51,
-        protein: 4.9,
-        iron: '22%',
-      },
-
-      {
-        value: false,
-        name: 'Bagel',
-        category: 'Breakfast',
-        calories: 999,
-        fat: 28.0,
-        carbs: 151,
-        protein: 2.9,
-        iron: '29%',
-      },
-      {
-        value: false,
-        name: 'KitKat',
-        category: 'Snack',
-        calories: 518,
-        fat: 26.0,
-        carbs: 65,
-        protein: 7,
-        iron: '6%',
-      },
-    ],
-    groupSortDescending: false,
-  }),
 };
-
-
 </script>
