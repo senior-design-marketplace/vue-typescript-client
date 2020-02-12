@@ -11,9 +11,22 @@ exports[`Header Renders correctly 1`] = `
     <v-btn-stub tag="button" activeclass="" to="/applications" text="true" type="button" class="item">Applications</v-btn-stub>
     <v-btn-stub tag="button" activeclass="" to="/about" text="true" type="button" class="item">About</v-btn-stub>
   </v-toolbar-items-stub>
-  <v-btn-stub tag="button" activeclass="" icon="true" type="button">
-    <v-icon-stub>mdi-bell</v-icon-stub>
-  </v-btn-stub>
+  <v-menu-stub opendelay="0" closedelay="0" contentclass="" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" openonclick="true" closeonclick="true" closeoncontentclick="true" maxheight="auto" offsety="true" origin="top left" transition="v-menu-transition">
+    <v-list-stub tag="div" tile="true">
+      <v-list-item-stub activeclass="" tag="div">
+        <v-list-item-title-stub>Click Me</v-list-item-title-stub>
+      </v-list-item-stub>
+      <v-list-item-stub activeclass="" tag="div">
+        <v-list-item-title-stub>Click Me</v-list-item-title-stub>
+      </v-list-item-stub>
+      <v-list-item-stub activeclass="" tag="div">
+        <v-list-item-title-stub>Click Me</v-list-item-title-stub>
+      </v-list-item-stub>
+      <v-list-item-stub activeclass="" tag="div">
+        <v-list-item-title-stub>Click Me 2</v-list-item-title-stub>
+      </v-list-item-stub>
+    </v-list-stub>
+  </v-menu-stub>
   <v-btn-stub tag="button" activeclass="" to="/account" icon="true" type="button">
     <v-icon-stub>mdi-account-circle</v-icon-stub>
   </v-btn-stub>

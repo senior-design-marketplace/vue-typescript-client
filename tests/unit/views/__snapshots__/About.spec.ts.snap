@@ -46,7 +46,8 @@ exports[`About Renders correctly 1`] = `
               including students and advisors, to facilitate the project selection process. This
               web technology will act as a drop-in solution to allow students and advisors to keep
               up with the projects they are interested in. They will be able to submit and join
-              projects as well as update viewers on project progress. <br></div> <br>
+              projects as well as update viewers on project progress.
+              <br></div> <br>
             <h2>Objective</h2> <br>
             <div class="text-start">
               Marqetplace is designed to help students and advisors of colleges who want a more
@@ -67,40 +68,32 @@ exports[`About Renders correctly 1`] = `
           <h2>Advisors</h2> <br>
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
             <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
-          </v-btn-stub>
-          &nbsp;
+          </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
             <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
           </v-btn-stub> <br> <br>
           <h2>Meet The Team</h2> <br>
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
             <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
-          </v-btn-stub>
-          &nbsp;
+          </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
             <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
-          </v-btn-stub>
-          &nbsp;
+          </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
             <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
-          </v-btn-stub>
-          &nbsp;
+          </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
             <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
-          </v-btn-stub>
-          &nbsp;
+          </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
             <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
-          </v-btn-stub>
-          &nbsp;
+          </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
             <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
-          </v-btn-stub>
-          &nbsp;
+          </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
             <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
-          </v-btn-stub>
-          &nbsp;
+          </v-btn-stub>&nbsp;
           <br> <br>
           <!---->
           <!---->
