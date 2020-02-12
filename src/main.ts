@@ -7,12 +7,12 @@ import store from './store';
 
 Vue.config.productionTip = false;
 
-attachCognitoModule(store, {
-  userPoolId: 'your-data-here',
-  identityPoolId: '', // This field is now optional
-  userPoolWebClientId: 'your-data-here',
-  region: 'your-data-here',
-}, 'cognito');
+// attachCognitoModule(store, { // Hold off on amplify for now
+//   userPoolId: 'your-data-here',
+//   identityPoolId: '', // This field is now optional
+//   userPoolWebClientId: 'your-data-here',
+//   region: 'your-data-here',
+// }, 'cognito');
 
 new Vue({
   vuetify,

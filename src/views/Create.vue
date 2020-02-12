@@ -254,7 +254,8 @@ export default {
     },
     submitProject() {
       this.dialog = true;
-      const url = 'https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects/';
+      const token = localStorage.getItem('id_token');
+      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects?id_token=${token}`;
       const body = {
         id: this.id,
         title: this.title,
@@ -270,9 +271,13 @@ export default {
           this.$router.push(`/project/${this.id}`);
         })
         .catch((error) => {
-          // console.log(error);
           this.dialog = false;
-          alert("failed"); // eslint-disable-line
+          if (error.response.data.type === 'AuthenticationError') {
+            alert("Redirecting to Stevens Login"); // eslint-disable-line
+            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
+          } else {
+            alert("Input Error"); // eslint-disable-line
+          }
         });
     },
   },

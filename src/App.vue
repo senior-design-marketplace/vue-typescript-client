@@ -1,11 +1,11 @@
 <template>
   <v-app>
-    <div id="app">
+    <div id="app" v-on="pullToken()">
       <Header />
       <keep-alive>
-        <router-view v-if="$route.meta.keepAlive"/>
+        <router-view v-if="$route.meta.keepAlive" />
       </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive"/>
+      <router-view v-if="!$route.meta.keepAlive" />
     </div>
   </v-app>
 </template>
@@ -17,6 +17,18 @@ export default {
   name: 'app',
   components: {
     Header,
+  },
+  methods: {
+    pullToken() {
+      if (this.$route.hash.startsWith('#access_token=')) {
+        const token = /&id_token=(.*?)&/gm.exec(this.$route.hash)[1];
+        localStorage.setItem('id_token', token);
+        this.$router.push({ hash: '' }).catch((err) => {});
+        // console.log(token);
+      } else {
+        // console.log('No Token Found');
+      }
+    },
   },
 };
 </script>

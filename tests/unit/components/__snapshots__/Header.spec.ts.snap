@@ -30,5 +30,8 @@ exports[`Header Renders correctly 1`] = `
   <v-btn-stub tag="button" activeclass="" to="/account" icon="true" type="button">
     <v-icon-stub>mdi-account-circle</v-icon-stub>
   </v-btn-stub>
+  <v-btn-stub tag="button" activeclass="" href="https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&amp;redirect_uri=https://www.marqetplace.xyz&amp;response_type=TOKEN&amp;client_id=6893005so6v9k2kuunc4acckps" icon="true" type="button">
+    <v-icon-stub>mdi-account-circle</v-icon-stub>
+  </v-btn-stub>
 </v-toolbar-stub>
 `;
