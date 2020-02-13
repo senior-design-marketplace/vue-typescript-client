@@ -1,23 +1,35 @@
 <template>
   <v-app>
-    <div id="app">
+    <div id="app" v-on="pullToken()">
       <Header />
       <keep-alive>
-        <router-view v-if="$route.meta.keepAlive"/>
+        <router-view v-if="$route.meta.keepAlive" />
       </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive"/>
+      <router-view v-if="!$route.meta.keepAlive" />
     </div>
   </v-app>
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import Header from '@/components/Header.vue';
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
-    Header
-  }
+    Header,
+  },
+  methods: {
+    pullToken() {
+      if (this.$route.hash.startsWith('#access_token=')) {
+        const token = /&id_token=(.*?)&/gm.exec(this.$route.hash)[1];
+        localStorage.setItem('id_token', token);
+        this.$router.push({ hash: '' }).catch((err) => {});
+        // console.log(token);
+      } else {
+        // console.log('No Token Found');
+      }
+    },
+  },
 };
 </script>
 

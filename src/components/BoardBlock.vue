@@ -11,7 +11,7 @@ export default {
   props: {
     date: String,
     desc: String,
-    img: Array
-  }
+    img: Array,
+  },
 };
 </script>

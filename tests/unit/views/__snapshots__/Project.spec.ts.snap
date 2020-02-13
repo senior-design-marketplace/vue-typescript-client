@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project Renders correctly 1`] = `
+<v-container-stub tag="div">
+  <v-row-stub tag="div">
+    <v-col-stub cols="12" sm="8" tag="div">
+      <projectmain-stub avatar="https://images.theconversation.com/files/93616/original/image-20150902-6700-t2axrz.jpg" coverimg="https://cdn.vox-cdn.com/uploads/chorus_image/image/47070706/google2.0.0.jpg"></projectmain-stub>
+      <p></p>
+      <projectboard-stub boarditems="[object Object],[object Object],[object Object]"></projectboard-stub>
+    </v-col-stub>
+    <v-col-stub cols="12" sm="4" tag="div">
+      <v-card-stub loaderheight="4" tag="div">
+        <v-btn-stub tag="button" activeclass="" block="true" outlined="true" type="button">
+          <h2>Apply</h2>
+        </v-btn-stub>
+      </v-card-stub>
+      <p></p>
+      <contactinfo-stub></contactinfo-stub>
+      <p></p>
+      <comments-stub comments="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"></comments-stub>
+    </v-col-stub>
+  </v-row-stub>
+</v-container-stub>
+`;

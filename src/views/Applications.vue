@@ -1,5 +1,15 @@
 <template>
-  <div>
-    <h1>This is an applications page</h1>
-  </div>
+  <v-container>
+    <br />
+    <h1> Applications</h1>
+    <br />
+    <ApplicationList />
+  </v-container>
 </template>
+<script>
+import ApplicationList from '@/components/ApplicationList.vue';
+
+export default {
+  components: { ApplicationList },
+};
+</script>

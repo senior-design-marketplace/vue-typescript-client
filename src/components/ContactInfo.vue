@@ -35,7 +35,7 @@
 export default {
   props: {
     members: Array,
-    advisors: Array
-  }
+    advisors: Array,
+  },
 };
 </script>

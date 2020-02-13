@@ -30,82 +30,82 @@
 </template>
 
 <script>
-import ProjectBoard from "@/components/ProjectBoard.vue";
-import ProjectMain from "@/components/ProjectMain.vue";
-import ContactInfo from "@/components/ContactInfo.vue";
-import Comments from "@/components/Comments.vue";
-import axios from "axios";
+import axios from 'axios';
+import ProjectBoard from '@/components/ProjectBoard.vue';
+import ProjectMain from '@/components/ProjectMain.vue';
+import ContactInfo from '@/components/ContactInfo.vue';
+import Comments from '@/components/Comments.vue';
 
 export default {
   components: {
     ProjectMain,
     ProjectBoard,
     ContactInfo,
-    Comments
+    Comments,
   },
   data() {
     return {
       items: [],
       thumbnail_link:
-        "https://images.theconversation.com/files/93616/original/image-20150902-6700-t2axrz.jpg",
+        'https://images.theconversation.com/files/93616/original/image-20150902-6700-t2axrz.jpg',
       cover_link:
-        "https://cdn.vox-cdn.com/uploads/chorus_image/image/47070706/google2.0.0.jpg",
+        'https://cdn.vox-cdn.com/uploads/chorus_image/image/47070706/google2.0.0.jpg',
       comments: [
         {
-          author: "Julia Cahn",
-          text: "Example question here?",
-          datetime: "Nov 13, 2019 12:00 PM"
+          author: 'Julia Cahn',
+          text: 'Example question here?',
+          datetime: 'Nov 13, 2019 12:00 PM',
         },
         {
-          author: "Ruthy Levi",
-          text: "What it do bby",
-          datetime: "Nov 13, 2019 1:00 PM"
+          author: 'Ruthy Levi',
+          text: 'What it do bby',
+          datetime: 'Nov 13, 2019 1:00 PM',
         },
         {
-          author: "Herb Zieger",
-          text: "Wow this demo looks awesome!",
-          datetime: "Nov 13, 2019 12:00 PM"
+          author: 'Herb Zieger',
+          text: 'Wow this demo looks awesome!',
+          datetime: 'Nov 13, 2019 12:00 PM',
         },
         {
-          author: "Mark Freeman",
-          text: "Ooga Booga.",
-          datetime: "Nov 13, 2019 12:00 PM"
+          author: 'Mark Freeman',
+          text: 'Ooga Booga.',
+          datetime: 'Nov 13, 2019 12:00 PM',
         },
         {
-          author: "Jason Chlus",
+          author: 'Jason Chlus',
           text:
-            "Yo guys! Make sure to check out my vlog channel! https://www.youtube.com/channel/UC5UiolKpoLn920GnwidWQDQ",
-          datetime: "Nov 13, 2019 12:00 PM"
+            'Yo guys! Make sure to check out my vlog channel! https://www.youtube.com/channel/UC5UiolKpoLn920GnwidWQDQ',
+          datetime: 'Nov 13, 2019 12:00 PM',
         },
         {
-          author: "Jakub Kolasinski",
-          text: "A bad day on the slopes beats a good day at work!",
-          datetime: "Nov 13, 2019 12:00 PM"
+          author: 'Jakub Kolasinski',
+          text: 'A bad day on the slopes beats a good day at work!',
+          datetime: 'Nov 13, 2019 12:00 PM',
         },
         {
-          author: "Tyler Lowe",
-          text: "Have any of you guys seen Jarvis?",
-          datetime: "Nov 13, 2019 12:00 PM"
-        }
+          author: 'Tyler Lowe',
+          text: 'Have any of you guys seen Jarvis?',
+          datetime: 'Nov 13, 2019 12:00 PM',
+        },
       ],
       boardItems: [
         {
-          date: "November 2019",
-          desc: "Actually gettting the project board done",
-          img: []
+          date: 'November 2019',
+          desc: 'Actually gettting the project board done',
+          img: [],
         },
         {
-          date: "October 2019",
+          date: 'October 2019',
           desc:
-            "Simple UI generation from client in response to a live call from the server. Initial UI mockups for web client finished and handed over to SDEs.",
-          img: []
+            'Simple UI generation from client in response to a live call from the server. Initial UI mockups for web client finished and handed over to SDEs.',
+          img: [],
         },
         {
-          date: "September 2019",
+          date: 'September 2019',
           desc:
-            "Schemas validated and initial routes stubbed for future implementation. Requirements validation with EMs and generation of an ordered product backlog. Developer middlewares and other tooling written to facilitate further development. Server capable of being stood up and responding to simple requests with valid data fetched from the cloud."
-        }
-      ]
+            'Schemas validated and initial routes stubbed for future implementation. Requirements validation with EMs and generation of an ordered product backlog. Developer middlewares and other tooling written to facilitate further development. Server capable of being stood up and responding to simple requests with valid data fetched from the cloud.',
+        },
+      ],
     };
   },
   mounted() {
@@ -113,30 +113,29 @@ export default {
   },
   methods: {
     getProjectData() {
-      var url =
-        "https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects/" +
-        this.$route.params.id;
+      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects/${
+        this.$route.params.id}`;
       axios
         .get(url)
-        .then(response => {
-          console.log(response.data);
+        .then((response) => {
+          // console.log(response.data);
           this.items = response.data;
         })
-        .catch(error => {
-          console.log(error);
+        .catch((error) => {
+          // console.log(error);
         });
     },
     updateComments(variable) {
-      var newComment = {
-        author: "Test User",
+      const newComment = {
+        author: 'Test User',
         text: variable,
-        datetime: "Nov 5, 2019 2:45 PM"
+        datetime: 'Nov 5, 2019 2:45 PM',
       };
-      console.log(this.comments);
-      console.log(newComment);
+      // console.log(this.comments);
+      // console.log(newComment);
       this.comments = this.comments.concat(newComment);
-      console.log(this.comments);
-    }
-  }
+      // console.log(this.comments);
+    },
+  },
 };
 </script>

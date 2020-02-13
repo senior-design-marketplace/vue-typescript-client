@@ -1,11 +1,13 @@
 <template :id="id">
-  <v-card min-width="350" max-width="350" min-height="200" class="mx-auto">
+  <v-card min-width="350" max-width="350" min-height="350" class="mx-auto">
     <v-container class="pa-1">
       <v-item-group>
         <v-list-item>
           <v-list-item-avatar tile>
             <v-img v-if="avatar != null" :src="avatar"></v-img>
-            <span v-else class="black--text headline" v-text="title.substring(0,1)"></span>
+            <span v-else-if="title!=null"
+              class="black--text headline"
+              v-text="title.substring(0,1)"/>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-flex class="headline" v-text="title"></v-flex>
@@ -28,9 +30,7 @@
         </v-card-text>
         <v-row justify="end">
           <v-card-actions>
-            <router-link :to=/project/+id>
-              <v-btn color="primary">Read More</v-btn>
-            </router-link>
+              <v-btn :to=/project/+id color="primary">Read More</v-btn>
           </v-card-actions>
         </v-row>
       </v-item-group>
@@ -48,11 +48,11 @@ export default {
     starred: Boolean,
     coverImg: String,
     tagline: String,
-    tags: Array
+    tags: Array,
   },
   data: () => ({
-    maxChar: 250
-  })
+    maxChar: 250,
+  }),
 };
 </script>
 

@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card Renders correctly 1`] = `
+<div class="mx-auto v-card v-sheet theme--light" style="min-height: 350px; min-width: 350px; max-width: 350px;">
+  <div class="container pa-1">
+    <div class="v-item-group theme--light">
+      <div tabindex="-1" class="v-list-item theme--light">
+        <div class="v-avatar v-list-item__avatar v-avatar--tile" style="height: 40px; min-width: 40px; width: 40px;">
+          <div class="v-responsive v-image">
+            <div class="v-image__image v-image__image--preload v-image__image--cover" style="background-position: center center;"></div>
+            <div class="v-responsive__content"></div>
+          </div>
+        </div>
+        <div class="v-list-item__content">
+          <div class="flex headline">marqetplace.</div>
+        </div> <button type="button" class="v-btn v-btn--flat v-btn--icon v-btn--round theme--light v-size--default"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-star theme--light gray--text"></i></span></button>
+      </div>
+      <hr role="separator" aria-orientation="horizontal" class="v-divider theme--light">
+      <div class="v-responsive v-image" style="height: 194px;">
+        <div class="v-image__image v-image__image--preload v-image__image--cover" style="background-position: center center;"></div>
+        <div class="v-responsive__content"></div>
+      </div>
+      <div class="v-card__text">
+        <div>
+          <div>The Senior Design Marketplace team’s mission is to expand on the foundations of the previous groups and implement an online marketplace that will streamline the creation and organization of senior design projects at Stevens. The Senior Design Marketplace is a web application that transforms the senior design project selection and organization process into a simple, efficient, and streamlined activity. Using the marketplace, faculty can create and display projects to students who can choose to view or join them. Students are also able to create their own project proposals and submit them for approval by advisors or program coordinators.</div>
+        </div>
+        <vchipgroup-stub column=""><span class="noClick v-chip v-chip--label v-chip--no-color theme--light v-size--default"><span class="v-chip__content">Computer Science</span></span><span class="noClick v-chip v-chip--label v-chip--no-color theme--light v-size--default"><span class="v-chip__content">Software Eng.</span></span><span class="noClick v-chip v-chip--label v-chip--no-color theme--light v-size--default"><span class="v-chip__content">Engineering Management</span></span></vchipgroup-stub>
+      </div>
+      <div class="row justify-end">
+        <div class="v-card__actions">
+          <router-link-stub class="v-btn v-btn--contained v-btn--router theme--light v-size--default primary"><span class="v-btn__content">Read More</span></router-link-stub>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
