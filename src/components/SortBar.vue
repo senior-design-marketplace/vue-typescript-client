@@ -14,15 +14,20 @@
         </v-list-item>
       </v-list>
     </v-menu>
-      <v-divider vertical></v-divider>
-      <v-btn @click="orderUpdate">
-        <v-icon>{{order=="descending" ? 'mdi-sort-descending' : 'mdi-sort-ascending'}}</v-icon>
+    <v-btn @click="orderUpdate">
+      <v-icon>{{order=="descending" ? 'mdi-sort-descending' : 'mdi-sort-ascending'}}</v-icon>
+    </v-btn>
+    <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
+    <v-btn-toggle v-model="view" mandatory>
+      <v-btn @click="viewUpdate(0)" default>
+        <v-icon >mdi-view-grid</v-icon>
       </v-btn>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-
-      <div class="mx-4"></div>
+      <v-btn @click="viewUpdate(1)">
+        <v-icon>mdi-view-list</v-icon>
+      </v-btn>
+    </v-btn-toggle>
   </v-toolbar>
 </template>
 
@@ -30,24 +35,29 @@
 export default {
   data() {
     return {
-      order: "descending",
-      sort: "new",
-      dropdown_sort: [{ title: "new" }, { title: "popular" }]
+      order: 'descending',
+      sort: 'new',
+      view: '0',
+      dropdown_sort: [{ title: 'new' }, { title: 'popular' }],
     };
   },
   methods: {
-    orderUpdate: function() {
-      if (this.order == "descending") {
-        this.order = "ascending";
-      } else if (this.order == "ascending") {
-        this.order = "descending";
+    orderUpdate() {
+      if (this.order === 'descending') {
+        this.order = 'ascending';
+      } else if (this.order === 'ascending') {
+        this.order = 'descending';
       }
-      this.$emit("order", this.order);
+      this.$emit('order', this.order);
     },
-    sortbyUpdate: function(newSort) {
+    sortbyUpdate(newSort) {
       this.sort = newSort;
-      this.$emit("sort", this.sort);
-    }
-  }
+      this.$emit('sort', this.sort);
+    },
+    viewUpdate(newView) {
+      this.view = newView;
+      this.$emit('view', this.view);
+    },
+  },
 };
 </script>

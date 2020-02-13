@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProjectBoard Renders correctly 1`] = `
+<div class="v-card v-sheet theme--light">
+  <div class="v-item-group theme--light">
+    <div tabindex="-1" class="v-list-item theme--light">
+      <div class="v-list-item__content">
+        <h2 class="text-left">Project Board:</h2>
+      </div>
+    </div>
+  </div>
+  <div class="container container--fluid">
+    <vdataiterator-stub items="[object Object]" items-per-page="50" hide-default-footer=""></vdataiterator-stub>
+  </div>
+</div>
+`;

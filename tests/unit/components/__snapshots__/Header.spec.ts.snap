@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Renders correctly 1`] = `
+<v-toolbar-stub height="100" dark="true" tag="header" tile="true" extensionheight="48" src="">
+  <router-link-stub to="/" tag="a" event="click"><img src="" class="logo"> <img src="" height="50px"></router-link-stub>
+  <v-spacer-stub></v-spacer-stub>
+  <v-toolbar-items-stub>
+    <v-btn-stub tag="button" activeclass="" to="/" text="true" type="button" class="item">Projects</v-btn-stub>
+    <v-btn-stub tag="button" activeclass="" to="/my-projects" text="true" type="button" class="item">My Projects</v-btn-stub>
+    <v-btn-stub tag="button" activeclass="" to="/create" text="true" type="button" class="item">Create Project</v-btn-stub>
+    <v-btn-stub tag="button" activeclass="" to="/applications" text="true" type="button" class="item">Applications</v-btn-stub>
+    <v-btn-stub tag="button" activeclass="" to="/about" text="true" type="button" class="item">About</v-btn-stub>
+  </v-toolbar-items-stub>
+  <v-menu-stub opendelay="0" closedelay="0" contentclass="" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" openonclick="true" closeonclick="true" closeoncontentclick="true" maxheight="auto" offsety="true" origin="top left" transition="v-menu-transition">
+    <v-list-stub tag="div" tile="true">
+      <v-list-item-stub activeclass="" tag="div">
+        <v-list-item-title-stub>Click Me</v-list-item-title-stub>
+      </v-list-item-stub>
+      <v-list-item-stub activeclass="" tag="div">
+        <v-list-item-title-stub>Click Me</v-list-item-title-stub>
+      </v-list-item-stub>
+      <v-list-item-stub activeclass="" tag="div">
+        <v-list-item-title-stub>Click Me</v-list-item-title-stub>
+      </v-list-item-stub>
+      <v-list-item-stub activeclass="" tag="div">
+        <v-list-item-title-stub>Click Me 2</v-list-item-title-stub>
+      </v-list-item-stub>
+    </v-list-stub>
+  </v-menu-stub>
+  <v-btn-stub tag="button" activeclass="" to="/account" icon="true" type="button">
+    <v-icon-stub>mdi-account-circle</v-icon-stub>
+  </v-btn-stub>
+  <v-btn-stub tag="button" activeclass="" href="https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&amp;redirect_uri=https://www.marqetplace.xyz&amp;response_type=TOKEN&amp;client_id=6893005so6v9k2kuunc4acckps" icon="true" type="button">
+    <v-icon-stub>mdi-account-circle</v-icon-stub>
+  </v-btn-stub>
+</v-toolbar-stub>
+`;

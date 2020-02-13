@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProjectMain Renders correctly 1`] = `
+<div>
+  <v-toolbar-stub tag="header" tile="true" extensionheight="48" src="">
+    <!---->&nbsp;&nbsp;&nbsp;&nbsp;
+    <h2 class="text-left"></h2>
+    <v-item-group-stub activeclass="v-item--active">
+      <v-list-item-stub activeclass="" tag="div">
+        <v-item-stub></v-item-stub>
+      </v-list-item-stub>
+    </v-item-group-stub>
+  </v-toolbar-stub>
+  <p></p>
+  <v-card-stub loaderheight="4" tag="div">
+    <v-img-stub maxheight="350" contain="true" options="[object Object]" position="center center" src="" transition="fade-transition"></v-img-stub>
+  </v-card-stub>
+  <p></p>
+  <v-card-stub loaderheight="4" tag="div">
+    <v-container-stub tag="div">
+      <h2 class="text-left">Description:</h2>
+      <v-list-item-stub activeclass="" tag="div" class="text-left"></v-list-item-stub> <br>
+      <h2 class="text-left">Majors:</h2>
+      <v-chip-group-stub activeclass="v-slide-item--active" nexticon="$next" mobilebreakpoint="1264" previcon="$prev" column="true"></v-chip-group-stub> <br>
+      <h2 class="text-left">Tags:</h2>
+      <v-chip-group-stub activeclass="v-slide-item--active" nexticon="$next" mobilebreakpoint="1264" previcon="$prev" column="true"></v-chip-group-stub>
+    </v-container-stub>
+  </v-card-stub>
+</div>
+`;

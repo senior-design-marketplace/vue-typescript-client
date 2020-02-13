@@ -1,32 +1,56 @@
 {
-  "name": "foo",
+  "name": "marqetplace",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "tsc": "tsc"
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@vuetify/vuex-cognito-module": "^0.5.4",
     "axios": "^0.19.0",
-    "core-js": "^2.6.5",
+    "core-js": "^3.3.2",
+    "uuid": "^3.3.3",
     "vue": "^2.6.10",
-    "vuetify": "^2.1.1"
+    "vue-class-component": "^7.0.2",
+    "vue-picture-input": "^2.1.6",
+    "vue-property-decorator": "^8.3.0",
+    "vue-router": "^3.1.3",
+    "vuetify": "^2.1.0",
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.11.0",
-    "@vue/cli-plugin-eslint": "^3.11.0",
-    "@vue/cli-service": "^3.11.0",
+    "@types/jest": "^24.0.11",
+    "@vue/cli-plugin-babel": "^4.0.0",
+    "@vue/cli-plugin-eslint": "^4.0.0",
+    "@vue/cli-plugin-router": "^4.0.0",
+    "@vue/cli-plugin-typescript": "^4.0.0",
+    "@vue/cli-plugin-unit-jest": "^4.0.0",
+    "@vue/cli-plugin-vuex": "^4.2.2",
+    "@vue/cli-service": "^4.0.0",
     "@vue/eslint-config-airbnb": "^4.0.0",
-    "babel-eslint": "^10.0.1",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "@vue/test-utils": "1.0.0-beta.30",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "sass": "^1.17.4",
-    "sass-loader": "^7.1.0",
-    "typescript": "^3.6.3",
-    "vue-cli-plugin-vuetify": "^0.6.3",
+    "jest-serializer-vue": "^2.0.2",
+    "lint-staged": "^9.4.2",
+    "sass": "^1.19.0",
+    "sass-loader": "^8.0.0",
+    "typescript": "~3.7.2",
+    "vue-cli-plugin-vuetify": "^2.0.2",
     "vue-template-compiler": "^2.6.10",
-    "vuetify-loader": "^1.2.2"
+    "vuetify-loader": "^1.3.0"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,vue,ts}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
   }
 }
