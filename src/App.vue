@@ -6,7 +6,6 @@
         <router-view v-if="$route.meta.keepAlive" />
       </keep-alive>
       <router-view v-if="!$route.meta.keepAlive" />
-      <v-footer app padless class="font-weight-medium"> token: {{ token }} </v-footer>
     </div>
   </v-app>
 </template>
@@ -19,11 +18,6 @@ export default {
   name: 'app',
   components: {
     Header,
-  },
-  computed: {
-    token() {
-      return store.state.id_token;
-    },
   },
   methods: {
     pullToken() {
