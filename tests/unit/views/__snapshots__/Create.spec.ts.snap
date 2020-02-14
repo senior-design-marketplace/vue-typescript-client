@@ -31,7 +31,7 @@ exports[`Create Renders correctly 1`] = `
     </v-col-stub>
     <v-col-stub cols="12" sm="4" tag="div">
       <v-card-stub loaderheight="4" tag="div">
-        <v-btn-stub tag="button" activeclass="" block="true" outlined="true" type="button">
+        <v-btn-stub color="primary" tag="button" activeclass="" block="true" depressed="true" type="button">
           <h2>Submit</h2>
         </v-btn-stub>
         <v-dialog-stub opendelay="0" closedelay="0" contentclass="" hideoverlay="true" maxwidth="none" origin="center center" persistent="true" retainfocus="true" transition="dialog-transition" width="300">

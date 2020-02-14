@@ -12,6 +12,7 @@
 
 <script>
 import Header from '@/components/Header.vue';
+import store from '@/store';
 
 export default {
   name: 'app',
@@ -22,8 +23,9 @@ export default {
     pullToken() {
       if (this.$route.hash.startsWith('#access_token=')) {
         const token = /&id_token=(.*?)&/gm.exec(this.$route.hash)[1];
-        localStorage.setItem('id_token', token);
-        this.$router.push({ hash: '' }).catch((err) => {});
+        store.commit('setToken', token);
+        this.$router.push({ path: store.state.savePath, hash: '' }).catch((err) => {});
+        store.commit('resetSavePath');
         // console.log(token);
       } else {
         // console.log('No Token Found');
