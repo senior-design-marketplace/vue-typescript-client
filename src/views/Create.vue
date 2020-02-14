@@ -142,6 +142,7 @@
 import axios from 'axios';
 import uuid from 'uuid/v4';
 import PictureInput from "vue-picture-input"; // eslint-disable-line
+import store from '@/store';
 
 export default {
   components: {
@@ -254,7 +255,7 @@ export default {
     },
     submitProject() {
       this.dialog = true;
-      const token = localStorage.getItem('id_token');
+      const token = store.state.id_token;
       const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects?id_token=${token}`;
       const body = {
         id: this.id,

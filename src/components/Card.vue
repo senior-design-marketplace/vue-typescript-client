@@ -5,22 +5,21 @@
       <v-container class="pa-1">
         <v-item-group>
           <v-list-item>
-            <v-list-item-avatar tile color='primary'>
-              <v-img v-if="avatar != null" :src="avatar"></v-img>
-              <span
-                v-else-if="title != null"
-                class="black--text headline"
-                v-text="title.substring(0, 1)"
-              />
+            <v-list-item-avatar v-if="avatar != null">
+              <v-img :src="avatar"></v-img>
             </v-list-item-avatar>
+            <v-list-item-avatar v-else-if="title != null" color="primary">
+              <span class="white--text headline" v-text="title.substring(0, 1).toLowerCase()" />
+            </v-list-item-avatar>
+
             <v-list-item-content>
               <v-flex class="headline" v-text="title"></v-flex>
             </v-list-item-content>
             <!-- <v-item v-slot:default="{ active, toggle }">
-                <v-btn icon @click="toggle">
-                  <v-icon v-bind:color="active ? 'yellow accent-4' : 'gray'">mdi-star</v-icon>
-                </v-btn>
-              </v-item> -->
+                  <v-btn icon @click="toggle">
+                    <v-icon v-bind:color="active ? 'yellow accent-4' : 'gray'">mdi-star</v-icon>
+                  </v-btn>
+                </v-item> -->
           </v-list-item>
           <v-divider></v-divider>
           <v-img v-if="coverImg != null" :src="coverImg" height="194"></v-img>
