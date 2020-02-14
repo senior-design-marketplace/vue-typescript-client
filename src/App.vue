@@ -24,7 +24,8 @@ export default {
       if (this.$route.hash.startsWith('#access_token=')) {
         const token = /&id_token=(.*?)&/gm.exec(this.$route.hash)[1];
         store.commit('setToken', token);
-        this.$router.push({ hash: '' }).catch((err) => {});
+        this.$router.push({ path: store.state.savePath, hash: '' }).catch((err) => {});
+        store.commit('resetSavePath');
         // console.log(token);
       } else {
         // console.log('No Token Found');

@@ -282,6 +282,7 @@ export default {
           this.dialog = false;
           if (error.response.data.type === 'AuthenticationError') {
             alert("Redirecting to Stevens Login"); // eslint-disable-line
+            store.commit('setsavePath', this.$route.fullPath);
             window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
           } else {
             alert("Input Error"); // eslint-disable-line

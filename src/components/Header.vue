@@ -32,10 +32,7 @@
     <v-btn icon to="/account">
       <v-icon>mdi-account-circle</v-icon>
     </v-btn>
-    <v-btn
-      icon
-      href="https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps"
-    >
+    <v-btn icon @click="login">
       <v-icon>mdi-account-circle</v-icon>
     </v-btn>
     <v-btn icon @click="logout">
@@ -59,6 +56,10 @@ export default {
   methods: {
     logout() {
       store.commit('resetToken');
+    },
+    login() {
+      store.commit('setsavePath', this.$route.fullPath);
+      window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
     },
   },
 };

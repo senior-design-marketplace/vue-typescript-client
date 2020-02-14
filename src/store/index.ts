@@ -8,13 +8,20 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     id_token: '',
+    savePath: '/',
   },
   mutations: {
-    setToken: (state, n) => {
-      state.id_token = n;
+    setToken: (state, token) => {
+      state.id_token = token;
     },
     resetToken: (state) => {
       state.id_token = '';
+    },
+    setsavePath: (state, path) => {
+      state.savePath = path;
+    },
+    resetSavePath: (state) => {
+      state.savePath = '';
     },
   },
   actions: {},
