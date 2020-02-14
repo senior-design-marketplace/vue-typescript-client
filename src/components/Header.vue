@@ -20,8 +20,11 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item v-for="(item, index) in items" :key="index"
-        @click="router.push('/applications')">
+        <v-list-item
+          v-for="(item, index) in items"
+          :key="index"
+          @click="router.push('/applications')"
+        >
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -29,13 +32,18 @@
     <v-btn icon to="/account">
       <v-icon>mdi-account-circle</v-icon>
     </v-btn>
-    <v-btn icon href="https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps">
+    <v-btn icon @click="login">
       <v-icon>mdi-account-circle</v-icon>
+    </v-btn>
+    <v-btn icon @click="logout">
+      Logout
     </v-btn>
   </v-toolbar>
 </template>
 
 <script>
+import store from '@/store';
+
 export default {
   data: () => ({
     items: [
@@ -45,6 +53,15 @@ export default {
       { title: 'Click Me 2' },
     ],
   }),
+  methods: {
+    logout() {
+      store.commit('resetToken');
+    },
+    login() {
+      store.commit('setsavePath', this.$route.fullPath);
+      window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
+    },
+  },
 };
 </script>
 

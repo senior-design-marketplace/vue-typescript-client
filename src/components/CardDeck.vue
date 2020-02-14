@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-data-iterator :items="items" :items-per-page="50" hide-default-footer>
+    <v-data-iterator :items="items" :items-per-page="50" hide-default-footer loading="true">
       <template v-slot:default="props">
         <v-row>
           <v-col v-for="item in props.items" :key="item.id">
@@ -54,8 +54,7 @@ export default {
   },
   methods: {
     updateCards() {
-      let url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects?sort_by=${
-        this.sortby}`;
+      let url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects?sort_by=${this.sortby}`;
       if (this.order === 'ascending') {
         url += '&order=reverse';
       }

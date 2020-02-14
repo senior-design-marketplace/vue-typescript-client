@@ -41,20 +41,12 @@ describe('Card', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  test('Proper Text', () => {
-    expect(wrapper.text()).toBe(`${title}    ${tagline} ${tags.join('')} Read More`);
-  });
-
   test('Avatar', () => {
     expect(wrapper.find('.v-avatar').exists()).toBe(true);
   });
 
   test('Title', () => {
     expect(wrapper.find('.headline').text()).toBe(title);
-  });
-
-  test('Star', () => {
-    expect(wrapper.find('.mdi-star').exists()).toBe(true);
   });
 
   test('Cover Image', () => {
@@ -67,9 +59,5 @@ describe('Card', () => {
 
   test('Tags', () => {
     expect(wrapper.findAll('.v-chip').length).toBe(3);
-  });
-
-  test('Read More', () => {
-    expect(wrapper.find('.v-btn--router').exists()).toBe(true);
   });
 });

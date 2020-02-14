@@ -52,6 +52,6 @@ exports[`CardDeck Renders correctly 1`] = `
               return defaultFilter(getObjectValueByPath(item, key), search, item);
             });
           });
-        }" serveritemslength="-1" itemkey="id" value="" expanded="" noresultstext="$vuetify.dataIterator.noResultsText" nodatatext="$vuetify.noDataText" loadingtext="$vuetify.dataIterator.loadingText" hidedefaultfooter="true"></v-data-iterator-stub>
+        }" serveritemslength="-1" itemkey="id" value="" expanded="" loading="true" noresultstext="$vuetify.dataIterator.noResultsText" nodatatext="$vuetify.noDataText" loadingtext="$vuetify.dataIterator.loadingText" hidedefaultfooter="true"></v-data-iterator-stub>
 </v-container-stub>
 `;
