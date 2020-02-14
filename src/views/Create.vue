@@ -53,7 +53,14 @@
       </v-col>
       <v-col cols="12" sm="4">
         <v-card>
-          <v-btn :disabled="dialog" :loading="dialog" outlined block @click="submitProject()">
+          <v-btn
+            :disabled="dialog"
+            depressed
+            block
+            color="primary"
+            :loading="dialog"
+            @click="submitProject()"
+          >
             <h2>Submit</h2>
           </v-btn>
           <v-dialog v-model="dialog" hide-overlay persistent width="300">
