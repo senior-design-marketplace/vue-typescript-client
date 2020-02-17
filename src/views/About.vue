@@ -77,12 +77,13 @@
             <h2>Advisors</h2>
             <br />
             <v-btn fab x-large dark v-on:click="shown = 'Gregg'">
-              <v-avatar>
+              <v-avatar size="75">
                 <img :src="require('@/../public/assets/Gregg.png')" height="50px" />
               </v-avatar>
-            </v-btn>&nbsp;
+            </v-btn>
+&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Eirik'">
-              <v-avatar>
+              <v-avatar size="75">
                 <img :src="require('@/../public/assets/Eirik.jpg')" height="50px" />
               </v-avatar>
             </v-btn>
@@ -91,37 +92,37 @@
             <h2>Meet The Team</h2>
             <br />
             <v-btn fab x-large dark v-on:click="shown = 'Herb'">
-              <v-avatar>
+              <v-avatar size="75">
                 <img :src="require('@/../public/assets/Herb.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Ruthy'">
-              <v-avatar>
+              <v-avatar size="75">
                 <img :src="require('@/../public/assets/Ruthy.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Jason'">
-              <v-avatar>
+              <v-avatar size="75">
                 <img :src="require('@/../public/assets/Jason.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Mark'">
-              <v-avatar>
+              <v-avatar size="75">
                 <img :src="require('@/../public/assets/Mark.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Julia'">
-              <v-avatar>
+              <v-avatar size="75">
                 <img :src="require('@/../public/assets/Julia.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Jakub'">
-              <v-avatar>
-                <img :src="require('@/../public/assets/Jakub.png')" height="50px" />
+              <v-avatar size="75">
+                <img :src="require('@/../public/assets/Jakub.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Tyler'">
-              <v-avatar>
+              <v-avatar size="75">
                 <img :src="require('@/../public/assets/Tyler.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
@@ -234,7 +235,7 @@
             </v-card>
 
             <v-card v-if="shown == 'Jakub'">
-              <img :src="require('@/../public/assets/Jakub.png')" height="250px" />
+              <img :src="require('@/../public/assets/Jakub.jpg')" height="250px" />
               <v-card-title>Jakub Kolasinski</v-card-title>
               <v-card-text>
                 <div>
