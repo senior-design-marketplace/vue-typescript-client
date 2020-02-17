@@ -67,32 +67,33 @@ exports[`About Renders correctly 1`] = `
         <v-col-stub cols="12" sm="6" md="12" tag="div">
           <h2>Advisors</h2> <br>
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
-            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
-          </v-btn-stub>&nbsp;
+            <v-avatar-stub size="75"><img src="" height="50px"></v-avatar-stub>
+          </v-btn-stub>
+          &nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
-            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+            <v-avatar-stub size="75"><img src="" height="50px"></v-avatar-stub>
           </v-btn-stub> <br> <br>
           <h2>Meet The Team</h2> <br>
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
-            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+            <v-avatar-stub size="75"><img src="" height="50px"></v-avatar-stub>
           </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
-            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+            <v-avatar-stub size="75"><img src="" height="50px"></v-avatar-stub>
           </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
-            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+            <v-avatar-stub size="75"><img src="" height="50px"></v-avatar-stub>
           </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
-            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+            <v-avatar-stub size="75"><img src="" height="50px"></v-avatar-stub>
           </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
-            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+            <v-avatar-stub size="75"><img src="" height="50px"></v-avatar-stub>
           </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
-            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+            <v-avatar-stub size="75"><img src="" height="50px"></v-avatar-stub>
           </v-btn-stub>&nbsp;
           <v-btn-stub dark="true" tag="button" activeclass="" xlarge="true" fab="true" type="button">
-            <v-avatar-stub size="48"><img src="" height="50px"></v-avatar-stub>
+            <v-avatar-stub size="75"><img src="" height="50px"></v-avatar-stub>
           </v-btn-stub>&nbsp;
           <br> <br>
           <!---->
