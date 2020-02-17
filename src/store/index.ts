@@ -24,13 +24,16 @@ export default new Vuex.Store({
       state.savePath = '';
     },
   },
+  getters: {
+    isLoggedIn: state => state.id_token.length !== 0,
+  },
   actions: {},
   modules: {},
   plugins: [
     createPersistedState({
       storage: {
         getItem: key => Cookies.get(key),
-        setItem: (key, value) => Cookies.set(key, value, { expires: 3 }),
+        setItem: (key, value) => Cookies.set(key, value, { expires: 1 }),
         removeItem: key => Cookies.remove(key),
       },
     }),
