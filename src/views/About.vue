@@ -83,7 +83,7 @@
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Eirik'">
               <v-avatar>
-                <img :src="require('@/../public/assets/Eirik.png')" height="50px" />
+                <img :src="require('@/../public/assets/Eirik.jpg')" height="50px" />
               </v-avatar>
             </v-btn>
             <br />
@@ -92,27 +92,27 @@
             <br />
             <v-btn fab x-large dark v-on:click="shown = 'Herb'">
               <v-avatar>
-                <img :src="require('@/../public/assets/Herb.png')" height="50px" />
+                <img :src="require('@/../public/assets/Herb.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Ruthy'">
               <v-avatar>
-                <img :src="require('@/../public/assets/Ruthy.png')" height="50px" />
+                <img :src="require('@/../public/assets/Ruthy.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Jason'">
               <v-avatar>
-                <img :src="require('@/../public/assets/Jason.png')" height="50px" />
+                <img :src="require('@/../public/assets/Jason.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Mark'">
               <v-avatar>
-                <img :src="require('@/../public/assets/Mark.png')" height="50px" />
+                <img :src="require('@/../public/assets/Mark.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Julia'">
               <v-avatar>
-                <img :src="require('@/../public/assets/Julia.png')" height="50px" />
+                <img :src="require('@/../public/assets/Julia.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Jakub'">
@@ -122,7 +122,7 @@
             </v-btn>&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Tyler'">
               <v-avatar>
-                <img :src="require('@/../public/assets/Tyler.png')" height="50px" />
+                <img :src="require('@/../public/assets/Tyler.jpg')" height="50px" />
               </v-avatar>
             </v-btn>&nbsp;
             <br />
@@ -137,7 +137,7 @@
             </v-card>
 
             <v-card v-if="shown == 'Eirik'">
-              <img :src="require('@/../public/assets/Eirik.png')" height="250px" />
+              <img :src="require('@/../public/assets/Eirik.jpg')" height="250px" />
               <v-card-title>Eirik Hole</v-card-title>
               <v-card-text>
                 <div>Short Description</div>
@@ -145,7 +145,7 @@
             </v-card>
 
             <v-card v-if="shown == 'Herb'">
-              <img :src="require('@/../public/assets/Herb.png')" height="250px" />
+              <img :src="require('@/../public/assets/Herb.jpg')" height="250px" />
               <v-card-title>Herb Zieger</v-card-title>
               <v-card-text>
                 <div>
@@ -156,14 +156,14 @@
                   assisting research in drones, remote sensing,
                   and homeland security.
                   <br />Interests/passions: Gaming/VR, Coding, Flying Drones,
-                   Electric Scooters, Model Trains
+                  Electric Scooters, Model Trains
                   <br />Job after: GTP Analyst at UBS
                 </div>
               </v-card-text>
             </v-card>
 
             <v-card v-if="shown == 'Ruthy'">
-              <img :src="require('@/../public/assets/Ruthy.png')" height="250px" />
+              <img :src="require('@/../public/assets/Ruthy.jpg')" height="250px" />
               <v-card-title>Ruthy Levi</v-card-title>
               <v-card-text>
                 <div>
@@ -180,37 +180,38 @@
             </v-card>
 
             <v-card v-if="shown == 'Jason'">
-              <img :src="require('@/../public/assets/Jason.png')" height="250px" />
+              <img :src="require('@/../public/assets/Jason.jpg')" height="250px" />
               <v-card-title>Jason Chlus</v-card-title>
               <v-card-text>
                 <div>
                   Major: Software Engineering
-                  <br />Graduation Year:
-                  <br />Clubs/involvements:
-                  <br />Interests/passions:
-                  <br />Job after:
-                  <br />Inspirational quote:
+                  <br />Graduation Year: 2020
+                  <br />Clubs/involvements: I was involved with the Student Government,
+                  Lacrosse club, Sigma Phi Epsilon, Russian club, ex.
+                  <br />Interests/passions: I enjoy reading and learning new things.
+                  I also enjoy spending time with people and exercising ex.
+                  <br />Job after: I dont have a job after college yet
+                  <br />Inspirational quote: "College is the time to push
+                  yourself, try new and challenging things"
                 </div>
               </v-card-text>
             </v-card>
 
             <v-card v-if="shown == 'Mark'">
-              <img :src="require('@/../public/assets/Mark.png')" height="250px" />
+              <img :src="require('@/../public/assets/Mark.jpg')" height="250px" />
               <v-card-title>Mark Freeman</v-card-title>
               <v-card-text>
                 <div>
                   Graduation Year: May 2020
-                  <br />Clubs/involvements: I helped lead a series of on-campus
-                   hackathons to further the
-                  entrepreneurial interests of Stevens students.
-                   I also work in the machine
-                  laboratory, where we assist students
-                   with bringing engineering concepts into
+                  <br />Clubs/involvements: I helped lead a series of
+                  on-campus hackathons to further the
+                  entrepreneurial interests of Stevens students. I also work in the machine
+                  laboratory, where we assist students with bringing engineering concepts into
                   reality through manufacturing.
                   <br />Interests/passions: I am interested in woodworking, machining, and applied
                   electronics outside of Stevens.
-                  <br />Job after: I plan to continue on to graduate
-                   school if I am admitted. If not, I
+                  <br />Job after: I plan to continue on to graduate school
+                  if I am admitted. If not, I
                   will join Amazon as an SDE I for the ReCommerce platform.
                   <br />
                 </div>
@@ -218,7 +219,7 @@
             </v-card>
 
             <v-card v-if="shown == 'Julia'">
-              <img :src="require('@/../public/assets/Julia.png')" height="250px" />
+              <img :src="require('@/../public/assets/Julia.jpg')" height="250px" />
               <v-card-title>Julia Cahn</v-card-title>
               <v-card-text>
                 <div>
@@ -237,27 +238,31 @@
               <v-card-title>Jakub Kolasinski</v-card-title>
               <v-card-text>
                 <div>
-                  Major:
-                  <br />Graduation Year:
-                  <br />Clubs/involvements:
-                  <br />Interests/passions:
-                  <br />Job after:
-                  <br />Inspirational quote:
+                  Major: Engineering Management
+                  <br />Graduation Year: May 2020
+                  <br />Clubs/involvements: I was involved with the Stevens Society of
+                  Automotive Engineers and Chi Phi fraternity.
+                  <br />Interests/passions: In my free time, I like to ride BMX and snowboard.
+                  <br />Job after: I plan to receive my Master's degree in Financial Analytics
+                  from Stevens before 2021, and would like to
+                  start a career in finance upon completion.
+                  <br />Inspirational quote: "Fifty percent of something is better
+                  than a hundred percent of nothing."
                 </div>
               </v-card-text>
             </v-card>
 
             <v-card v-if="shown == 'Tyler'">
-              <img :src="require('@/../public/assets/Tyler.png')" height="250px" />
+              <img :src="require('@/../public/assets/Tyler.jpg')" height="250px" />
               <v-card-title>Tyler Lowe</v-card-title>
               <v-card-text>
                 <div>
-                  Major:
-                  <br />Graduation Year:
-                  <br />Clubs/involvements:
-                  <br />Interests/passions:
-                  <br />Job after:
-                  <br />Inspirational quote:
+                  Major: Engineering Management
+                  <br />Graduation Year: May 2020
+                  <br />Clubs/involvements: Chi Phi
+                  <br />Interests/passions: Working out, hanging out with my cat, Jarvis
+                  <br />Job after: Still Looking
+                  <br />Inspirational quote: in the works
                 </div>
               </v-card-text>
             </v-card>
