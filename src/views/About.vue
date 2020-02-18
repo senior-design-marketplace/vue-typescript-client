@@ -188,9 +188,9 @@
                   Major: Software Engineering
                   <br />Graduation Year: 2020
                   <br />Clubs/involvements: I was involved with the Student Government,
-                  Lacrosse club, Sigma Phi Epsilon, Russian club, ex.
+                  Lacrosse club, Sigma Phi Epsilon, and Russian club.
                   <br />Interests/passions: I enjoy reading and learning new things.
-                  I also enjoy spending time with people and exercising ex.
+                  I also enjoy spending time with people and exercising.
                   <br />Job after: I dont have a job after college yet
                   <br />Inspirational quote: "College is the time to push
                   yourself, try new and challenging things"
@@ -203,6 +203,7 @@
               <v-card-title>Mark Freeman</v-card-title>
               <v-card-text>
                 <div>
+                  Major: Software Engineering
                   Graduation Year: May 2020
                   <br />Clubs/involvements: I helped lead a series of
                   on-campus hackathons to further the
@@ -224,12 +225,17 @@
               <v-card-title>Julia Cahn</v-card-title>
               <v-card-text>
                 <div>
-                  Major:
-                  <br />Graduation Year:
-                  <br />Clubs/involvements:
-                  <br />Interests/passions:
-                  <br />Job after:
-                  <br />Inspirational quote:
+                  Major: Engineering Management
+                  <br />Graduation Year: May 2020
+                  <br />Clubs/involvements: I was an Engineering Management Co-op student
+                  and worked at companies including Movado,
+                  McKinsey, NBCUniversal, and AllianceBernstein.
+                  <br />Interests/passions: I was also involved in the performing arts
+                  community on campus through Stevens Dramatic Society and Debaun PAC.
+                  <br />Job after: After graduation, I will be starting my career as an
+                  Analyst with Slalom Consulting.
+                  <br />Inspirational quote: "Nobody's perfect. I gotta work it- again
+                  and again 'til I get it right."
                 </div>
               </v-card-text>
             </v-card>
