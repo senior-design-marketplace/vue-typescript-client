@@ -203,6 +203,7 @@
               <v-card-title>Mark Freeman</v-card-title>
               <v-card-text>
                 <div>
+                  Major: Software Engineering
                   Graduation Year: May 2020
                   <br />Clubs/involvements: I helped lead a series of
                   on-campus hackathons to further the
