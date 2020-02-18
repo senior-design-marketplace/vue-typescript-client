@@ -8,58 +8,68 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn text class="item" to="/">Projects</v-btn>
-      <v-btn text class="item" to="/my-projects">My Projects</v-btn>
-      <v-btn text class="item" to="/create">Create Project</v-btn>
-      <v-btn text class="item" to="/applications">Applications</v-btn>
+      <v-btn v-if="isLoggedIn" text class="item" to="/my-projects">My Projects</v-btn>
+      <v-btn v-if="isLoggedIn" text class="item" to="/create">Create Project</v-btn>
+      <v-btn v-if="isLoggedIn" text class="item" to="/applications">Applications</v-btn>
       <v-btn text class="item" to="/about">About</v-btn>
+      <v-btn v-if="!isLoggedIn" @click="login" text class="item">Login</v-btn>
     </v-toolbar-items>
-    <v-menu offset-y>
+    <v-menu v-if="isLoggedIn" open-on-hover transition="slide-y-transition" offset-y>
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
           <v-icon>mdi-bell</v-icon>
         </v-btn>
       </template>
       <v-list>
-        <v-list-item
-          v-for="(item, index) in items"
-          :key="index"
-          @click="router.push('/applications')"
-        >
+        <v-list-item v-for="(item, index) in items" :key="index" @click="click">
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-btn icon to="/account">
-      <v-icon>mdi-account-circle</v-icon>
-    </v-btn>
-    <v-btn icon @click="login">
-      <v-icon>mdi-account-circle</v-icon>
-    </v-btn>
-    <v-btn icon @click="logout">
-      Logout
-    </v-btn>
+    <v-menu v-if="isLoggedIn" open-on-hover transition="slide-y-transition" offset-y>
+      <template v-slot:activator="{ on }">
+        <v-btn icon v-on="on">
+          <v-icon>mdi-account-circle</v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item to="/account">
+          <v-list-item-title>My Profile</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="logout">
+          <v-list-item-title>Logout</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-toolbar>
 </template>
 
 <script>
 import store from '@/store';
+import router from '../router';
 
 export default {
   data: () => ({
     items: [
-      { title: 'Click Me' },
-      { title: 'Click Me' },
-      { title: 'Click Me' },
-      { title: 'Click Me 2' },
+      { title: 'Notification 1' },
+      { title: 'Notification 2' },
+      { title: 'Notification 3' },
+      { title: 'Notification 4' },
     ],
   }),
   methods: {
     logout() {
       store.commit('resetToken');
+      this.$router.push('/').catch((err) => {});
     },
     login() {
       store.commit('setsavePath', this.$route.fullPath);
       window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
+    },
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     },
   },
 };
