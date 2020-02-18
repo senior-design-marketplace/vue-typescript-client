@@ -224,7 +224,7 @@
               <v-card-title>Julia Cahn</v-card-title>
               <v-card-text>
                 <div>
-                  Major:
+                  Major: Engineering Management
                   <br />Graduation Year: May 2020
                   <br />Clubs/involvements: I was an Engineering Management Co-op student
                   and worked at companies including Movado,
