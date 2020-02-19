@@ -12,6 +12,11 @@ export default new Vuex.Store({
     order: 'descending',
     sort: 'new',
     view: '0',
+    major: '',
+    tag: '',
+    advisor: '',
+    acceptingApps: false,
+    hasAdvisor: false,
   },
   mutations: {
     setToken: (state, token) => {
@@ -36,6 +41,21 @@ export default new Vuex.Store({
     },
     setView: (state, view) => {
       state.view = view;
+    },
+    setMajor: (state, major) => {
+      state.major = major;
+    },
+    setTag: (state, tag) => {
+      state.tag = tag;
+    },
+    setAdvisor: (state, advisor) => {
+      state.advisor = advisor;
+    },
+    setAcceptingApps: (state, acceptingApps) => {
+      state.acceptingApps = acceptingApps;
+    },
+    setHasAdvisor: (state, hasAdvisor) => {
+      state.hasAdvisor = hasAdvisor;
     },
   },
   getters: {
