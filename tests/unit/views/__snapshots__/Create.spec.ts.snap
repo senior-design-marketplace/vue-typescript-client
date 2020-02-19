@@ -75,7 +75,7 @@ exports[`Create Renders correctly 1`] = `
           });
         }" nodatatext="$vuetify.noDataText" chips="true" items="Software Engineering,Computer Science,Computer Engineering,Mechanical Engineering,Engineering Management,Electrical Engineering,Business and Technology,Civil Engineering,Environmental Engineering,Chemical Engineering,Biomedical Engineering,Music &amp; Technology,Physics,Naval Engineering,Pure and Applied Mathematics,Engineering Physics,Cybersecurity,Chemistry,Biology,Chemical Biology,Computational Science,Industrial and Systems Engineering,Accounting &amp; Analytics,Finance,Quantitative Finance,Marketing Innovation &amp; Analytics,Information Systems,Economics,Management,History,Philosophy,Social Sciences,Literature,Science Communication,Visual Arts &amp; Technology,Science, Technology, and Society" itemcolor="primary" itemdisabled="disabled" itemtext="text" itemvalue="value" menuprops="[object Object]" multiple="true" smallchips="true" allowoverflow="true" filter="function _default(item, queryText, itemText) {
                 return itemText.toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1;
-              }"></v-autocomplete-stub>
+              }" autocomplete="off"></v-autocomplete-stub>
               <v-autocomplete-stub errorcount="1" errormessages="" messages="" rules="" successmessages="" appendicon="$dropdown" backgroundcolor="" dense="true" label="Tags" loaderheight="2" clearicon="$clear" outlined="true" type="text" valuecomparator="function deepEqual(a, b) {
           if (a === b) return true;
 
