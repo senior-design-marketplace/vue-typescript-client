@@ -90,6 +90,7 @@
                 <v-autocomplete
                   v-model="majors"
                   :items="availableMajors"
+                  autocomplete="off"
                   outlined
                   dense
                   chips

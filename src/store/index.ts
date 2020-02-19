@@ -9,6 +9,14 @@ export default new Vuex.Store({
   state: {
     id_token: '',
     savePath: '/',
+    order: 'descending',
+    sort: 'new',
+    view: '0',
+    major: '',
+    tag: '',
+    advisor: '',
+    acceptingApps: false,
+    hasAdvisor: false,
   },
   mutations: {
     setToken: (state, token) => {
@@ -17,11 +25,37 @@ export default new Vuex.Store({
     resetToken: (state) => {
       state.id_token = '';
     },
+
     setsavePath: (state, path) => {
       state.savePath = path;
     },
     resetSavePath: (state) => {
       state.savePath = '';
+    },
+
+    setOrder: (state, order) => {
+      state.order = order;
+    },
+    setSort: (state, sort) => {
+      state.sort = sort;
+    },
+    setView: (state, view) => {
+      state.view = view;
+    },
+    setMajor: (state, major) => {
+      state.major = major;
+    },
+    setTag: (state, tag) => {
+      state.tag = tag;
+    },
+    setAdvisor: (state, advisor) => {
+      state.advisor = advisor;
+    },
+    setAcceptingApps: (state, acceptingApps) => {
+      state.acceptingApps = acceptingApps;
+    },
+    setHasAdvisor: (state, hasAdvisor) => {
+      state.hasAdvisor = hasAdvisor;
     },
   },
   getters: {
