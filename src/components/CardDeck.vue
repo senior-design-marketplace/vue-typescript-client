@@ -23,19 +23,14 @@
 <script>
 import axios from 'axios';
 import Card from '@/components/Card.vue';
+import store from '@/store';
 
 export default {
   components: {
     Card,
   },
-  props: {
-    sortbyUpdate: String,
-    orderUpdate: String,
-  },
   data() {
     return {
-      sortby: 'new',
-      order: 'descending',
       items: [],
     };
   },
@@ -43,18 +38,16 @@ export default {
     this.updateCards();
   },
   watch: {
-    sortbyUpdate() {
-      this.sortby = this.sortbyUpdate;
+    sort() {
       this.updateCards();
     },
-    orderUpdate() {
-      this.order = this.orderUpdate;
+    order() {
       this.updateCards();
     },
   },
   methods: {
     updateCards() {
-      let url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects?sort_by=${this.sortby}`;
+      let url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects?sort_by=${this.sort}`;
       if (this.order === 'ascending') {
         url += '&order=reverse';
       }
@@ -67,6 +60,14 @@ export default {
         .catch((error) => {
           // console.log(error);
         });
+    },
+  },
+  computed: {
+    sort() {
+      return this.$store.state.sort;
+    },
+    order() {
+      return this.$store.state.order;
     },
   },
 };

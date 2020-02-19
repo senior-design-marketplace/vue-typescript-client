@@ -9,6 +9,9 @@ export default new Vuex.Store({
   state: {
     id_token: '',
     savePath: '/',
+    order: 'descending',
+    sort: 'new',
+    view: '0',
   },
   mutations: {
     setToken: (state, token) => {
@@ -17,11 +20,22 @@ export default new Vuex.Store({
     resetToken: (state) => {
       state.id_token = '';
     },
+
     setsavePath: (state, path) => {
       state.savePath = path;
     },
     resetSavePath: (state) => {
       state.savePath = '';
+    },
+
+    setOrder: (state, order) => {
+      state.order = order;
+    },
+    setSort: (state, sort) => {
+      state.sort = sort;
+    },
+    setView: (state, view) => {
+      state.view = view;
     },
   },
   getters: {

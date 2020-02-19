@@ -18,14 +18,8 @@
 import axios from 'axios';
 
 export default {
-  props: {
-    sortbyUpdate: String,
-    orderUpdate: String,
-  },
   data() {
     return {
-      sortby: 'new',
-      order: 'descending',
       items: [],
       headers: [
         {
@@ -53,19 +47,16 @@ export default {
     this.updateList();
   },
   watch: {
-    sortbyUpdate() {
-      this.sortby = this.sortbyUpdate;
+    sort() {
       this.updateList();
     },
-    orderUpdate() {
-      this.order = this.orderUpdate;
+    order() {
       this.updateList();
     },
   },
   methods: {
     updateList() {
-      let url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects?sort_by=${
-        this.sortby}`;
+      let url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects?sort_by=${this.sort}`;
       if (this.order === 'ascending') {
         url += '&order=reverse';
       }
@@ -78,6 +69,14 @@ export default {
         .catch((error) => {
           // console.log(error);
         });
+    },
+  },
+  computed: {
+    sort() {
+      return this.$store.state.sort;
+    },
+    order() {
+      return this.$store.state.order;
     },
   },
 };
