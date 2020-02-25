@@ -12,20 +12,20 @@
         <v-btn :disabled="dialog" :loading="dialog" outlined block @click="submitProject()">
           <h2>Upload Photo</h2>
         </v-btn>
-        <h5>Max file size XX</h5>
+        <h5>Max file size 20Mb</h5>
       </v-col>
         <v-card min-width="875">
           <v-container>
             <v-row class="text-left">
               <v-col cols="12">
-                <h5>Name</h5>
+                  <h5>Username</h5>
+                  <h2>FLastName</h2>
+                  <br />
+                  <h5>Name</h5>
                   <h2>FirstName LastName</h2>
                   <br />
                   <h5>Major</h5>
                   <h2>Software Engineer</h2>
-                  <br />
-                  <h5>Graduation Year</h5>
-                  <h2>December 2020</h2>
                   <br />
                   <h5>Email</h5>
                   <h2>FirstNameLastname@stevens.edu</h2>
