@@ -10,9 +10,7 @@ exports[`Project Renders correctly 1`] = `
     </v-col-stub>
     <v-col-stub cols="12" sm="4" tag="div">
       <v-card-stub loaderheight="4" tag="div">
-        <v-btn-stub tag="button" activeclass="" block="true" outlined="true" type="button">
-          <h2>Apply</h2>
-        </v-btn-stub>
+        <apply-stub></apply-stub>
       </v-card-stub>
       <p></p>
       <contactinfo-stub></contactinfo-stub>
