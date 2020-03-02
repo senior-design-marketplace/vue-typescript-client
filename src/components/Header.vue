@@ -1,47 +1,162 @@
 <template>
-  <v-toolbar dark height="100">
-    <router-link to="/">
-      <img class="logo" :src="require('@/../public/assets/logo.png')" />
+  <div>
+    <v-app-bar dark height="100">
+      <v-app-bar-nav-icon @click="drawer = true" class="d-flex d-lg-none"></v-app-bar-nav-icon>
+      <router-link to="/">
+        <img class="logo" :src="require('@/../public/assets/logo.png')" />
+        <img :src="require('@/../public/assets/title.png')" height="50px" />
+      </router-link>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="d-none d-lg-flex">
+        <v-btn text class="item" to="/">Projects</v-btn>
+        <v-btn v-if="isLoggedIn" text class="item" to="/my-projects">My Projects</v-btn>
+        <v-btn v-if="isLoggedIn" text class="item" to="/create">Create Project</v-btn>
+        <v-btn v-if="isLoggedIn" text class="item" to="/applications">Applications</v-btn>
+        <v-btn text class="item" to="/about">About</v-btn>
+        <v-btn v-if="!isLoggedIn" @click="login" text class="item">Login</v-btn>
+      </v-toolbar-items>
+      <div class="d-none d-lg-flex">
+        <v-menu v-if="isLoggedIn" open-on-hover offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn tile icon v-on="on">
+              <v-icon>mdi-bell</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item v-for="(item, index) in items" :key="index">
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-menu v-if="isLoggedIn" open-on-hover offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn tile icon v-on="on">
+              <v-icon>mdi-account-circle</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item to="/account">
+              <v-list-item-title>My Profile</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="logout">
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+    </v-app-bar>
 
-      <img :src="require('@/../public/assets/title.png')" height="50px" />
-    </router-link>
-    <v-spacer></v-spacer>
-    <v-toolbar-items>
-      <v-btn text class="item" to="/">Projects</v-btn>
-      <v-btn v-if="isLoggedIn" text class="item" to="/my-projects">My Projects</v-btn>
-      <v-btn v-if="isLoggedIn" text class="item" to="/create">Create Project</v-btn>
-      <v-btn v-if="isLoggedIn" text class="item" to="/applications">Applications</v-btn>
-      <v-btn text class="item" to="/about">About</v-btn>
-      <v-btn v-if="!isLoggedIn" @click="login" text class="item">Login</v-btn>
-    </v-toolbar-items>
-    <v-menu v-if="isLoggedIn" open-on-hover transition="slide-y-transition" offset-y>
-      <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on">
-          <v-icon>mdi-bell</v-icon>
+    <v-navigation-drawer v-model="drawer" absolute temporary>
+      <v-list-item v-if="isLoggedIn" class="px-2" to="/account">
+        <v-list-item-avatar>
+          <v-icon>mdi-account</v-icon>
+        </v-list-item-avatar>
+        <v-list-item-title>{{ name }}</v-list-item-title>
+      </v-list-item>
+
+      <v-list-item v-else class="px-2">
+        <v-list-item-avatar tile>
+          <img class="logo" :src="require('@/../public/assets/logo.png')" />
+        </v-list-item-avatar>
+        <v-list-item-title>marqetplace.</v-list-item-title>
+        <v-btn icon @click.stop="drawer = !drawer">
+          <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
-      </template>
-      <v-list>
-        <v-list-item v-for="(item, index) in items" :key="index">
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list dense>
+        <v-list-item link to="/">
+          <v-list-item-icon>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Projects</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link v-if="isLoggedIn" to="/my-projects">
+          <v-list-item-icon>
+            <v-icon>mdi-account</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>My Projects</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link v-if="isLoggedIn" to="/create">
+          <v-list-item-icon>
+            <v-icon>mdi-plus</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Create Project</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link v-if="isLoggedIn" to="/applications">
+          <v-list-item-icon>
+            <v-icon>mdi-file-multiple</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Applications</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-menu v-if="isLoggedIn" open-on-click transition="slide-y-transition" offset-y>
+          <template v-slot:activator="{ on }">
+            <v-list-item link v-on="on">
+              <v-list-item-icon>
+                <v-icon>mdi-bell</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Notifications</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+          <v-list>
+            <v-list-item v-for="(item, index) in items" :key="index">
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
+        <v-list-item link to="/about">
+          <v-list-item-icon>
+            <v-icon>mdi-information</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>About</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link v-if="!isLoggedIn" @click="login">
+          <v-list-item-icon>
+            <v-icon>mdi-login</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Login</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link v-if="isLoggedIn" @click="logout">
+          <v-list-item-icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-menu>
-    <v-menu v-if="isLoggedIn" open-on-hover transition="slide-y-transition" offset-y>
-      <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on">
-          <v-icon>mdi-account-circle</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item to="/account">
-          <v-list-item-title>My Profile</v-list-item-title>
-        </v-list-item>
-        <v-list-item @click="logout">
-          <v-list-item-title>Logout</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-  </v-toolbar>
+    </v-navigation-drawer>
+  </div>
 </template>
 
 <script>
@@ -56,6 +171,7 @@ export default {
       { title: 'Notification 3' },
       { title: 'Notification 4' },
     ],
+    drawer: false,
   }),
   methods: {
     logout() {
@@ -70,6 +186,9 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn;
+    },
+    name() {
+      return `${this.$store.state.firstName} ${this.$store.state.lastName}`;
     },
   },
 };
