@@ -1,7 +1,7 @@
 <template :id="id">
   <v-hover v-slot:default="{ hover }">
     <v-card min-width="350" max-width="350" min-height="350" class="mx-auto" :to=/project/+id
-    :elevation="hover ? 12 : 2">
+    :elevation="hover ? 12 : 2" :ripple="false">
       <v-container class="pa-1">
         <v-item-group>
           <v-list-item>
