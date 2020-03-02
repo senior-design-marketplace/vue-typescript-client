@@ -1,17 +1,25 @@
 <template>
   <v-container fluid>
-    <v-data-iterator :items="items" :items-per-page="50" hide-default-footer loading="true">
+    <v-data-iterator
+      :items="items"
+      :items-per-page="50"
+      hide-default-footer
+      no-data-text="No projects found that match those filters"
+      loading-text="Loading projects..."
+      :loading="loading"
+    >
       <template v-slot:default="props">
         <v-row>
           <v-col v-for="item in props.items" :key="item.id">
             <Card
               v-bind:id="item.id"
-              v-bind:avatar="item.thumbnail_link"
+              v-bind:avatar="item.thumbnailLink"
               v-bind:title="item.title"
               v-bind:starred="item.starred"
               v-bind:coverImg="item.coverImg"
               v-bind:tagline="item.tagline"
               v-bind:tags="item.tags"
+              v-bind:acceptingApps="item.acceptingApplications"
             ></Card>
           </v-col>
         </v-row>
@@ -32,6 +40,7 @@ export default {
   data() {
     return {
       items: [],
+      loading: true,
     };
   },
   mounted() {
@@ -62,31 +71,32 @@ export default {
   },
   methods: {
     getProjects() {
+      this.loading = true;
       const env = process.env.NODE_ENV === 'production' ? 'production' : 'staging';
-      const sortQuery = `?sort_by=${store.state.sort}`;
+      const sortQuery = `?sortBy=${store.state.sort}`;
       const orderQuery = store.state.order === 'ascending' ? '&order=reverse' : '';
-      const majorQuery = store.state.major ? `&requested_major=${store.state.major}` : '';
+      const majorQuery = store.state.major ? `&requestedMajor=${store.state.major}` : '';
       const tagQuery = store.state.tag ? `&tag=${store.state.tag}` : '';
-      const advisorQuery = store.state.advisor ? `&advisor_id=${store.state.advisor}` : '';
-      const acceptingAppsQuery = store.state.acceptingApps ? '&accepting_applications' : '';
-      const hasAdvisorQuery = store.state.hasAdvisor ? '&has_advisor' : '';
+      const advisorQuery = store.state.advisor ? `&advisorId=${store.state.advisor}` : '';
+      const acceptingAppsQuery = store.state.acceptingApps ? '&acceptingApplications=true' : '';
+      const hasAdvisorQuery = store.state.hasAdvisor ? '&hasAdvisor=true' : '';
 
       let url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/${env}/projects`;
       url
-      += sortQuery
-      + orderQuery
-      + majorQuery
-      + tagQuery
-      + advisorQuery
-      + acceptingAppsQuery
-      + hasAdvisorQuery;
+        += sortQuery
+        + orderQuery
+        + majorQuery
+        + tagQuery
+        + advisorQuery
+        + acceptingAppsQuery
+        + hasAdvisorQuery;
       axios
         .get(url)
         .then((response) => {
           this.items = response.data;
+          this.loading = false;
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     },
   },
   computed: {

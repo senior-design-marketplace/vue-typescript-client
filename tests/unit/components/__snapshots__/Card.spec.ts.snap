@@ -14,6 +14,7 @@ exports[`Card Renders correctly 1`] = `
         <div class="v-list-item__content">
           <div class="flex headline">marqetplace.</div>
         </div>
+        <!---->
       </div>
       <hr role="separator" aria-orientation="horizontal" class="v-divider theme--light">
       <div class="v-responsive v-image" style="height: 194px;">
