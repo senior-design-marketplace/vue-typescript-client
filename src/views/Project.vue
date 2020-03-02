@@ -16,9 +16,7 @@
       </v-col>
       <v-col cols="12" sm="4">
         <v-card>
-          <v-btn outlined block>
-            <h2>Apply</h2>
-          </v-btn>
+          <Apply />
         </v-card>
         <p />
         <ContactInfo v-bind:members="items.contributors" v-bind:advisors="items.advisors" />
@@ -35,6 +33,7 @@ import ProjectBoard from '@/components/ProjectBoard.vue';
 import ProjectMain from '@/components/ProjectMain.vue';
 import ContactInfo from '@/components/ContactInfo.vue';
 import Comments from '@/components/Comments.vue';
+import Apply from '@/components/Apply.vue';
 
 export default {
   components: {
@@ -42,6 +41,7 @@ export default {
     ProjectBoard,
     ContactInfo,
     Comments,
+    Apply,
   },
   data() {
     return {

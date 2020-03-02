@@ -9,6 +9,11 @@ export default new Vuex.Store({
   state: {
     id_token: '',
     savePath: '/',
+    firstName: '',
+    lastName: '',
+    userId: '',
+    email: '',
+    role: '',
     order: 'descending',
     sort: 'new',
     view: '0',
@@ -22,8 +27,40 @@ export default new Vuex.Store({
     setToken: (state, token) => {
       state.id_token = token;
     },
-    resetToken: (state) => {
+    setFirstName: (state, firstName) => {
+      state.firstName = firstName;
+    },
+    setLastName: (state, lastName) => {
+      state.lastName = lastName;
+    },
+    setUserId: (state, userId) => {
+      state.userId = userId;
+    },
+    setEmail: (state, email) => {
+      state.email = email;
+    },
+    setRole: (state, roles) => {
+      if (roles.includes('faculty')) {
+        state.role = 'Faculty';
+      } else if (roles.includes('student')) {
+        state.role = 'Student';
+      } else if (roles.includes('employee')) {
+        state.role = 'Employee';
+      } else if (roles.includes('affiliate')) {
+        state.role = 'Affiliate';
+      } else if (roles.includes('former-student')) {
+        state.role = 'Alumni';
+      } else {
+        state.role = 'Member';
+      }
+    },
+    logout: (state) => {
       state.id_token = '';
+      state.firstName = '';
+      state.lastName = '';
+      state.userId = '';
+      state.email = '';
+      state.role = '';
     },
 
     setsavePath: (state, path) => {
