@@ -24,8 +24,16 @@ export default {
       if (this.$route.hash.startsWith('#access_token=')) {
         const token = /&id_token=(.*?)&/gm.exec(this.$route.hash)[1];
         store.commit('setToken', token);
+        const decodedToken = JSON.parse(atob(token.split('.')[1]));
+        store.commit('setFirstName', decodedToken.given_name);
+        store.commit('setLastName', decodedToken.family_name);
+        store.commit('setUserId', decodedToken.identities[0].userId);
+        store.commit('setEmail', decodedToken.email);
+        store.commit('setRole', decodedToken['custom:roles']);
         if (store.state.savePath !== '') {
-          this.$router.push({ path: store.state.savePath, hash: '' }).catch((err) => {});
+          this.$router
+            .push({ path: store.state.savePath, hash: '' })
+            .catch((err) => {});
           store.commit('resetSavePath');
         } else {
           this.$router.push({ hash: '' }).catch((err) => {});
