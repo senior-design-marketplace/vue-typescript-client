@@ -12,7 +12,7 @@
         <v-btn outlined block>
           <h2>Upload Photo</h2>
         </v-btn>
-        <h5>Max file size XX</h5>
+        <h5>Max file size 20Mb</h5>
       </v-col>
       <v-card min-width="875">
         <v-container>
