@@ -59,7 +59,7 @@ export default {
   }),
   methods: {
     logout() {
-      store.commit('resetToken');
+      store.commit('logout');
       this.$router.push('/').catch((err) => {});
     },
     login() {
