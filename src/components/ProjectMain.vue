@@ -265,6 +265,8 @@ export default {
   },
   mounted() {
     this.newTitle = this.title;
+    this.newTagline = this.tagline;
+    this.newDescription = this.description;
   },
   computed: {
     randomCover() {
