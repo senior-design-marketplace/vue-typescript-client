@@ -68,10 +68,7 @@
         <v-icon>mdi-refresh</v-icon>
         Reset
       </v-btn>
-      <v-spacer />
-      <v-spacer />
-      <v-spacer />
-      <v-spacer />
+      <v-spacer></v-spacer>
       <v-btn-toggle v-model="view" mandatory>
         <v-btn default>
           <v-icon>mdi-view-grid</v-icon>
@@ -95,7 +92,9 @@
           </v-list>
         </v-menu>
         <v-btn @click="toggleOrder" class="mx-1">
-          <v-icon>{{order == "descending" ? "mdi-sort-descending" : "mdi-sort-ascending"}}</v-icon>
+          <v-icon>{{
+            order == "descending" ? "mdi-sort-descending" : "mdi-sort-ascending"
+          }}</v-icon>
         </v-btn>
         <v-divider class="mx-10" vertical></v-divider>
         <v-btn text tile @click="resetAll()">
@@ -239,13 +238,7 @@ export default {
       }
     },
     resetAll() {
-      this.order = 'descending';
-      this.sort = 'new';
-      this.major = '';
-      this.tag = '';
-      this.advisor = '';
-      this.acceptingApps = false;
-      this.hasAdvisor = false;
+      store.commit('resetSorts');
     },
   },
   computed: {

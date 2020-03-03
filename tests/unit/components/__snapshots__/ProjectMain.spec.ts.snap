@@ -3,23 +3,41 @@
 exports[`ProjectMain Renders correctly 1`] = `
 <div>
   <v-toolbar-stub tag="header" tile="true" extensionheight="48" src="">
-    <!---->&nbsp;&nbsp;&nbsp;&nbsp;
+    <!---->
     <h2 class="text-left"></h2>
+    <!---->
+    <!---->
+    <v-spacer-stub></v-spacer-stub>
     <v-item-group-stub activeclass="v-item--active">
       <v-list-item-stub activeclass="" tag="div">
         <v-item-stub></v-item-stub>
       </v-list-item-stub>
     </v-item-group-stub>
+    <v-tooltip-stub opendelay="0" closedelay="0" contentclass="" fixed="true" top="true" openonhover="true" maxwidth="175" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" tag="span"> <span> is not accepting applications.</span></v-tooltip-stub>
   </v-toolbar-stub>
   <p></p>
   <v-card-stub loaderheight="4" tag="div">
-    <v-img-stub maxheight="350" contain="true" options="[object Object]" position="center center" src="" transition="fade-transition"></v-img-stub>
+    <v-img-stub maxheight="350" gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)" options="[object Object]" position="center center" src="https://picsum.photos/766/350?undefined" transition="fade-transition">
+      <v-overlay-stub color="#212121" dark="true" value="true" absolute="true" opacity="0.46" zindex="5">
+        <v-container-stub tag="div" class="white--text display-3"></v-container-stub>
+      </v-overlay-stub>
+    </v-img-stub>
   </v-card-stub>
   <p></p>
   <v-card-stub loaderheight="4" tag="div">
     <v-container-stub tag="div">
-      <h2 class="text-left">Description:</h2>
-      <v-list-item-stub activeclass="" tag="div" class="text-left"></v-list-item-stub> <br>
+      <h2 class="text-left">
+        Tagline:
+        <!---->
+        <!---->
+      </h2>
+      <v-container-stub tag="div" class="text-left"></v-container-stub>
+      <h2 class="text-left">
+        Description:
+        <!---->
+        <!---->
+      </h2>
+      <v-container-stub tag="div" class="text-left"></v-container-stub>
       <h2 class="text-left">Majors:</h2>
       <v-chip-group-stub activeclass="v-slide-item--active" nexticon="$next" mobilebreakpoint="1264" previcon="$prev" column="true"></v-chip-group-stub> <br>
       <h2 class="text-left">Tags:</h2>

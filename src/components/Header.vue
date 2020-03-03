@@ -30,7 +30,7 @@
         </v-menu>
         <v-menu v-if="isLoggedIn" open-on-hover offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn tile icon v-on="on">
+            <v-btn to="/account" tile icon v-on="on">
               <v-icon>mdi-account-circle</v-icon>
             </v-btn>
           </template>

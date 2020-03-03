@@ -16,23 +16,33 @@
               <v-flex class="headline" v-text="title"></v-flex>
             </v-list-item-content>
             <!-- <v-item v-slot:default="{ active, toggle }">
-                    <v-btn icon @click="toggle">
-                      <v-icon v-bind:color="active ? 'yellow accent-4' : 'gray'">mdi-star</v-icon>
-                    </v-btn>
-                  </v-item> -->
+                <v-btn icon @click="toggle">
+                  <v-icon v-bind:color="active ? 'yellow accent-4' : 'gray'">mdi-star</v-icon>
+                </v-btn>
+              </v-item> -->
             <v-item v-if="acceptingApps == true">
               <v-tooltip top max-width="175">
                 <template v-slot:activator="{ on }">
-                  <v-btn icon dark v-on="on">
-                    <v-icon color="green">mdi-sticker-check-outline</v-icon>
-                  </v-btn>
+                  <span icon v-on="on">
+                    <v-icon color="success">mdi-sticker-check-outline</v-icon>
+                  </span>
                 </template>
-                <span>{{title}} is accepting applications.</span>
+                <span>{{ title }} is accepting applications.</span>
               </v-tooltip>
             </v-item>
           </v-list-item>
           <v-divider></v-divider>
-          <v-img v-if="coverImg != null" :src="coverImg" height="194"></v-img>
+          <v-img v-if="coverImg != null" :src="coverImg" max-height="194"></v-img>
+          <v-img
+            v-else
+            :src="randomCover"
+            max-height="194"
+            gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+          >
+            <v-overlay absolute>
+              <v-container class="white--text display-1" v-text="title" />
+            </v-overlay>
+          </v-img>
           <v-card-text>
             <div v-if="tagline != null">
               <div v-text="tagline"></div>
@@ -63,6 +73,11 @@ export default {
   data: () => ({
     maxChar: 250,
   }),
+  computed: {
+    randomCover() {
+      return `https://picsum.photos/766/350?${this.title}`;
+    },
+  },
 };
 </script>
 

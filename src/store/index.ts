@@ -12,8 +12,10 @@ export default new Vuex.Store({
     firstName: '',
     lastName: '',
     userId: '',
+    cognitoUsername: '',
     email: '',
     role: '',
+
     order: 'descending',
     sort: 'new',
     view: '0',
@@ -35,6 +37,9 @@ export default new Vuex.Store({
     },
     setUserId: (state, userId) => {
       state.userId = userId;
+    },
+    setCognitoUsername: (state, cognitoUsername) => {
+      state.cognitoUsername = cognitoUsername;
     },
     setEmail: (state, email) => {
       state.email = email;
@@ -59,6 +64,7 @@ export default new Vuex.Store({
       state.firstName = '';
       state.lastName = '';
       state.userId = '';
+      state.cognitoUsername = '';
       state.email = '';
       state.role = '';
     },
@@ -93,6 +99,15 @@ export default new Vuex.Store({
     },
     setHasAdvisor: (state, hasAdvisor) => {
       state.hasAdvisor = hasAdvisor;
+    },
+    resetSorts: (state) => {
+      state.order = 'descending';
+      state.sort = 'new';
+      state.major = '';
+      state.tag = '';
+      state.advisor = '';
+      state.acceptingApps = false;
+      state.hasAdvisor = false;
     },
   },
   getters: {

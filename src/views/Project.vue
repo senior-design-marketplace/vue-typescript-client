@@ -3,23 +3,34 @@
     <v-row>
       <v-col cols="12" sm="8">
         <ProjectMain
-          v-bind:avatar="thumbnail_link"
+          v-bind:avatar="items.thumbnail_link"
           v-bind:title="items.title"
           v-bind:starred="items.starred"
-          v-bind:coverImg="cover_link"
+          v-bind:coverImg="items.cover_link"
+          v-bind:tagline="items.tagline"
           v-bind:description="items.body"
           v-bind:majors="items.requestedMajors"
           v-bind:tags="items.tags"
+          v-bind:acceptingApps="items.acceptingApplications"
+          v-bind:onProject="onProject"
+          v-bind:isAdmin="isAdmin"
         />
         <p />
         <ProjectBoard v-bind:boardItems="boardItems" />
       </v-col>
       <v-col cols="12" sm="4">
-        <v-card>
-          <Apply />
-        </v-card>
+        <Apply
+          v-bind:title="items.title"
+          v-bind:acceptingApps="items.acceptingApplications"
+          v-bind:onProject="onProject"
+        />
         <p />
-        <ContactInfo v-bind:members="items.contributors" v-bind:advisors="items.advisors" />
+        <ContactInfo
+          v-bind:title="items.title"
+          v-bind:members="members"
+          v-bind:advisors="advisors"
+          v-bind:administrators="items.administrators"
+        />
         <p />
         <Comments @comment="updateComments" v-bind:comments="comments" />
       </v-col>
@@ -34,6 +45,7 @@ import ProjectMain from '@/components/ProjectMain.vue';
 import ContactInfo from '@/components/ContactInfo.vue';
 import Comments from '@/components/Comments.vue';
 import Apply from '@/components/Apply.vue';
+import store from '@/store';
 
 export default {
   components: {
@@ -46,10 +58,6 @@ export default {
   data() {
     return {
       items: [],
-      thumbnail_link:
-        'https://images.theconversation.com/files/93616/original/image-20150902-6700-t2axrz.jpg',
-      cover_link:
-        'https://cdn.vox-cdn.com/uploads/chorus_image/image/47070706/google2.0.0.jpg',
       comments: [
         {
           author: 'Julia Cahn',
@@ -113,8 +121,7 @@ export default {
   },
   methods: {
     getProjectData() {
-      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects/${
-        this.$route.params.id}`;
+      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects/${this.$route.params.id}`;
       axios
         .get(url)
         .then((response) => {
@@ -135,6 +142,36 @@ export default {
       // console.log(newComment);
       this.comments = this.comments.concat(newComment);
       // console.log(this.comments);
+    },
+  },
+  computed: {
+    members() {
+      if (this.items.administrators === undefined || this.items.administrators === undefined) {
+        return [];
+      }
+      return this.items.administrators
+        .filter(admin => !admin.isAdvisor)
+        .concat(
+          this.items.contributors.filter(
+            contrib => JSON.stringify(this.items.administrators).indexOf(contrib.id) === -1,
+          ),
+        );
+    },
+    advisors() {
+      if (this.items.administrators === undefined) return [];
+      return this.items.administrators.filter(admin => admin.isAdvisor);
+    },
+    onProject() {
+      return (
+        store.state.cognitoUsername !== ''
+        && JSON.stringify(this.members).indexOf(store.state.cognitoUsername) > -1
+      );
+    },
+    isAdmin() {
+      return (
+        store.state.cognitoUsername !== ''
+        && JSON.stringify(this.items.administrators).indexOf(store.state.cognitoUsername) > -1
+      );
     },
   },
 };
