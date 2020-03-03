@@ -263,8 +263,9 @@ export default {
     },
     submitProject() {
       this.dialog = true;
+      const env = process.env.NODE_ENV === 'production' ? 'production' : 'staging';
       const token = store.state.id_token;
-      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects?id_token=${token}`;
+      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/${env}/projects?id_token=${token}`;
       const body = {
         id: this.id,
         title: this.title,
@@ -275,14 +276,13 @@ export default {
         .post(url, body)
         .then((response) => {
           // console.log(response.data);
-          this.items = response.data;
           this.dialog = false;
           this.$router.push(`/project/${this.id}`);
         })
         .catch((error) => {
           this.dialog = false;
           if (error.response.data.type === 'AuthenticationError') {
-            alert("Redirecting to Stevens Login"); // eslint-disable-line
+            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
             store.commit('setsavePath', this.$route.fullPath);
             window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
           } else {
