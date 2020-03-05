@@ -51,9 +51,8 @@
 </template>
 
 <script>
-import axios from 'axios';
 import uuid from 'uuid/v4';
-import store from '@/store';
+import apiCall from '@/apiCall';
 
 export default {
   data() {
@@ -69,32 +68,25 @@ export default {
     onProject: Boolean,
   },
   methods: {
-    submitApplication() {
-      const env = process.env.NODE_ENV === 'production' ? 'production' : 'staging';
-      const token = store.state.id_token;
-      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/${env}/projects/${this.$route.params.id}/applications?id_token=${token}`;
-      const body = {
-        id: this.id,
-      };
-      if (this.note !== '') body.note = this.note;
-      axios
-        .post(url, body)
-        .then((response) => {
-          // console.log(response.data);
-          this.dialog = false;
-        })
+    async submitApplication() {
+      const response = await apiCall.methods
+        .post(
+          `/projects/${this.$route.params.id}/applications`,
+          '',
+          {
+            id: this.id,
+          },
+          this.$route.fullPath,
+        )
         .catch((error) => {
           this.dialog = false;
-          if (error.response.data.type === 'AuthenticationError') {
-            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
-            store.commit('setsavePath', this.$route.fullPath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
-          } else if (error.response.data.includes('Already participant of project')) {
+          if (error.response.data.includes('Already participant of project')) {
             alert(`You are already a participant of ${this.title}`); // eslint-disable-line
-          } else {
-            alert("Input Error"); // eslint-disable-line
           }
         });
+      if (response.status === 200) {
+        this.dialog = false;
+      }
     },
   },
   computed: {

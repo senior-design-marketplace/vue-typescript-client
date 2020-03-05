@@ -147,10 +147,9 @@
 </template>
 
 <script>
-import axios from 'axios';
 import uuid from 'uuid/v4';
 import PictureInput from "vue-picture-input"; // eslint-disable-line
-import store from '@/store';
+import apiCall from '@/apiCall';
 
 export default {
   components: {
@@ -261,34 +260,22 @@ export default {
         // console.log('FileReader API not supported: use the <form>, Luke!');
       }
     },
-    submitProject() {
-      this.dialog = true;
-      const env = process.env.NODE_ENV === 'production' ? 'production' : 'staging';
-      const token = store.state.id_token;
-      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/${env}/projects?id_token=${token}`;
-      const body = {
-        id: this.id,
-        title: this.title,
-        tagline: this.tagline,
-        body: this.body,
-      };
-      axios
-        .post(url, body)
-        .then((response) => {
-          // console.log(response.data);
-          this.dialog = false;
-          this.$router.push(`/project/${this.id}`);
-        })
-        .catch((error) => {
-          this.dialog = false;
-          if (error.response.data.type === 'AuthenticationError') {
-            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
-            store.commit('setsavePath', this.$route.fullPath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
-          } else {
-            alert("Input Error"); // eslint-disable-line
-          }
-        });
+    async submitProject() {
+      const response = await apiCall.methods.post(
+        '/projects/',
+        '',
+        {
+          id: this.id,
+          title: this.title,
+          tagline: this.tagline,
+          body: this.body,
+        },
+        this.$route.fullPath,
+      );
+      if (response.status === 200) {
+        this.dialog = false;
+        this.$router.push(`/project/${this.id}`);
+      }
     },
   },
 

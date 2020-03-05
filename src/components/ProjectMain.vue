@@ -9,15 +9,15 @@
       <v-textarea
         v-else
         class="mx-1"
-        label="Title"
         rows="1"
-        hide-details
+        counter="64"
         no-resize
         :placeholder="title"
         v-model="newTitle"
+        :rules="[rules.length(64)]"
       />
-      <v-btn v-if="editTitle" icon @click="updateTitle()">
-        <v-icon color="gray">mdi-check</v-icon>
+      <v-btn :disabled="newTitleInvalid" v-if="editTitle" icon @click="updateTitle()">
+        <v-icon>mdi-check</v-icon>
       </v-btn>
       <v-btn v-if="editTitle" icon @click="editTitle = false">
         <v-icon color="gray">mdi-close</v-icon>
@@ -45,12 +45,12 @@
             </v-icon>
             <v-progress-circular v-else indeterminate />
           </v-btn>
-          <v-span v-else icon v-on="on">
+          <span v-else icon v-on="on">
             <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'gray'">
               mdi-sticker-check-outline
             </v-icon>
             <v-progress-circular v-else indeterminate />
-          </v-span>
+          </span>
         </template>
         <span v-if="acceptingApps">{{ title }} is accepting applications.</span>
         <span v-else>{{ title }} is not accepting applications.</span>
@@ -75,8 +75,8 @@
       <v-container>
         <h2 class="text-left">
           Tagline:
-          <v-btn v-if="editTagline" icon @click="updateTagline()">
-            <v-icon color="gray">mdi-check</v-icon>
+          <v-btn :disabled="newTaglineInvalid" v-if="editTagline" icon @click="updateTagline()">
+            <v-icon>mdi-check</v-icon>
           </v-btn>
           <v-btn v-if="editTagline" icon @click="editTagline = false">
             <v-icon color="gray">mdi-close</v-icon>
@@ -91,17 +91,23 @@
         <v-textarea
           v-else
           class="mx-1"
-          label="Tagline"
-          rows="1"
-          hide-details
+          rows="3"
+          counter="256"
           no-resize
+          outlined
           :placeholder="tagline"
           v-model="newTagline"
+          :rules="[rules.length(256)]"
         />
         <h2 class="text-left">
           Description:
-          <v-btn v-if="editDescription" icon @click="updateDescription()">
-            <v-icon color="gray">mdi-check</v-icon>
+          <v-btn
+            :disabled="newDescriptionInvalid"
+            v-if="editDescription"
+            icon
+            @click="updateDescription()"
+          >
+            <v-icon>mdi-check</v-icon>
           </v-btn>
           <v-btn v-if="editDescription" icon @click="editDescription = false">
             <v-icon color="gray">mdi-close</v-icon>
@@ -116,11 +122,13 @@
         <v-textarea
           v-else
           class="mx-1"
-          label="Description"
-          hide-details
+          rows="15"
+          counter="2048"
           no-resize
+          outlined
           :placeholder="description"
           v-model="newDescription"
+          :rules="[rules.length(2048)]"
         />
         <h2 class="text-left">Majors:</h2>
         <v-chip-group column>
@@ -137,8 +145,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import store from '@/store';
+import apiCall from '@/apiCall';
 
 export default {
   props: {
@@ -162,115 +169,92 @@ export default {
     editDescription: false,
     newDescription: '',
     editAcceptingApps: false,
+    rules: {
+      length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
+    },
   }),
   methods: {
-    updateTitle() {
-      const env = process.env.NODE_ENV === 'production' ? 'production' : 'staging';
-      const token = store.state.id_token;
-      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/${env}/projects/${this.$route.params.id}?id_token=${token}`;
-      const body = {
-        title: this.newTitle,
-      };
-      axios
-        .patch(url, body)
-        .then((response) => {
-          // console.log(response.data);
-          this.editTitle = false;
-          this.title = this.newTitle;
-        })
-        .catch((error) => {
-          if (error.response.data.type === 'AuthenticationError') {
-            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
-            store.commit('setsavePath', this.$route.fullPath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
-          } else {
-            alert("Input Error"); // eslint-disable-line
-          }
-        });
+    async updateTitle() {
+      const response = await apiCall.methods.patch(
+        `/projects/${this.$route.params.id}`,
+        '',
+        {
+          title: this.newTitle,
+        },
+        this.$route.fullPath,
+      );
+      if (response.status === 200) {
+        this.editTitle = false;
+        this.title = this.newTitle;
+      }
     },
-    updateTagline() {
-      const env = process.env.NODE_ENV === 'production' ? 'production' : 'staging';
-      const token = store.state.id_token;
-      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/${env}/projects/${this.$route.params.id}?id_token=${token}`;
-      const body = {
-        tagline: this.newTagline,
-      };
-      axios
-        .patch(url, body)
-        .then((response) => {
-          // console.log(response.data);
-          this.editTagline = false;
-          this.tagline = this.newTagline;
-        })
-        .catch((error) => {
-          if (error.response.data.type === 'AuthenticationError') {
-            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
-            store.commit('setsavePath', this.$route.fullPath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
-          } else {
-            alert("Input Error"); // eslint-disable-line
-          }
-        });
+    async updateTagline() {
+      const response = await apiCall.methods.patch(
+        `/projects/${this.$route.params.id}`,
+        '',
+        {
+          tagline: this.newTagline,
+        },
+        this.$route.fullPath,
+      );
+      if (response.status === 200) {
+        this.editTagline = false;
+        this.tagline = this.newTagline;
+      }
     },
-    updateDescription() {
-      const env = process.env.NODE_ENV === 'production' ? 'production' : 'staging';
-      const token = store.state.id_token;
-      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/${env}/projects/${this.$route.params.id}?id_token=${token}`;
-      const body = {
-        body: this.newDescription,
-      };
-      axios
-        .patch(url, body)
-        .then((response) => {
-          // console.log(response.data);
-          this.editDescription = false;
-          this.description = this.newDescription;
-        })
-        .catch((error) => {
-          if (error.response.data.type === 'AuthenticationError') {
-            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
-            store.commit('setsavePath', this.$route.fullPath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
-          } else {
-            alert("Input Error"); // eslint-disable-line
-          }
-        });
+    async updateDescription() {
+      const response = await apiCall.methods.patch(
+        `/projects/${this.$route.params.id}`,
+        '',
+        {
+          body: this.newDescription,
+        },
+        this.$route.fullPath,
+      );
+      if (response.status === 200) {
+        this.editDescription = false;
+        this.description = this.newDescription;
+      }
     },
-    toggleAcceptingApps() {
+    async toggleAcceptingApps() {
       this.editAcceptingApps = true;
-      const env = process.env.NODE_ENV === 'production' ? 'production' : 'staging';
-      const token = store.state.id_token;
-      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/${env}/projects/${this.$route.params.id}?id_token=${token}`;
-      const body = {
-        acceptingApplications: !this.acceptingApps,
-      };
-      axios
-        .patch(url, body)
-        .then((response) => {
-          // console.log(response.data);
-          this.acceptingApps = !this.acceptingApps;
-          this.editAcceptingApps = false;
-        })
-        .catch((error) => {
-          this.editAcceptingApps = false;
-          if (error.response.data.type === 'AuthenticationError') {
-            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
-            store.commit('setsavePath', this.$route.fullPath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
-          } else {
-            alert("Input Error"); // eslint-disable-line
-          }
-        });
+      const response = await apiCall.methods.patch(
+        `/projects/${this.$route.params.id}`,
+        '',
+        {
+          acceptingApplications: !this.acceptingApps,
+        },
+        this.$route.fullPath,
+      );
+      if (response.status === 200) {
+        this.acceptingApps = !this.acceptingApps;
+        this.editAcceptingApps = false;
+      }
     },
   },
-  mounted() {
-    this.newTitle = this.title;
-    this.newTagline = this.tagline;
-    this.newDescription = this.description;
+  watch: {
+    editTitle() {
+      this.newTitle = this.title;
+    },
+    editTagline() {
+      this.newTagline = this.tagline;
+    },
+    editDescription() {
+      this.newDescription = this.description;
+    },
   },
   computed: {
     randomCover() {
       return `https://picsum.photos/766/350?${this.title}`;
+    },
+    newTitleInvalid() {
+      return this.newTitle.length === 0 || this.newTitle.length > 64;
+    },
+    newTaglineInvalid() {
+      return this.newTagline.length === 0 || this.newTitle.newTagline > 256;
+    },
+    newDescriptionInvalid() {
+      return this.newDescription.length === 0 || this.newDescription.length > 2048;
     },
   },
 };

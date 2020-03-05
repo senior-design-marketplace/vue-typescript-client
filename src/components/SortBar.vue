@@ -157,8 +157,6 @@
 </template>
 
 <script>
-import store from '@/store';
-
 export default {
   data() {
     return {
@@ -167,143 +165,89 @@ export default {
         'b086c492-434e-419b-80f8-1a8b1539a976',
         'ac94034b-9c03-4342-aff9-d87ea1666948',
       ],
-      availableMajors: [
-        'Software Engineering',
-        'Computer Science',
-        'Computer Engineering',
-        'Mechanical Engineering',
-        'Engineering Management',
-        'Electrical Engineering',
-        'Business and Technology',
-        'Civil Engineering',
-        'Environmental Engineering',
-        'Chemical Engineering',
-        'Biomedical Engineering',
-        'Music & Technology',
-        'Physics',
-        'Naval Engineering',
-        'Pure and Applied Mathematics',
-        'Engineering Physics',
-        'Cybersecurity',
-        'Chemistry',
-        'Biology',
-        'Chemical Biology',
-        'Computational Science',
-        'Industrial and Systems Engineering',
-        'Accounting & Analytics',
-        'Finance',
-        'Quantitative Finance',
-        'Marketing Innovation & Analytics',
-        'Information Systems',
-        'Economics',
-        'Management',
-        'History',
-        'Philosophy',
-        'Social Sciences',
-        'Literature',
-        'Science Communication',
-        'Visual Arts & Technology',
-        'Science, Technology, and Society',
-      ],
-      availableTags: [
-        'Programming',
-        'Artificial Intelligence',
-        'Machine Learning',
-        'Deep Learning',
-        'Data Mining',
-        'Virtual Reality',
-        'Augmented Reality',
-        'Automotive',
-        'Robotics',
-        'Mechatronics /Automation',
-        'Thermal / fluids',
-        'Aviation / Aerospace Systems',
-        'Biomedical',
-        'Product Development',
-        'Energy / Sustainability',
-        'Competition',
-        'Thermal / Fluids / Energy Sustainability',
-        'Site / Civil Design',
-        'Structural',
-        'Transportation',
-      ],
     };
   },
   methods: {
     toggleOrder() {
       if (this.order === 'descending') {
-        store.commit('setOrder', 'ascending');
+        this.order = 'ascending';
       } else if (this.order === 'ascending') {
-        store.commit('setOrder', 'descending');
+        this.order = 'descending';
       }
     },
     resetAll() {
-      store.commit('resetSorts');
+      this.$store.commit('resetFilters');
     },
   },
   computed: {
+    availableMajors() {
+      return this.$store.state.majors;
+    },
+    availableTags() {
+      return this.$store.state.tags;
+    },
     sort: {
       get() {
-        return this.$store.state.sort;
+        return this.$store.state.filters.sort;
       },
       set(newSort) {
-        store.commit('setSort', newSort);
+        this.$store.commit('updateFilter', { filter: 'sort', value: newSort });
       },
     },
     order: {
       get() {
-        return this.$store.state.order;
+        return this.$store.state.filters.order;
       },
       set(newOrder) {
-        store.commit('setOrder', newOrder);
+        this.$store.commit('updateFilter', { filter: 'order', value: newOrder });
       },
     },
     view: {
       get() {
-        return this.$store.state.view;
+        return this.$store.state.filters.view;
       },
       set(newView) {
-        store.commit('setView', newView);
+        this.$store.commit('updateFilter', { filter: 'view', value: newView });
       },
     },
     major: {
       get() {
-        return this.$store.state.major;
+        return this.$store.state.filters.major;
       },
       set(newMajor) {
-        store.commit('setMajor', newMajor);
+        this.$store.commit('updateFilter', { filter: 'major', value: newMajor });
       },
     },
     tag: {
       get() {
-        return this.$store.state.tag;
+        return this.$store.state.filters.tag;
       },
       set(newTag) {
-        store.commit('setTag', newTag);
+        this.$store.commit('updateFilter', { filter: 'tag', value: newTag });
       },
     },
     advisor: {
       get() {
-        return this.$store.state.advisor;
+        return this.$store.state.filters.advisor;
       },
       set(newAdvisor) {
-        store.commit('setAdvisor', newAdvisor);
+        this.$store.commit('updateFilter', { filter: 'advisor', value: newAdvisor });
       },
     },
     acceptingApps: {
       get() {
-        return this.$store.state.acceptingApps;
+        return this.$store.state.filters.acceptingApps;
       },
       set(newAcceptingApps) {
-        store.commit('setAcceptingApps', newAcceptingApps);
+        this.$store.commit('updateFilter', { filter: 'acceptingApps', value: newAcceptingApps });
       },
     },
     hasAdvisor: {
       get() {
-        return this.$store.state.hasAdvisor;
+        return this.$store.state.filters.hasAdvisor;
       },
       set(newHasAdvisor) {
-        store.commit('setHasAdvisor', newHasAdvisor);
+        this.$store.commit('updateFilter', { filter: 'hasAdvisor', value: newHasAdvisor });
       },
     },
   },
