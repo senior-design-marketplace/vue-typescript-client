@@ -39,13 +39,12 @@
 </template>
 
 <script>
-import axios from 'axios';
+import apiCall from '@/apiCall';
 import ProjectBoard from '@/components/ProjectBoard.vue';
 import ProjectMain from '@/components/ProjectMain.vue';
 import ContactInfo from '@/components/ContactInfo.vue';
 import Comments from '@/components/Comments.vue';
 import Apply from '@/components/Apply.vue';
-import store from '@/store';
 
 export default {
   components: {
@@ -120,17 +119,15 @@ export default {
     this.getProjectData();
   },
   methods: {
-    getProjectData() {
-      const url = `https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/staging/projects/${this.$route.params.id}`;
-      axios
-        .get(url)
-        .then((response) => {
-          // console.log(response.data);
-          this.items = response.data;
-        })
-        .catch((error) => {
-          // console.log(error);
-        });
+    async getProjectData() {
+      const response = await apiCall.methods.get(
+        `/projects/${this.projectId}`,
+        '',
+        this.$route.fullPath,
+      );
+      if (response.status === 200) {
+        this.items = response.data;
+      }
     },
     updateComments(variable) {
       const newComment = {
@@ -144,7 +141,15 @@ export default {
       // console.log(this.comments);
     },
   },
+  watch: {
+    projectId() {
+      this.getProjectData();
+    },
+  },
   computed: {
+    projectId() {
+      return this.$route.params.id;
+    },
     members() {
       if (this.items.administrators === undefined || this.items.administrators === undefined) {
         return [];
@@ -153,7 +158,7 @@ export default {
         .filter(admin => !admin.isAdvisor)
         .concat(
           this.items.contributors.filter(
-            contrib => JSON.stringify(this.items.administrators).indexOf(contrib.id) === -1,
+            contrib => !this.items.administrators.map(admin => admin.id).includes(contrib.id),
           ),
         );
     },
@@ -162,16 +167,13 @@ export default {
       return this.items.administrators.filter(admin => admin.isAdvisor);
     },
     onProject() {
-      return (
-        store.state.cognitoUsername !== ''
-        && JSON.stringify(this.members).indexOf(store.state.cognitoUsername) > -1
-      );
+      return this.isAdmin || this.isContributor;
     },
     isAdmin() {
-      return (
-        store.state.cognitoUsername !== ''
-        && JSON.stringify(this.items.administrators).indexOf(store.state.cognitoUsername) > -1
-      );
+      return this.$store.getters.isAdmin(this.projectId);
+    },
+    isContributor() {
+      return this.$store.getters.isContributor(this.projectId);
     },
   },
 };

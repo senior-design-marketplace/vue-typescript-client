@@ -58,6 +58,14 @@ export default new Router({
       component: () => import('./views/Account.vue'),
     },
     {
+      path: '/debug',
+      name: 'debug',
+      meta: {
+        keepAlive: false,
+      },
+      component: () => import('./views/Account.vue'),
+    },
+    {
       path: '/project/:id',
       name: 'project',
       meta: {

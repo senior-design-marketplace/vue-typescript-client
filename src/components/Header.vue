@@ -16,15 +16,22 @@
         <v-btn v-if="!isLoggedIn" @click="login" text class="item">Login</v-btn>
       </v-toolbar-items>
       <div class="d-none d-lg-flex">
-        <v-menu v-if="isLoggedIn" open-on-hover offset-y>
+        <v-menu v-if="isLoggedIn && notifications.length > 0" open-on-hover offset-y>
           <template v-slot:activator="{ on }">
             <v-btn tile icon v-on="on">
-              <v-icon>mdi-bell</v-icon>
+              <v-tab>
+                <v-badge color="red" overlap :content="notifications.length">
+                  <v-icon>mdi-bell</v-icon>
+                </v-badge>
+              </v-tab>
             </v-btn>
           </template>
           <v-list>
-            <v-list-item v-for="(item, index) in items" :key="index">
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item v-for="(item, index) in notifications" :key="index">
+              <v-btn :to=/project/+item.document.application.projectId
+                >{{ item.document.type }} status:
+                {{ item.document.application.status }}</v-btn
+              >
             </v-list-item>
           </v-list>
         </v-menu>
@@ -119,8 +126,11 @@
             </v-list-item>
           </template>
           <v-list>
-            <v-list-item v-for="(item, index) in items" :key="index">
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item v-for="(item, index) in notifications" :key="index">
+              <v-list-item-title :to="`projects/${item.document.application.projectId}`"
+                >{{ item.document.type }} status:
+                {{ item.document.application.status }}</v-list-item-title
+              >
             </v-list-item>
           </v-list>
         </v-menu>
@@ -160,26 +170,17 @@
 </template>
 
 <script>
-import store from '@/store';
-import router from '../router';
-
 export default {
   data: () => ({
-    items: [
-      { title: 'Notification 1' },
-      { title: 'Notification 2' },
-      { title: 'Notification 3' },
-      { title: 'Notification 4' },
-    ],
     drawer: false,
   }),
   methods: {
     logout() {
-      store.commit('logout');
+      this.$store.commit('logout');
       this.$router.push('/').catch((err) => {});
     },
     login() {
-      store.commit('setsavePath', this.$route.fullPath);
+      this.$store.commit('setsavePath', this.$route.fullPath);
       window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
     },
   },
@@ -188,7 +189,10 @@ export default {
       return this.$store.getters.isLoggedIn;
     },
     name() {
-      return `${this.$store.state.firstName} ${this.$store.state.lastName}`;
+      return `${this.$store.state.userDetails.firstName} ${this.$store.state.userDetails.lastName}`;
+    },
+    notifications() {
+      return this.$store.state.notifications;
     },
   },
 };
