@@ -1,7 +1,9 @@
 language: node_js
 node_js:
   - node
-script: npm run test:unit && npm run build
+before_install:
+  npm i --only=dev
+script: npm run test:unit && npm run build --mode $ENV
 deploy:
   - provider: s3
     skip_cleanup: true
