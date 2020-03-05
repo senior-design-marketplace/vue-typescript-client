@@ -1,8 +1,6 @@
 language: node_js
 node_js:
   - node
-before_install:
-  npm i --only=dev
 script: npm run test:unit && npm run build --mode $ENV
 deploy:
   - provider: s3
