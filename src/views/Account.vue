@@ -48,7 +48,12 @@
                 </v-btn>
               </v-row>
               <v-row v-if="this.$route.path == '/debug'" class="mx-10 my-10">
-                <v-text-field label="URLToken" hide-details v-model="urlToken" ref="urlTokenRef" />
+                <v-text-field
+                  label="URLToken"
+                  hide-details
+                  :value="`#access_token=&id_token=${token}&`"
+                  ref="urlTokenRef"
+                />
                 <v-btn icon @click="copyURLToken">
                   <v-icon>
                     mdi-content-copy
@@ -98,9 +103,6 @@ export default {
     },
     token() {
       return this.$store.state.userDetails.token;
-    },
-    urlToken() {
-      return this.$store.state.userDetails.urlToken;
     },
   },
 };

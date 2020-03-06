@@ -9,7 +9,7 @@
     </v-item-group>
     <v-container fluid>
       <v-data-iterator :items="boardItems" :items-per-page="50" hide-default-footer>
-        <template v-slot:default="props">
+        <template v-slot:default="">
           <v-timeline :reverse="false" dense>
             <v-timeline-item v-for="item in boardItems" :key="item.date">
               <v-card class="elevation-2">

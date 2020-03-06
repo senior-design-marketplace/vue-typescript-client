@@ -36,13 +36,20 @@
               v-model="note"
               name="Note"
               label="Note"
-              counter="2048"
+              counter="256"
+              :rules="[rules.length(256)]"
             ></v-textarea>
           </v-card-text>
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="submitApplication">Submit</v-btn>
+            <v-btn
+              :disabled="this.note.length > 256"
+              color="primary"
+              text
+              @click="submitApplication"
+              >Submit</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -60,6 +67,9 @@ export default {
       id: uuid(),
       dialog: false,
       note: '',
+      rules: {
+        length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
+      },
     };
   },
   props: {
@@ -73,9 +83,7 @@ export default {
         .post(
           `/projects/${this.$route.params.id}/applications`,
           '',
-          {
-            id: this.id,
-          },
+          this.note.length === 0 ? { id: this.id } : { id: this.id, note: this.note },
           this.$route.fullPath,
         )
         .catch((error) => {
@@ -86,6 +94,7 @@ export default {
         });
       if (response.status === 200) {
         this.dialog = false;
+        this.note = '';
       }
     },
   },

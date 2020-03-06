@@ -5,38 +5,80 @@
       :headers="headers"
       :items="applications"
       item-key="id"
-      :items-per-page="5"
       class="elevation-1"
       group-by="projectId"
-      hide-default-footer
+      :expanded="expanded"
     >
-      <template v-slot:body="{ items }">
-        <tbody>
-          <tr
-            v-for="item in items"
-            :key="item.id"
-            @mouseover="selectItem(item)"
-            @mouseleave="unSelectItem()"
-          >
-            <td>
-              <v-avatar size="36" color="primary">
-                <v-img v-if="item.thumbnailLink !== undefined" :src="item.thumbnailLink" />
-                <v-icon v-else dark>mdi-account-circle</v-icon>
-              </v-avatar>
-            </td>
-            <td>{{ item.userId }}</td>
-            <td>{{ item.major }}</td>
-            <td>{{ item.status }}</td>
-            <td>{{ new Date(item.createdAt) }}</td>
-            <td>{{ new Date(item.updatedAt) }}</td>
-            <td>
-              <div v-if="item === selectedItem">
-                <v-btn @click="replyApplication('ACCEPTED')" color="success">Accept</v-btn>
-                <v-btn @click="replyApplication('REJECTED')" color="error">Reject</v-btn>
-              </div>
-            </td>
-          </tr>
-        </tbody>
+      <template v-slot:item="{ item, expand, isExpanded }">
+        <tr style="cursor:pointer;">
+          <td @click=$router.push(/project/+item.projectId)>
+            <v-avatar size="36" color="primary">
+              <v-img v-if="item.thumbnailLink !== undefined" :src="item.thumbnailLink" />
+              <v-icon v-else dark>mdi-account-circle</v-icon>
+            </v-avatar>
+          </td>
+          <td @click=$router.push(/project/+item.projectId)>{{ item.userId }}</td>
+          <td @click=$router.push(/project/+item.projectId)>{{ item.major }}</td>
+          <td @click=$router.push(/project/+item.projectId)>
+            <v-chip
+              label
+              :color="
+              item.status === 'PENDING' ? 'yellow accent-3'
+              : item.status === 'ACCEPTED' ? 'success' : 'error'"
+              style="cursor:pointer;"
+            >
+              {{ item.status }}
+            </v-chip>
+          </td>
+          <td @click=$router.push(/project/+item.projectId)>{{ new Date(item.createdAt) }}</td>
+          <td @click=$router.push(/project/+item.projectId)>{{ new Date(item.updatedAt) }}</td>
+          <td v-if="item.note !== null">
+            <v-btn  icon @click="expand(!isExpanded)">
+              <v-icon> mdi-chevron-down </v-icon>
+            </v-btn>
+          </td>
+          <td v-else>
+            <v-tooltip top max-width="175">
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on">mdi-format-page-break</v-icon>
+              </template>
+              <span>{{item.userId}} did not include a note.</span>
+            </v-tooltip>
+          </td>
+          <td>
+              <v-btn @click="replyApplication(item, 'ACCEPTED')" color="success">Accept</v-btn>
+              <v-btn @click="replyApplication(item, 'REJECTED')" color="error">Reject</v-btn>
+          </td>
+        </tr>
+      </template>
+
+      <template v-slot:group.header="{ headers, group, toggle, items }">
+        <td class="text-left" style="cursor:pointer;" :colspan="headers.length" @click="toggle">
+          <v-toolbar dense>
+            <v-avatar size="36" color="primary">
+              <v-img v-if="items[0].thumbnailLink !== undefined" :src="items[0].thumbnailLink" />
+              <span v-else class="white--text headline">
+                {{ group.substring(0, 1).toLowerCase() }}
+              </span>
+            </v-avatar>
+            <v-container>
+              {{ group }}
+            </v-container>
+          </v-toolbar>
+        </td>
+      </template>
+
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          <v-container class="text-left" style="overflow-wrap: break-word;">
+            <h4>
+              {{item.userId}}'s Note:
+            </h4>
+            <v-container>
+              {{ item.note }}
+            </v-container>
+          </v-container>
+        </td>
       </template>
     </v-data-table>
   </v-container>
@@ -51,29 +93,67 @@ export default {
   },
   data() {
     return {
-      selected: [],
       selectedItem: false,
       expanded: [],
       headers: [
-        { text: ' ', align: 'center', value: 'thumbnailLink' },
-        { text: 'Name', align: 'center', value: 'name' },
-        { text: 'Major', align: 'center', value: 'major' },
-        { text: 'Status', align: 'center', value: 'status' },
-        { text: 'Created', align: 'center', value: 'createdAt' },
-        { text: 'Last Updated', align: 'center', value: 'updatedAt' },
+        {
+          text: ' ',
+          align: 'center',
+          value: 'thumbnailLink',
+          sortable: false,
+        },
+        {
+          text: 'Name',
+          align: 'center',
+          value: 'name',
+          sortable: false,
+        },
+        {
+          text: 'Major',
+          align: 'center',
+          value: 'major',
+          sortable: false,
+        },
+        {
+          text: 'Status',
+          align: 'center',
+          value: 'status',
+          sortable: false,
+        },
+        {
+          text: 'Created',
+          align: 'center',
+          value: 'createdAt',
+          sortable: false,
+        },
+        {
+          text: 'Last Updated',
+          align: 'center',
+          value: 'updatedAt',
+          sortable: false,
+        },
+        {
+          text: 'Note',
+          align: 'center',
+          value: 'actions',
+          width: '50px',
+          sortable: false,
+        },
         {
           text: 'Actions',
           align: 'center',
           value: 'actions',
           width: '250px',
+          sortable: false,
         },
       ],
     };
   },
   methods: {
-    async replyApplication(decision) {
+    async replyApplication(item, decision) {
+      this.selectItem(item);
       const response = await apiCall.methods.patch(
-        `/projects/${this.selectedItem.projectId}/applications/${this.selectedItem.id}`,
+        `/projects/${item.projectId}/applications/${item.id}`,
         '',
         { response: decision },
         this.$route.fullPath,
@@ -84,9 +164,6 @@ export default {
     },
     selectItem(item) {
       this.selectedItem = item;
-    },
-    unSelectItem(item) {
-      this.selectedItem = false;
     },
   },
 };

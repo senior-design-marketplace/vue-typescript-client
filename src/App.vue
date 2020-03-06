@@ -24,10 +24,6 @@ export default {
       if (this.$route.hash.startsWith('#access_token=')) {
         const token = /&id_token=(.*?)&/gm.exec(this.$route.hash)[1];
         this.$store.commit('updateUserDetail', { detail: 'token', value: token });
-        this.$store.commit('updateUserDetail', {
-          detail: 'urlToken',
-          value: `#access_token=&id_token=${token}&`,
-        });
         const decodedToken = JSON.parse(atob(token.split('.')[1]));
         this.$store.commit('updateUserDetail', {
           detail: 'firstName',
