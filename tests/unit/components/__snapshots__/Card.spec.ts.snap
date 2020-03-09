@@ -5,7 +5,7 @@ exports[`Card Renders correctly 1`] = `
   <div class="container pa-1">
     <div class="v-item-group theme--light">
       <div tabindex="-1" class="v-list-item theme--light">
-        <div class="v-avatar v-list-item__avatar" style="height: 40px; min-width: 40px; width: 40px;">
+        <div class="v-avatar" style="height: 35px; min-width: 35px; width: 35px;">
           <div class="v-responsive v-image">
             <div class="v-image__image v-image__image--preload v-image__image--cover" style="background-position: center center;"></div>
             <div class="v-responsive__content"></div>
@@ -17,7 +17,7 @@ exports[`Card Renders correctly 1`] = `
         <!---->
       </div>
       <hr role="separator" aria-orientation="horizontal" class="v-divider theme--light">
-      <div class="v-responsive v-image" style="max-height: 194px;">
+      <div class="v-responsive v-image" style="height: 200px;">
         <div class="v-image__image v-image__image--preload v-image__image--cover" style="background-position: center center;"></div>
         <div class="v-responsive__content"></div>
       </div>

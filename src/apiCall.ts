@@ -87,10 +87,10 @@ export default {
 
           resp2
             .then((response2) => {
-              console.log(response2); // eslint-disable-next-line
+              console.log(response2); // eslint-disable-line
             })
             .catch((error) => {
-              console.log(error); // eslint-disable-next-line
+              console.log(error); // eslint-disable-line
             });
         })
         .catch((error) => {

@@ -4,7 +4,11 @@
       <v-col cols="12" sm="3">
         <h1>My Profile</h1>
         <v-hover v-slot:default="{ hover }" style="cursor:pointer;">
-          <v-avatar @click.stop="dialog = true" size="150" color="primary">
+          <v-avatar
+            @click.stop="dialog = true"
+            size="150"
+            :color="thumbnailLink !== null ? undefined : 'primary'"
+          >
             <v-img v-if="thumbnailLink !== null" :src="thumbnailLink" />
             <v-icon v-else size="125" dark>mdi-account-circle</v-icon>
             <v-overlay :value="hover" absolute opacity="0.75">
@@ -65,7 +69,6 @@
     <PictureUpload
       v-model="dialog"
       :path="`/users/${this.$store.state.userDetails.cognitoUsername}/avatar`"
-      type="PNG"
       :avatar="true"
     />
   </v-container>

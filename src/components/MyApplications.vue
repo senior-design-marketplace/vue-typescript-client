@@ -41,7 +41,7 @@
           <td v-else>
             <v-tooltip top max-width="175">
               <template v-slot:activator="{ on }">
-                <v-icon v-on="on" color="error">mdi-close</v-icon>
+                <v-icon v-on="on">mdi-format-page-break</v-icon>
               </template>
               <span>You did not include a note on this application.</span>
             </v-tooltip>

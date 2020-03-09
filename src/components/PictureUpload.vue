@@ -4,7 +4,7 @@
       <v-card-title>
         Media Upload
         <v-spacer></v-spacer>
-        <v-btn class="text-right" icon @click="show=false">
+        <v-btn class="text-right" icon @click="show = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
@@ -17,7 +17,14 @@
           </v-avatar>
           <v-img v-else :src="image" />
         </v-container>
-        <v-file-input v-model="file" outlined dense prepend-icon="mdi-camera" />
+        <v-file-input
+          v-model="file"
+          outlined
+          dense
+          show-size
+          accept="image/jpeg, image/png"
+          prepend-icon="mdi-camera"
+        />
         <v-btn :disabled="this.file === undefined" outlined color="primary" @click="submitFile">
           <h2>Submit</h2>
         </v-btn>
@@ -33,7 +40,6 @@ export default {
   props: {
     value: Boolean,
     path: undefined,
-    type: undefined,
     avatar: Boolean,
   },
   data() {
@@ -43,9 +49,10 @@ export default {
   },
   methods: {
     async submitFile() {
+      const regex = /\/(.*)/gm;
       const response = await apiCall.methods.mediaUpload(
         this.path,
-        this.type,
+        regex.exec(this.file.type)[1].toUpperCase(),
         this.file,
         this.$route.fullPath,
       );

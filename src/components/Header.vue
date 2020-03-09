@@ -28,18 +28,21 @@
           </template>
           <v-list>
             <v-list-item v-for="(item, index) in notifications" :key="index">
-              <v-btn :to=/project/+item.document.application.projectId
-                >{{ item.document.type }} status:
-                {{ item.document.application.status }}</v-btn
-              >
+              <v-btn :to=/project/+item.document.application.projectId >
+                {{ item.document.type }}status:{{ item.document.application.status }}
+              </v-btn>
             </v-list-item>
           </v-list>
         </v-menu>
         <v-menu v-if="isLoggedIn" open-on-hover offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn to="/account" tile icon v-on="on">
-              <v-icon>mdi-account-circle</v-icon>
-            </v-btn>
+            <v-list-item-avatar to="/account" icon v-on="on" class="mx-1" style="cursor:pointer;">
+              <v-img
+                v-if="$store.state.userDetails.thumbnailLink !== null"
+                :src="$store.state.userDetails.thumbnailLink"
+              />
+              <v-icon v-else>mdi-account-circle</v-icon>
+            </v-list-item-avatar>
           </template>
           <v-list>
             <v-list-item to="/account">
@@ -56,7 +59,11 @@
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list-item v-if="isLoggedIn" class="px-2" to="/account">
         <v-list-item-avatar>
-          <v-icon>mdi-account</v-icon>
+          <v-img
+                v-if="$store.state.userDetails.thumbnailLink !== null"
+                :src="$store.state.userDetails.thumbnailLink"
+              />
+              <v-icon v-else>mdi-account-circle</v-icon>
         </v-list-item-avatar>
         <v-list-item-title>{{ name }}</v-list-item-title>
       </v-list-item>
@@ -142,6 +149,16 @@
 
           <v-list-item-content>
             <v-list-item-title>About</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link v-if="isLoggedIn" to="/account">
+          <v-list-item-icon>
+            <v-icon>mdi-account-circle</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>My Profile</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
