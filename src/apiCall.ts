@@ -10,7 +10,7 @@ export default {
       const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}${queryParams}`;
       const resp = axios.get(url);
       resp
-        .then((response) => {})
+        .then((response) => { })
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
             alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
@@ -26,7 +26,7 @@ export default {
       const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}${queryParams}`;
       const resp = axios.post(url, body);
       resp
-        .then((response) => {})
+        .then((response) => { })
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
             alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
@@ -42,7 +42,7 @@ export default {
       const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}${queryParams}`;
       const resp = axios.delete(url, body);
       resp
-        .then((response) => {})
+        .then((response) => { })
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
             alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
@@ -58,7 +58,7 @@ export default {
       const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}${queryParams}`;
       const resp = axios.patch(url, body);
       resp
-        .then((response) => {})
+        .then((response) => { })
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
             alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line

@@ -3,16 +3,16 @@
     <v-row>
       <v-col cols="12" sm="3">
         <h1>My Profile</h1>
-        <v-avatar size="150" color="primary">
-          <v-img v-if="thumbnailLink !== null" :src="thumbnailLink" />
-          <v-icon v-else size="125" dark>mdi-account-circle</v-icon>
-        </v-avatar>
+        <v-hover v-slot:default="{ hover }" style="cursor:pointer;">
+          <v-avatar @click.stop="dialog = true" size="150" color="primary">
+            <v-img v-if="thumbnailLink !== null" :src="thumbnailLink" />
+            <v-icon v-else size="125" dark>mdi-account-circle</v-icon>
+            <v-overlay :value="hover" absolute opacity="0.75">
+              <v-container class="white--text headline">Click to change avatar.</v-container>
+            </v-overlay>
+          </v-avatar>
+        </v-hover>
         <p />
-        <v-file-input v-model="file" />
-        <v-btn outlined block @click="submitAvatar">
-          <h2>Upload Photo</h2>
-        </v-btn>
-        <h5>Max file size 20Mb</h5>
       </v-col>
       <v-card min-width="875">
         <v-container>
@@ -43,9 +43,7 @@
               <v-row v-if="this.$route.path == '/debug'" class="mx-10 my-10">
                 <v-text-field label="Token" hide-details v-model="token" ref="tokenRef" />
                 <v-btn icon @click="copyToken">
-                  <v-icon>
-                    mdi-content-copy
-                  </v-icon>
+                  <v-icon>mdi-content-copy</v-icon>
                 </v-btn>
               </v-row>
               <v-row v-if="this.$route.path == '/debug'" class="mx-10 my-10">
@@ -56,9 +54,7 @@
                   ref="urlTokenRef"
                 />
                 <v-btn icon @click="copyURLToken">
-                  <v-icon>
-                    mdi-content-copy
-                  </v-icon>
+                  <v-icon>mdi-content-copy</v-icon>
                 </v-btn>
               </v-row>
             </v-col>
@@ -66,27 +62,28 @@
         </v-container>
       </v-card>
     </v-row>
+    <PictureUpload
+      v-model="dialog"
+      :path="`/users/${this.$store.state.userDetails.cognitoUsername}/avatar`"
+      type="PNG"
+      :avatar="true"
+    />
   </v-container>
 </template>
 
 <script>
-import apiCall from '@/apiCall';
+import PictureUpload from '@/components/PictureUpload.vue';
 
 export default {
+  components: {
+    PictureUpload,
+  },
   data() {
     return {
-      file: undefined,
+      dialog: false,
     };
   },
   methods: {
-    async submitAvatar() {
-      const response = await apiCall.methods.mediaUpload(
-        `/users/${this.$store.state.userDetails.cognitoUsername}/avatar`,
-        'JPEG',
-        this.file,
-        this.$route.fullPath,
-      );
-    },
     copyToken() {
       const textToCopy = this.$refs.tokenRef.$el.querySelector('input');
       textToCopy.select();
