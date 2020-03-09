@@ -8,7 +8,8 @@
           <v-icon v-else size="125" dark>mdi-account-circle</v-icon>
         </v-avatar>
         <p />
-        <v-btn outlined block>
+        <v-file-input v-model="file" />
+        <v-btn outlined block @click="submitAvatar">
           <h2>Upload Photo</h2>
         </v-btn>
         <h5>Max file size 20Mb</h5>
@@ -69,8 +70,23 @@
 </template>
 
 <script>
+import apiCall from '@/apiCall';
+
 export default {
+  data() {
+    return {
+      file: undefined,
+    };
+  },
   methods: {
+    async submitAvatar() {
+      const response = await apiCall.methods.mediaUpload(
+        `/users/${this.$store.state.userDetails.cognitoUsername}/avatar`,
+        'JPEG',
+        this.file,
+        this.$route.fullPath,
+      );
+    },
     copyToken() {
       const textToCopy = this.$refs.tokenRef.$el.querySelector('input');
       textToCopy.select();

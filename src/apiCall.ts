@@ -70,5 +70,39 @@ export default {
         });
       return resp;
     },
+    async mediaUpload(path, fileType, mediaFile, savePath) {
+      const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}`;
+      const resp = axios.post(url, {
+        type: fileType,
+      });
+
+      resp
+        .then((response) => {
+          const formData = new FormData();
+          Object.keys(response.data.fields).forEach((key) => {
+            formData.append(key, response.data.fields[key]);
+          });
+          formData.append('file', mediaFile);
+          const resp2 = axios.post(response.data.url, formData);
+
+          resp2
+            .then((response2) => {
+              console.log(response2); // eslint-disable-next-line
+            })
+            .catch((error) => {
+              console.log(error); // eslint-disable-next-line
+            });
+        })
+        .catch((error) => {
+          if (error.response.data.type === 'AuthenticationError') {
+            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
+            store.commit('setsavePath', savePath);
+            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
+          } else if (error.response.data.message === 'Malformed request') {
+            alert("Malformed request"); // eslint-disable-line
+          }
+        });
+      return resp;
+    },
   },
 };
