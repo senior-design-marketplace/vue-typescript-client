@@ -1,11 +1,34 @@
 <template>
   <div>
     <v-toolbar>
-      <v-img v-if="avatar != null" :src="avatar" max-height="50" max-width="50" />
-      <v-list-item-avatar v-else-if="title != null" color="primary">
-        <span class="white--text headline" v-text="title.substring(0, 1).toLowerCase()" />
-      </v-list-item-avatar>
-      <h2 v-if="!editTitle" class="text-left">{{ title }}</h2>
+      <v-tooltip v-if="onProject" top max-width="175">
+        <template v-slot:activator="{ on }">
+          <v-avatar
+            v-on="on"
+            @click.stop="thumbnailDialog = true"
+            size="50"
+            :color="avatar !== null ? undefined : 'primary'"
+            style="cursor:pointer;"
+          >
+            <v-img v-if="avatar != null" :src="avatar" max-height="50" max-width="50" />
+            <span
+              v-else-if="title != null"
+              class="white--text headline"
+              v-text="title.substring(0, 1).toLowerCase()"
+            />
+          </v-avatar>
+        </template>
+        <span>Click to change avatar</span>
+      </v-tooltip>
+      <v-avatar v-else size="50" :color="avatar !== null ? undefined : 'primary'">
+        <v-img v-if="avatar !== null" :src="avatar" max-height="50" max-width="50" />
+        <span
+          v-else-if="title != null"
+          class="white--text headline"
+          v-text="title.substring(0, 1).toLowerCase()"
+        />
+      </v-avatar>
+      <h2 v-if="!editTitle" class="text-left mx-1">{{ title }}</h2>
       <v-textarea
         v-else
         class="mx-1"
@@ -22,7 +45,7 @@
       <v-btn v-if="editTitle" icon @click="editTitle = false">
         <v-icon color="gray">mdi-close</v-icon>
       </v-btn>
-      <v-btn-toggle v-else-if="isAdmin" borderless rounded v-model="editTitle">
+      <v-btn-toggle v-else-if="onProject" borderless rounded v-model="editTitle">
         <v-btn icon :value="true">
           <v-icon color="gray">mdi-pencil</v-icon>
         </v-btn>
@@ -39,7 +62,7 @@
       </v-item-group>
       <v-tooltip top max-width="175">
         <template v-slot:activator="{ on }">
-          <v-btn v-if="isAdmin" icon v-on="on" @click="toggleAcceptingApps()">
+          <v-btn v-if="onProject" icon v-on="on" @click="toggleAcceptingApps()">
             <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'gray'">
               mdi-sticker-check-outline
             </v-icon>
@@ -58,17 +81,37 @@
     </v-toolbar>
     <p />
     <v-card>
-      <v-img v-if="coverImg != null" :src="coverImg" max-height="350"></v-img>
-      <v-img
-        v-else
-        :src="randomCover"
-        max-height="350"
-        gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-      >
-        <v-overlay :absolute="true">
-          <v-container class="white--text display-3" v-text="title" />
-        </v-overlay>
-      </v-img>
+      <v-hover v-if="onProject" v-slot:default="{ hover }" style="cursor:pointer;">
+        <span @click.stop="coverDialog = true" size="150" color="primary">
+          <v-img v-if="coverImg != null" :src="coverImg" height="350"></v-img>
+          <v-img
+            v-else
+            :src="randomCover"
+            height="350"
+            gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+          >
+            <v-overlay :absolute="true">
+              <v-container class="white--text display-3" v-text="title" />
+            </v-overlay>
+          </v-img>
+          <v-overlay :value="hover" absolute opacity="0.75">
+            <v-container class="white--text headline">Click to change cover image.</v-container>
+          </v-overlay>
+        </span>
+      </v-hover>
+      <span v-else size="150" color="primary">
+        <v-img v-if="coverImg != null" :src="coverImg" height="350"></v-img>
+        <v-img
+          v-else
+          :src="randomCover"
+          height="350"
+          gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+        >
+          <v-overlay :absolute="true">
+            <v-container class="white--text display-3" v-text="title" />
+          </v-overlay>
+        </v-img>
+      </span>
     </v-card>
     <p />
     <v-card>
@@ -81,7 +124,7 @@
           <v-btn v-if="editTagline" icon @click="editTagline = false">
             <v-icon color="gray">mdi-close</v-icon>
           </v-btn>
-          <v-btn-toggle v-else-if="isAdmin" borderless rounded v-model="editTagline">
+          <v-btn-toggle v-else-if="onProject" borderless rounded v-model="editTagline">
             <v-btn icon :value="true">
               <v-icon color="gray">mdi-pencil</v-icon>
             </v-btn>
@@ -112,7 +155,7 @@
           <v-btn v-if="editDescription" icon @click="editDescription = false">
             <v-icon color="gray">mdi-close</v-icon>
           </v-btn>
-          <v-btn-toggle v-else-if="isAdmin" borderless rounded v-model="editDescription">
+          <v-btn-toggle v-else-if="onProject" borderless rounded v-model="editDescription">
             <v-btn icon :value="true">
               <v-icon color="gray">mdi-pencil</v-icon>
             </v-btn>
@@ -141,13 +184,27 @@
         </v-chip-group>
       </v-container>
     </v-card>
+    <PictureUpload
+      v-model="thumbnailDialog"
+      :path="`/projects/${this.$route.params.id}/thumbnail`"
+      :avatar="true"
+    />
+    <PictureUpload
+      v-model="coverDialog"
+      :path="`/projects/${this.$route.params.id}/cover`"
+      :avatar="false"
+    />
   </div>
 </template>
 
 <script>
 import apiCall from '@/apiCall';
+import PictureUpload from '@/components/PictureUpload.vue';
 
 export default {
+  components: {
+    PictureUpload,
+  },
   props: {
     avatar: String,
     title: String,
@@ -162,6 +219,8 @@ export default {
     isAdmin: Boolean,
   },
   data: () => ({
+    thumbnailDialog: false,
+    coverDialog: false,
     editTitle: false,
     newTitle: '',
     editTagline: false,

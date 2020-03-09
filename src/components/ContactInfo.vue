@@ -8,7 +8,11 @@
             <v-tooltip v-if="isAdmin(advisor.id)" top max-width="175">
               <template v-slot:activator="{ on }">
                 <v-badge color="yellow darken-2" icon="mdi-crown" overlap>
-                  <v-avatar size="36" color="primary" v-on="on">
+                  <v-avatar
+                    size="36"
+                    :color="advisor.thumbnailLink !== null ? undefined : 'primary'"
+                    v-on="on"
+                  >
                     <v-img v-if="advisor.thumbnailLink !== null" :src="advisor.thumbnailLink" />
                     <v-icon v-else dark>mdi-account-circle</v-icon>
                   </v-avatar>
@@ -16,7 +20,11 @@
               </template>
               <span>{{ advisor.id }} is an administrator of {{ title }}.</span>
             </v-tooltip>
-            <v-avatar v-else size="36" color="primary">
+            <v-avatar
+              v-else
+              size="36"
+              :color="advisor.thumbnailLink !== null ? undefined : 'primary'"
+            >
               <v-img v-if="advisor.thumbnailLink !== null" :src="advisor.thumbnailLink" />
               <v-icon v-else dark>mdi-account-circle</v-icon>
             </v-avatar>
@@ -33,7 +41,11 @@
             <v-tooltip v-if="isAdmin(member.id)" top max-width="175">
               <template v-slot:activator="{ on }">
                 <v-badge color="yellow darken-2" icon="mdi-crown" overlap>
-                  <v-avatar size="36" color="primary" v-on="on">
+                  <v-avatar
+                    size="36"
+                    :color="member.thumbnailLink !== null ? undefined : 'primary'"
+                    v-on="on"
+                  >
                     <v-img v-if="member.thumbnailLink !== null" :src="member.thumbnailLink" />
                     <v-icon v-else dark>mdi-account-circle</v-icon>
                   </v-avatar>
@@ -41,7 +53,11 @@
               </template>
               <span>{{ member.id }} is an administrator of {{ title }}.</span>
             </v-tooltip>
-            <v-avatar v-else size="36" color="primary">
+            <v-avatar
+              v-else
+              size="36"
+              :color="member.thumbnailLink !== null ? undefined : 'primary'"
+            >
               <v-img v-if="member.thumbnailLink !== null" :src="member.thumbnailLink" />
               <v-icon v-else dark>mdi-account-circle</v-icon>
             </v-avatar>

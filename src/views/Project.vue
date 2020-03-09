@@ -3,10 +3,10 @@
     <v-row>
       <v-col cols="12" sm="8">
         <ProjectMain
-          v-bind:avatar="items.thumbnail_link"
+          v-bind:avatar="items.thumbnailLink"
           v-bind:title="items.title"
           v-bind:starred="items.starred"
-          v-bind:coverImg="items.cover_link"
+          v-bind:coverImg="items.coverLink"
           v-bind:tagline="items.tagline"
           v-bind:description="items.body"
           v-bind:majors="items.requestedMajors"

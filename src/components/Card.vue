@@ -5,12 +5,12 @@
       <v-container class="pa-1">
         <v-item-group>
           <v-list-item>
-            <v-list-item-avatar v-if="avatar != null">
+            <v-avatar v-if="avatar != null" size="35">
               <v-img :src="avatar"></v-img>
-            </v-list-item-avatar>
-            <v-list-item-avatar v-else-if="title != null" color="primary">
+            </v-avatar>
+            <v-avatar v-else-if="title != null" size="35" color="primary">
               <span class="white--text headline" v-text="title.substring(0, 1).toLowerCase()" />
-            </v-list-item-avatar>
+            </v-avatar>
 
             <v-list-item-content>
               <v-flex class="headline" v-text="title"></v-flex>
@@ -32,11 +32,11 @@
             </v-item>
           </v-list-item>
           <v-divider></v-divider>
-          <v-img v-if="coverImg != null" :src="coverImg" max-height="194"></v-img>
+          <v-img v-if="coverImg != null" :src="coverImg" height="200"></v-img>
           <v-img
             v-else
             :src="randomCover"
-            max-height="194"
+            height="200"
             gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
           >
             <v-overlay absolute>
