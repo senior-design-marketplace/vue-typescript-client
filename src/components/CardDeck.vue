@@ -16,7 +16,7 @@
               v-bind:avatar="item.thumbnailLink"
               v-bind:title="item.title"
               v-bind:starred="item.starred"
-              v-bind:coverImg="item.coverImg"
+              v-bind:coverImg="item.coverLink"
               v-bind:tagline="item.tagline"
               v-bind:tags="item.tags"
               v-bind:acceptingApps="item.acceptingApplications"

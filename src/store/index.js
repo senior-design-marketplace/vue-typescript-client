@@ -12,7 +12,6 @@ export default new Vuex.Store({
     tags: [],
     notifications: [],
     userDetails: {
-      urlToken: '',
       token: '',
       id: '',
       cognitoUsername: '',
@@ -74,7 +73,6 @@ export default new Vuex.Store({
     logout: (state) => {
       state.notifications = [];
       state.userDetails = {
-        urlToken: '',
         token: '',
         id: '',
         cognitoUsername: '',
