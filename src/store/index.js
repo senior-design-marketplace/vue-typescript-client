@@ -11,6 +11,7 @@ export default new Vuex.Store({
     majors: [],
     tags: [],
     notifications: [],
+    applications: [],
     userDetails: {
       token: '',
       id: '',
@@ -72,6 +73,7 @@ export default new Vuex.Store({
     },
     logout: (state) => {
       state.notifications = [];
+      state.applications = [];
       state.userDetails = {
         token: '',
         id: '',
@@ -101,6 +103,9 @@ export default new Vuex.Store({
     },
     setNotifications: (state, notifications) => {
       state.notifications = notifications;
+    },
+    setApplications: (state, applications) => {
+      state.applications = applications;
     },
   },
   getters: {
