@@ -95,7 +95,7 @@
                   </v-btn>
                 </v-btn-toggle>
                 <span class="mx-2">
-                  New Media Entry
+                  New Picture/Video Entry
                 </span>
                 <v-spacer />
                 <v-btn v-if="!loading" icon @click="newEntryToggle">
