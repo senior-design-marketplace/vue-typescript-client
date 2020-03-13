@@ -10,7 +10,7 @@ export default {
       const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}${queryParams}`;
       const resp = axios.get(url);
       resp
-        .then((response) => { })
+        .then((response) => {})
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
             alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
@@ -26,7 +26,7 @@ export default {
       const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}${queryParams}`;
       const resp = axios.post(url, body);
       resp
-        .then((response) => { })
+        .then((response) => {})
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
             alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
@@ -42,7 +42,7 @@ export default {
       const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}${queryParams}`;
       const resp = axios.delete(url, body);
       resp
-        .then((response) => { })
+        .then((response) => {})
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
             alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
@@ -58,7 +58,7 @@ export default {
       const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}${queryParams}`;
       const resp = axios.patch(url, body);
       resp
-        .then((response) => { })
+        .then((response) => {})
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
             alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
@@ -75,23 +75,12 @@ export default {
       const resp = axios.post(url, {
         type: fileType,
       });
+      let resp2;
 
-      resp
+      await resp
         .then((response) => {
-          const formData = new FormData();
-          Object.keys(response.data.fields).forEach((key) => {
-            formData.append(key, response.data.fields[key]);
-          });
-          formData.append('file', mediaFile);
-          const resp2 = axios.post(response.data.url, formData);
-
-          resp2
-            .then((response2) => {
-              console.log(response2); // eslint-disable-line
-            })
-            .catch((error) => {
-              console.log(error); // eslint-disable-line
-            });
+          resp2 = this.s3Upload(response, mediaFile);
+          return resp2;
         })
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
@@ -102,6 +91,22 @@ export default {
             alert("Malformed request"); // eslint-disable-line
           }
         });
+      return resp2;
+    },
+    async s3Upload(response, mediaFile) {
+      const formData = new FormData();
+      Object.keys(response.data.fields).forEach((key) => {
+        formData.append(key, response.data.fields[key]);
+      });
+      formData.append('file', mediaFile);
+      const resp = axios.post(response.data.url, formData);
+      // resp
+      //   .then((response2 ) => {
+      //     console.log(response2); // eslint-disable-line
+      //   })
+      //   .catch((error) => {
+      //     console.log(error); // eslint-disable-line
+      //   });
       return resp;
     },
   },

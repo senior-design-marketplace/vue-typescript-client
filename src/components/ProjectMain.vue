@@ -35,6 +35,7 @@
         rows="1"
         counter="64"
         no-resize
+        clearable
         :placeholder="title"
         v-model="newTitle"
         :rules="[rules.length(64)]"
@@ -42,14 +43,12 @@
       <v-btn :disabled="newTitleInvalid" v-if="editTitle" icon @click="updateTitle()">
         <v-icon>mdi-check</v-icon>
       </v-btn>
-      <v-btn v-if="editTitle" icon @click="editTitle = false">
+      <v-btn v-if="editTitle" icon @click="toggleEditTitle">
         <v-icon color="gray">mdi-close</v-icon>
       </v-btn>
-      <v-btn-toggle v-else-if="onProject" borderless rounded v-model="editTitle">
-        <v-btn icon :value="true">
-          <v-icon color="gray">mdi-pencil</v-icon>
-        </v-btn>
-      </v-btn-toggle>
+      <v-btn v-else-if="onProject" icon @click="toggleEditTitle">
+        <v-icon>mdi-pencil</v-icon>
+      </v-btn>
       <v-spacer></v-spacer>
       <v-item-group>
         <v-list-item>
@@ -121,14 +120,12 @@
           <v-btn :disabled="newTaglineInvalid" v-if="editTagline" icon @click="updateTagline()">
             <v-icon>mdi-check</v-icon>
           </v-btn>
-          <v-btn v-if="editTagline" icon @click="editTagline = false">
+          <v-btn v-if="editTagline" icon @click="toggleEditTagline">
             <v-icon color="gray">mdi-close</v-icon>
           </v-btn>
-          <v-btn-toggle v-else-if="onProject" borderless rounded v-model="editTagline">
-            <v-btn icon :value="true">
-              <v-icon color="gray">mdi-pencil</v-icon>
-            </v-btn>
-          </v-btn-toggle>
+          <v-btn v-else-if="onProject" icon @click="toggleEditTagline">
+            <v-icon> mdi-pencil</v-icon>
+          </v-btn>
         </h2>
         <v-container v-if="!editTagline" class="text-left" v-text="tagline" />
         <v-textarea
@@ -138,6 +135,7 @@
           counter="256"
           no-resize
           outlined
+          clearable
           :placeholder="tagline"
           v-model="newTagline"
           :rules="[rules.length(256)]"
@@ -152,14 +150,12 @@
           >
             <v-icon>mdi-check</v-icon>
           </v-btn>
-          <v-btn v-if="editDescription" icon @click="editDescription = false">
+          <v-btn v-if="editDescription" icon @click="toggleEditDescription">
             <v-icon color="gray">mdi-close</v-icon>
           </v-btn>
-          <v-btn-toggle v-else-if="onProject" borderless rounded v-model="editDescription">
-            <v-btn icon :value="true">
-              <v-icon color="gray">mdi-pencil</v-icon>
-            </v-btn>
-          </v-btn-toggle>
+          <v-btn v-else-if="onProject" icon @click="toggleEditDescription">
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
         </h2>
         <v-container v-if="!editDescription" class="text-left" v-text="description" />
         <v-textarea
@@ -169,6 +165,7 @@
           counter="2048"
           no-resize
           outlined
+          clearable
           :placeholder="description"
           v-model="newDescription"
           :rules="[rules.length(2048)]"
@@ -290,15 +287,16 @@ export default {
         this.editAcceptingApps = false;
       }
     },
-  },
-  watch: {
-    editTitle() {
+    toggleEditTitle() {
+      this.editTitle = !this.editTitle;
       this.newTitle = this.title;
     },
-    editTagline() {
+    toggleEditTagline() {
+      this.editTagline = !this.editTagline;
       this.newTagline = this.tagline;
     },
-    editDescription() {
+    toggleEditDescription() {
+      this.editDescription = !this.editDescription;
       this.newDescription = this.description;
     },
   },
@@ -307,12 +305,15 @@ export default {
       return `https://picsum.photos/766/350?${this.title}`;
     },
     newTitleInvalid() {
+      if (this.newTitle === null) return true;
       return this.newTitle.length === 0 || this.newTitle.length > 64;
     },
     newTaglineInvalid() {
+      if (this.newTagline === null) return true;
       return this.newTagline.length === 0 || this.newTitle.newTagline > 256;
     },
     newDescriptionInvalid() {
+      if (this.newDescription === null) return true;
       return this.newDescription.length === 0 || this.newDescription.length > 2048;
     },
   },

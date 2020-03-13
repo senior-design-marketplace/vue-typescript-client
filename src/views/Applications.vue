@@ -19,9 +19,7 @@ export default {
   },
   computed: {
     applications() {
-      return this.$store.state.notifications
-        .filter(notif => notif.document.type === 'APPLICATION')
-        .map(notif => notif.document.application);
+      return this.$store.state.applications;
     },
     forApproval() {
       return this.applications

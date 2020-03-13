@@ -16,7 +16,7 @@
           v-bind:isAdmin="isAdmin"
         />
         <p />
-        <ProjectBoard v-bind:boardItems="boardItems" />
+        <ProjectBoard v-model="items.boardItems" v-bind:onProject="onProject" />
       </v-col>
       <v-col cols="12" sm="4">
         <Apply
@@ -93,24 +93,6 @@ export default {
           author: 'Tyler Lowe',
           text: 'Have any of you guys seen Jarvis?',
           datetime: 'Nov 13, 2019 12:00 PM',
-        },
-      ],
-      boardItems: [
-        {
-          date: 'November 2019',
-          desc: 'Actually gettting the project board done',
-          img: [],
-        },
-        {
-          date: 'October 2019',
-          desc:
-            'Simple UI generation from client in response to a live call from the server. Initial UI mockups for web client finished and handed over to SDEs.',
-          img: [],
-        },
-        {
-          date: 'September 2019',
-          desc:
-            'Schemas validated and initial routes stubbed for future implementation. Requirements validation with EMs and generation of an ordered product backlog. Developer middlewares and other tooling written to facilitate further development. Server capable of being stood up and responding to simple requests with valid data fetched from the cloud.',
         },
       ],
     };

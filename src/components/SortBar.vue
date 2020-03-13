@@ -38,9 +38,8 @@
         flat
         hide-details
       />
-      <v-autocomplete
+      <v-text-field
         v-model="advisor"
-        :items="availableAdvisors"
         label="Advisor"
         autocomplete="off"
         outlined
@@ -125,9 +124,8 @@
           flat
           hide-details
         />
-        <v-autocomplete
+        <v-text-field
           v-model="advisor"
-          :items="availableAdvisors"
           label="Advisor"
           autocomplete="off"
           outlined
@@ -161,10 +159,7 @@ export default {
   data() {
     return {
       sortList: ['new', 'popular'],
-      availableAdvisors: [
-        'b086c492-434e-419b-80f8-1a8b1539a976',
-        'ac94034b-9c03-4342-aff9-d87ea1666948',
-      ],
+      advisorTimeout: undefined,
     };
   },
   methods: {
@@ -231,7 +226,10 @@ export default {
         return this.$store.state.filters.advisor;
       },
       set(newAdvisor) {
-        this.$store.commit('updateFilter', { filter: 'advisor', value: newAdvisor });
+        clearTimeout(this.advisorTimeout);
+        this.advisorTimeout = setTimeout(() => {
+          this.$store.commit('updateFilter', { filter: 'advisor', value: newAdvisor });
+        }, 500);
       },
     },
     acceptingApps: {

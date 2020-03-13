@@ -1,11 +1,15 @@
 <template>
   <v-card>
     <v-container>
-      <v-tooltip :disabled="acceptingApps && !onProject && isLoggedIn" top max-width="175">
+      <v-tooltip
+        :disabled="acceptingApps && !onProject && isLoggedIn && !alreadyApplied && !sent"
+        top
+        max-width="175"
+      >
         <template v-slot:activator="{ on }">
           <span v-on="on">
             <v-btn
-              :disabled="!acceptingApps || onProject || !isLoggedIn"
+              :disabled="!acceptingApps || onProject || !isLoggedIn || alreadyApplied || sent"
               outlined
               block
               @click.stop="dialog = true"
@@ -16,7 +20,12 @@
         </template>
         <span v-if="!isLoggedIn">You must be logged in to apply to a project.</span>
         <span v-else-if="onProject">You are already a member of {{ title }}.</span>
-        <span v-else>{{ title }} is not accepting applications.</span>
+        <span v-else-if="alreadyApplied"
+          >You already have a pending application to {{ title }}.</span
+        >
+        <span v-else-if="sent">Your application to {{ title }} has been sent!</span>
+        <span v-else-if="!acceptingApps">{{ title }} is not accepting applications.</span>
+        <span v-else>You cannot apply to {{ title }} right now.</span>
       </v-tooltip>
 
       <v-dialog v-model="dialog" max-width="50%">
@@ -67,6 +76,7 @@ export default {
       id: uuid(),
       dialog: false,
       note: '',
+      sent: false,
       rules: {
         length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
       },
@@ -95,12 +105,22 @@ export default {
       if (response.status === 200) {
         this.dialog = false;
         this.note = '';
+        this.sent = true;
       }
     },
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn;
+    },
+    myApps() {
+      return this.$store.state.applications.filter(
+        app => app.userId === this.$store.state.userDetails.cognitoUsername,
+      );
+    },
+    alreadyApplied() {
+      const myPendingApps = this.myApps.filter(app => app.status === 'PENDING');
+      return myPendingApps.map(app => app.projectId).includes(this.$route.params.id);
     },
   },
 };

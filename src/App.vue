@@ -60,6 +60,7 @@ export default {
         this.$store.commit('setTags', response.data.tags);
         if (response.data.userDetails !== undefined) {
           this.$store.commit('setNotifications', response.data.notifications);
+          this.$store.commit('setApplications', response.data.applications);
           this.$store.commit('updateUserDetail', {
             detail: 'bio',
             value: response.data.userDetails.bio,
