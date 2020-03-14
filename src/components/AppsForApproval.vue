@@ -18,7 +18,6 @@
             </v-avatar>
           </td>
           <td @click=$router.push(/project/+item.projectId)>{{ item.userId }}</td>
-          <td @click=$router.push(/project/+item.projectId)>{{ item.major }}</td>
           <td @click=$router.push(/project/+item.projectId)>
             <v-chip
               label
@@ -69,7 +68,7 @@
       </template>
 
       <template v-slot:expanded-item="{ headers, item }">
-        <td :colspan="headers.length">
+        <td :colspan="headers.length" class="elevation-1">
           <v-container class="text-left" style="overflow-wrap: break-word;">
             <h4>
               {{item.userId}}'s Note:
@@ -106,12 +105,6 @@ export default {
           text: 'Name',
           align: 'center',
           value: 'name',
-          sortable: false,
-        },
-        {
-          text: 'Major',
-          align: 'center',
-          value: 'major',
           sortable: false,
         },
         {

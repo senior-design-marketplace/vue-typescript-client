@@ -31,9 +31,6 @@
               <h5>Email</h5>
               <h2>{{ email }}</h2>
               <br />
-              <h5>Major</h5>
-              <h2>Major Here</h2>
-              <br />
               <h5>Role</h5>
               <h2>{{ role }}</h2>
               <br />

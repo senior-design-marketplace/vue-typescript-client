@@ -1,11 +1,17 @@
 <template>
   <div>
-    <v-app-bar dark height="100">
+    <v-app-bar dark height="100" color="secondary">
       <v-app-bar-nav-icon @click="drawer = true" class="d-flex d-lg-none"></v-app-bar-nav-icon>
-      <router-link to="/">
-        <img class="logo" :src="require('@/../public/assets/logo.png')" />
-        <img :src="require('@/../public/assets/title.png')" height="50px" />
-      </router-link>
+        <v-container>
+          <router-link to="/">
+            <v-img
+              :src="require('@/../public/assets/header.jpg')"
+              :aspect-ratio="6.71906355"
+              max-height="75"
+              max-width="504"
+            />
+          </router-link>
+        </v-container>
       <v-spacer></v-spacer>
       <v-toolbar-items class="d-none d-lg-flex">
         <v-btn text class="item" to="/">Projects</v-btn>
@@ -68,7 +74,7 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute temporary>
-      <v-list-item v-if="isLoggedIn" class="px-2" to="/account">
+      <v-toolbar v-if="isLoggedIn" class="px-2" to="/account" dark color="secondary">
         <v-list-item-avatar>
           <v-img
                 v-if="$store.state.userDetails.thumbnailLink !== null"
@@ -77,17 +83,16 @@
               <v-icon v-else>mdi-account-circle</v-icon>
         </v-list-item-avatar>
         <v-list-item-title>{{ name }}</v-list-item-title>
-      </v-list-item>
+      </v-toolbar>
 
-      <v-list-item v-else class="px-2">
-        <v-list-item-avatar tile>
-          <img class="logo" :src="require('@/../public/assets/logo.png')" />
-        </v-list-item-avatar>
-        <v-list-item-title>marqetplace.</v-list-item-title>
+      <v-toolbar v-else class="px-2" dark color="secondary">
+        <v-list-item-title tile>
+          <v-img contain :src="require('@/../public/assets/header.png')" />
+        </v-list-item-title>
         <v-btn icon @click.stop="drawer = !drawer">
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
-      </v-list-item>
+      </v-toolbar>
 
       <v-divider></v-divider>
 
@@ -227,18 +232,9 @@ export default {
 </script>
 
 <style>
-.title {
-  font-family: "Montserrat", sans-serif;
-  font-size: 30px !important;
-  font-weight: bold;
-}
 .item {
   font-family: "Montserrat", sans-serif;
   font-size: 15px !important;
   font-weight: bold !important;
-}
-.logo {
-  width: 50px;
-  height: 50px;
 }
 </style>
