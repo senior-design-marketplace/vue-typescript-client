@@ -69,7 +69,9 @@
     <PictureUpload
       v-model="dialog"
       :path="`/users/${this.$store.state.userDetails.cognitoUsername}/avatar`"
+      title="Avatar Upload"
       :avatar="true"
+      @file="hotswapAvatar"
     />
   </v-container>
 </template>
@@ -96,6 +98,9 @@ export default {
       const textToCopy = this.$refs.urlTokenRef.$el.querySelector('input');
       textToCopy.select();
       document.execCommand('copy');
+    },
+    hotswapAvatar(file) {
+      this.$store.state.userDetails.thumbnailLink = URL.createObjectURL(file);
     },
   },
   computed: {

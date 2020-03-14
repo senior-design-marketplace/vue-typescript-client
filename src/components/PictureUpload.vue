@@ -1,12 +1,13 @@
 <template>
-  <v-dialog v-model="show" max-width="500px">
+  <v-dialog :persistent="loading" v-model="show" max-width="500px">
     <v-card>
       <v-card-title>
-        Media Upload
+        {{ title }}
         <v-spacer></v-spacer>
-        <v-btn class="text-right" icon @click="show = false">
+        <v-btn v-if="!loading" class="text-right" icon @click="show = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
+        <v-progress-circular v-if="loading" indeterminate color="primary" />
       </v-card-title>
       <v-card-text>
         <v-container v-if="this.file !== undefined">
@@ -24,8 +25,15 @@
           show-size
           accept="image/jpeg, image/png"
           prepend-icon="mdi-camera"
+          :rules="[rules.size]"
+          :disabled="loading"
         />
-        <v-btn :disabled="this.file === undefined" outlined color="primary" @click="submitFile">
+        <v-btn
+          :disabled="this.file === undefined || loading"
+          outlined
+          color="primary"
+          @click="submitFile"
+        >
           <h2>Submit</h2>
         </v-btn>
       </v-card-text>
@@ -40,15 +48,23 @@ export default {
   props: {
     value: Boolean,
     path: undefined,
+    title: undefined,
     avatar: Boolean,
   },
   data() {
     return {
       file: undefined,
+      loading: false,
+      rules: {
+        size: value => !value
+          || (value.size !== undefined && value.size < 20000000)
+          || 'Media size should be less than 20 MB!',
+      },
     };
   },
   methods: {
     async submitFile() {
+      this.loading = true;
       const regex = /\/(.*)/gm;
       const response = await apiCall.methods.mediaUpload(
         this.path,
@@ -56,9 +72,11 @@ export default {
         this.file,
         this.$route.fullPath,
       );
-      if (response.status === 200) {
+      if (response.status === 204) {
         this.show = false;
+        this.$emit('file', this.file);
       }
+      this.loading = false;
     },
   },
   computed: {
