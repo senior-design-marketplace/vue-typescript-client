@@ -113,6 +113,7 @@
                     :src="image(newMediaEntry)"
                     min-height="350"
                     max-height="350"
+                    contain
                   />
                   <VuePlyr
                     v-else-if="newMediaEntry.type === 'video/mp4'"
@@ -239,6 +240,7 @@
                   :src="item.document.mediaLink"
                   min-height="350"
                   max-height="350"
+                  contain
                 />
                 <v-img
                   v-else-if="
@@ -252,6 +254,7 @@
                   "
                   min-height="350"
                   max-height="350"
+                  contain
                 />
                 <VuePlyr
                   v-else-if="editEntryIndex(item.id) === -1 && item.document.mediaType === 'VIDEO'"

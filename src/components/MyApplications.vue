@@ -49,7 +49,7 @@
         </tr>
       </template>
       <template v-slot:expanded-item="{ headers, item }">
-        <td :colspan="headers.length">
+        <td :colspan="headers.length" class="elevation-1">
           <v-container style="overflow-wrap: break-word;">{{ item.note }}</v-container>
         </td>
       </template>

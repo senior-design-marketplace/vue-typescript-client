@@ -53,7 +53,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
-              :disabled="this.note.length > 256"
+              :disabled="note !== null && note.length > 256"
               color="primary"
               text
               @click="submitApplication"
@@ -75,10 +75,10 @@ export default {
     return {
       id: uuid(),
       dialog: false,
-      note: '',
+      note: null,
       sent: false,
       rules: {
-        length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
+        length: len => v => (v === null || v.length <= len) || `Invalid character length, must be less than ${len}`,
       },
     };
   },
@@ -93,7 +93,9 @@ export default {
         .post(
           `/projects/${this.$route.params.id}/applications`,
           '',
-          this.note.length === 0 ? { id: this.id } : { id: this.id, note: this.note },
+          this.note === null || this.note.length === 0
+            ? { id: this.id }
+            : { id: this.id, note: this.note },
           this.$route.fullPath,
         )
         .catch((error) => {

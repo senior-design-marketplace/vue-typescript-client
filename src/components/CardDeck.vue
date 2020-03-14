@@ -1,17 +1,16 @@
 <template>
   <v-container>
     <v-data-iterator
-    class="ml-n12 mr-n12"
       :items="items"
-      :items-per-page="50"
       hide-default-footer
       no-data-text="No projects found that match those filters"
       loading-text="Loading projects..."
+      disable-pagination
       :loading="loading"
     >
       <template v-slot:default="props">
         <v-row align="center">
-          <v-col v-for="item in props.items" :key="item.id">
+          <v-col v-for="(item, index) in props.items" :key="index">
             <Card
               v-bind:id="item.id"
               v-bind:avatar="item.thumbnailLink"
@@ -26,6 +25,7 @@
         </v-row>
       </template>
     </v-data-iterator>
+    <v-progress-linear v-if="loading" color="primary" indeterminate />
   </v-container>
 </template>
 

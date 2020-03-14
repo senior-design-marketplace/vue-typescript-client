@@ -23,32 +23,59 @@ export default {
     return {
       items: [],
       loading: true,
+      page: 1,
+      bottom: false,
     };
   },
   mounted() {
+    window.addEventListener('scroll', () => {
+      this.bottom = this.bottomVisible();
+    });
+    this.page = 1;
+    this.items = [];
     this.getProjects();
   },
   watch: {
     sort() {
+      this.page = 1;
+      this.items = [];
       this.getProjects();
     },
     order() {
+      this.page = 1;
+      this.items = [];
       this.getProjects();
     },
     major() {
+      this.page = 1;
+      this.items = [];
       this.getProjects();
     },
     tag() {
+      this.page = 1;
+      this.items = [];
       this.getProjects();
     },
     advisor() {
+      this.page = 1;
+      this.items = [];
       this.getProjects();
     },
     acceptingApps() {
+      this.page = 1;
+      this.items = [];
       this.getProjects();
     },
     hasAdvisor() {
+      this.page = 1;
+      this.items = [];
       this.getProjects();
+    },
+    bottom(bottom) {
+      if (bottom) {
+        this.page += 1;
+        this.getProjects();
+      }
     },
   },
   methods: {
@@ -61,18 +88,28 @@ export default {
       const advisorQuery = this.advisor ? `&advisorId=${this.advisor}` : '';
       const acceptingAppsQuery = this.acceptingApps ? '&acceptingApplications=true' : '';
       const hasAdvisorQuery = this.hasAdvisor ? '&hasAdvisor=true' : '';
-      const params = sortQuery
+
+      const params = `${sortQuery
         + orderQuery
         + majorQuery
         + tagQuery
         + advisorQuery
         + acceptingAppsQuery
-        + hasAdvisorQuery;
+        + hasAdvisorQuery}&page=${this.page}`;
       const response = await apiCall.methods.get('/projects', params, this.$route.fullPath);
       if (response.status === 200) {
-        this.items = response.data;
+        for (let i = 0; i < response.data.length; i += 1) {
+          this.items.push(response.data[i]);
+        }
         this.loading = false;
       }
+    },
+    bottomVisible() {
+      const { scrollY } = window;
+      const visible = document.documentElement.clientHeight;
+      const pageHeight = document.documentElement.scrollHeight;
+      const bottomOfPage = visible + scrollY >= pageHeight;
+      return bottomOfPage || pageHeight < visible;
     },
   },
   computed: {

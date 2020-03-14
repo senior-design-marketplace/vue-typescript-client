@@ -68,13 +68,13 @@
             <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'gray'">
               mdi-sticker-check-outline
             </v-icon>
-            <v-progress-circular v-else indeterminate />
+            <v-progress-circular v-else color="primary" indeterminate />
           </v-btn>
           <span v-else icon v-on="on">
             <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'gray'">
               mdi-sticker-check-outline
             </v-icon>
-            <v-progress-circular v-else indeterminate />
+            <v-progress-circular v-else color="primary" indeterminate />
           </span>
         </template>
         <span v-if="acceptingApps">{{ title }} is accepting applications.</span>

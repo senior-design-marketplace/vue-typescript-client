@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div id="app" v-on="pullToken()">
+    <div id="app">
       <Header />
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive" />
@@ -18,6 +18,9 @@ export default {
   name: 'app',
   components: {
     Header,
+  },
+  updated() {
+    this.pullToken();
   },
   methods: {
     pullToken() {
@@ -47,10 +50,8 @@ export default {
         } else {
           this.$router.push({ hash: '' }).catch((err) => {});
         }
-        // console.log(token);
       } else {
         this.getRootData();
-        // console.log('No Token Found');
       }
     },
     async getRootData() {
@@ -81,9 +82,13 @@ export default {
             detail: 'administratorOn',
             value: response.data.userDetails.administratorOn,
           });
-        } else if (this.$store.getters.isLoggedIn && process.env.NODE_ENV === 'production') {
-          this.$store.commit('setsavePath', this.$route.fullPath);
-          window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
+        } else if (this.$store.getters.isLoggedIn) {
+          this.$store.commit('logout');
+          alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
+          if (process.env.NODE_ENV === 'production') {
+            this.$store.commit('setsavePath', this.$route.fullPath);
+            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
+          }
         }
       }
     },
