@@ -18,13 +18,13 @@
       <div class="d-none d-lg-flex">
         <v-menu v-if="isLoggedIn && notifications.length > 0" open-on-hover offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn tile icon v-on="on">
-              <v-tab>
+            <span v-on="on">
+              <v-btn icon >
                 <v-badge color="red" overlap :content="notifications.length">
                   <v-icon>mdi-bell</v-icon>
                 </v-badge>
-              </v-tab>
-            </v-btn>
+              </v-btn>
+            </span>
           </template>
           <v-list>
             <v-list-item v-for="(item, index) in notifications" :key="index">
@@ -34,15 +34,26 @@
             </v-list-item>
           </v-list>
         </v-menu>
+        <v-tooltip v-else-if="isLoggedIn && notifications.length === 0" top max-width="175">
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on" class="mx-3">mdi-bell</v-icon>
+          </template>
+          <span>No notifications!</span>
+        </v-tooltip>
+
         <v-menu v-if="isLoggedIn" open-on-hover offset-y>
           <template v-slot:activator="{ on }">
-            <v-list-item-avatar to="/account" icon v-on="on" class="mx-1" style="cursor:pointer;">
-              <v-img
-                v-if="$store.state.userDetails.thumbnailLink !== null"
-                :src="$store.state.userDetails.thumbnailLink"
-              />
-              <v-icon v-else>mdi-account-circle</v-icon>
-            </v-list-item-avatar>
+            <span v-on="on">
+              <v-btn icon to="/account">
+                <v-list-item-avatar to="/account" icon class="mx-1" style="cursor:pointer;">
+                  <v-img
+                    v-if="$store.state.userDetails.thumbnailLink !== null"
+                    :src="$store.state.userDetails.thumbnailLink"
+                  />
+                  <v-icon v-else>mdi-account-circle</v-icon>
+                </v-list-item-avatar>
+              </v-btn>
+            </span>
           </template>
           <v-list>
             <v-list-item to="/account">

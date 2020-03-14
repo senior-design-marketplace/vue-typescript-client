@@ -1,6 +1,7 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <v-data-iterator
+    class="ml-n12 mr-n12"
       :items="items"
       :items-per-page="50"
       hide-default-footer
@@ -9,7 +10,7 @@
       :loading="loading"
     >
       <template v-slot:default="props">
-        <v-row>
+        <v-row align="center">
           <v-col v-for="item in props.items" :key="item.id">
             <Card
               v-bind:id="item.id"

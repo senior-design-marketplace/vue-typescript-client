@@ -114,8 +114,16 @@
                     min-height="350"
                     max-height="350"
                   />
-                  <VuePlyr v-else-if="newMediaEntry.type === 'video/mp4'">
-                    <video :src="image(newMediaEntry)" />
+                  <VuePlyr
+                    v-else-if="newMediaEntry.type === 'video/mp4'"
+                    :emit="['enterfullscreen', 'exitfullscreen']"
+                    @enterfullscreen="fullscreen = true"
+                    @exitfullscreen="fullscreen = false"
+                  >
+                    <video
+                      :src="image(newMediaEntry)"
+                      :style="!fullscreen ? 'max-height:350px;' : ''"
+                    />
                   </VuePlyr>
                   <br />
                 </span>
@@ -247,14 +255,23 @@
                 />
                 <VuePlyr
                   v-else-if="editEntryIndex(item.id) === -1 && item.document.mediaType === 'VIDEO'"
+                  :emit="['enterfullscreen', 'exitfullscreen']"
+                  @enterfullscreen="fullscreen = true"
+                  @exitfullscreen="fullscreen = false"
                 >
-                  <video :src="item.document.mediaLink" />
+                  <video
+                    :src="item.document.mediaLink"
+                    :style="!fullscreen ? 'max-height:350px;' : ''"
+                  />
                 </VuePlyr>
                 <VuePlyr
                   v-else-if="
                     editEntryIndex(item.id) !== -1 &&
                       editEntries[editEntryIndex(item.id)].mediaType === 'VIDEO'
                   "
+                  :emit="['enterfullscreen', 'exitfullscreen']"
+                  @enterfullscreen="fullscreen = true"
+                  @exitfullscreen="fullscreen = false"
                 >
                   <video
                     :src="
@@ -262,6 +279,7 @@
                         ? item.document.mediaLink
                         : image(editEntries[editEntryIndex(item.id)].body)
                     "
+                    :style="!fullscreen ? 'max-height:350px;' : ''"
                   />
                 </VuePlyr>
 
@@ -304,6 +322,7 @@ export default {
   data() {
     return {
       id: uuid(),
+      fullscreen: false,
       newEntry: false,
       newText: false,
       newMedia: false,

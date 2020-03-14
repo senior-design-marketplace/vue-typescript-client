@@ -8,6 +8,7 @@
             @click.stop="thumbnailDialog = true"
             size="50"
             :color="avatar !== null ? undefined : 'primary'"
+            class="mx-1"
             style="cursor:pointer;"
           >
             <v-img v-if="avatar != null" :src="avatar" max-height="50" max-width="50" />
@@ -20,7 +21,7 @@
         </template>
         <span>Click to change avatar</span>
       </v-tooltip>
-      <v-avatar v-else size="50" :color="avatar !== null ? undefined : 'primary'">
+      <v-avatar v-else size="50" class="mx-1" :color="avatar !== null ? undefined : 'primary'">
         <v-img v-if="avatar !== null" :src="avatar" max-height="50" max-width="50" />
         <span
           v-else-if="title != null"
@@ -28,7 +29,9 @@
           v-text="title.substring(0, 1).toLowerCase()"
         />
       </v-avatar>
-      <h2 v-if="!editTitle" class="text-left mx-1">{{ title }}</h2>
+      <v-toolbar-title v-if="!editTitle" class="headline text-left text-wrap mx-1">
+        {{ title }}
+      </v-toolbar-title>
       <v-textarea
         v-else
         class="mx-1"
@@ -184,12 +187,16 @@
     <PictureUpload
       v-model="thumbnailDialog"
       :path="`/projects/${this.$route.params.id}/thumbnail`"
+      title="Thumbnail Upload"
       :avatar="true"
+      @file="hotswapThumbnail"
     />
     <PictureUpload
       v-model="coverDialog"
       :path="`/projects/${this.$route.params.id}/cover`"
+      title="Cover Image Upload"
       :avatar="false"
+      @file="hotswapCoverImage"
     />
   </div>
 </template>
@@ -298,6 +305,12 @@ export default {
     toggleEditDescription() {
       this.editDescription = !this.editDescription;
       this.newDescription = this.description;
+    },
+    hotswapThumbnail(file) {
+      this.avatar = URL.createObjectURL(file);
+    },
+    hotswapCoverImage(file) {
+      this.coverImg = URL.createObjectURL(file);
     },
   },
   computed: {
