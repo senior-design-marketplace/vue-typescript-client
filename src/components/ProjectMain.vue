@@ -19,7 +19,7 @@
             />
           </v-avatar>
         </template>
-        <span>Click to change avatar</span>
+        <span>Click to change avatar.</span>
       </v-tooltip>
       <v-avatar v-else size="50" class="mx-1" :color="avatar !== null ? undefined : 'primary'">
         <v-img v-if="avatar !== null" :src="avatar" max-height="50" max-width="50" />
@@ -47,7 +47,7 @@
         <v-icon>mdi-check</v-icon>
       </v-btn>
       <v-btn v-if="editTitle" icon @click="toggleEditTitle">
-        <v-icon color="gray">mdi-close</v-icon>
+        <v-icon>mdi-close</v-icon>
       </v-btn>
       <v-btn v-else-if="onProject" icon @click="toggleEditTitle">
         <v-icon>mdi-pencil</v-icon>
@@ -57,7 +57,7 @@
         <v-list-item>
           <v-item v-slot:default="{ active, toggle }">
             <v-btn icon @click="toggle">
-              <v-icon v-bind:color="active ? 'yellow accent-4' : 'gray'">mdi-star</v-icon>
+              <v-icon v-bind:color="active ? 'yellow accent-4' : 'grey'">mdi-star</v-icon>
             </v-btn>
           </v-item>
         </v-list-item>
@@ -65,14 +65,14 @@
       <v-tooltip top max-width="175">
         <template v-slot:activator="{ on }">
           <v-btn v-if="onProject" icon v-on="on" @click="toggleAcceptingApps()">
-            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'gray'">
-              mdi-sticker-check-outline
+            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'error'">
+              {{ acceptingApps ? "mdi-sticker-check-outline" : "mdi-sticker-remove-outline" }}
             </v-icon>
             <v-progress-circular v-else color="primary" indeterminate />
           </v-btn>
           <span v-else icon v-on="on">
-            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'gray'">
-              mdi-sticker-check-outline
+            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'error'">
+              {{ acceptingApps ? "mdi-sticker-check-outline" : "mdi-sticker-remove-outline" }}
             </v-icon>
             <v-progress-circular v-else color="primary" indeterminate />
           </span>
@@ -124,7 +124,7 @@
             <v-icon>mdi-check</v-icon>
           </v-btn>
           <v-btn v-if="editTagline" icon @click="toggleEditTagline">
-            <v-icon color="gray">mdi-close</v-icon>
+            <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-btn v-else-if="onProject" icon @click="toggleEditTagline">
             <v-icon> mdi-pencil</v-icon>
@@ -154,7 +154,7 @@
             <v-icon>mdi-check</v-icon>
           </v-btn>
           <v-btn v-if="editDescription" icon @click="toggleEditDescription">
-            <v-icon color="gray">mdi-close</v-icon>
+            <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-btn v-else-if="onProject" icon @click="toggleEditDescription">
             <v-icon>mdi-pencil</v-icon>
@@ -291,8 +291,8 @@ export default {
       );
       if (response.status === 200) {
         this.acceptingApps = !this.acceptingApps;
-        this.editAcceptingApps = false;
       }
+      this.editAcceptingApps = false;
     },
     toggleEditTitle() {
       this.editTitle = !this.editTitle;

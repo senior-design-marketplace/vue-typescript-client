@@ -65,7 +65,7 @@
                 </span>
                 <v-spacer />
                 <v-btn v-if="!loading" icon @click="newEntryToggle">
-                  <v-icon color="gray">mdi-close</v-icon>
+                  <v-icon>mdi-close</v-icon>
                 </v-btn>
                 <v-progress-circular v-else indeterminate color="primary" />
               </v-card-title>
@@ -99,7 +99,7 @@
                 </span>
                 <v-spacer />
                 <v-btn v-if="!loading" icon @click="newEntryToggle">
-                  <v-icon color="gray">mdi-close</v-icon>
+                  <v-icon>mdi-close</v-icon>
                 </v-btn>
                 <v-progress-circular v-else indeterminate color="primary" />
               </v-card-title>
@@ -190,7 +190,7 @@
                   icon
                   @click="toggleEditEntry(item.id, '', '')"
                 >
-                  <v-icon color="gray">mdi-close</v-icon>
+                  <v-icon>mdi-close</v-icon>
                 </v-btn>
                 <v-btn
                   v-if="onProject && editEntryIndex(item.id) === -1"
@@ -210,7 +210,7 @@
                   @click="deleteBoardEntry(item.id)"
                   icon
                 >
-                  <v-icon color="gray">mdi-delete</v-icon>
+                  <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </v-card-title>
               <v-card-text v-if="item.document.type === 'TEXT'" class="text-left">
