@@ -50,7 +50,14 @@
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length" class="elevation-1">
-          <v-container style="overflow-wrap: break-word;">{{ item.note }}</v-container>
+          <v-container class="text-left" style="overflow-wrap: break-word;">
+            <h4>
+              Your Note:
+            </h4>
+            <v-container>
+              {{ item.note }}
+            </v-container>
+          </v-container>
         </td>
       </template>
     </v-data-table>

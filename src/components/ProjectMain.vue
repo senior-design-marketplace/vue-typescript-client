@@ -53,6 +53,11 @@
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
+      <v-btn v-if="isAdmin" icon @click="deleteDialog = true">
+        <v-icon>
+          mdi-delete
+        </v-icon>
+      </v-btn>
       <v-item-group>
         <v-list-item>
           <v-item v-slot:default="{ active, toggle }">
@@ -198,16 +203,25 @@
       :avatar="false"
       @file="hotswapCoverImage"
     />
+    <BigDecision
+      v-model="deleteDialog"
+      title="Delete Project"
+      :body="`Are you sure you want to delete ${title}? This permanent and irreversible.`"
+      :stringToType="title"
+      @confirm="deleteProject"
+    />
   </div>
 </template>
 
 <script>
 import apiCall from '@/apiCall';
 import PictureUpload from '@/components/PictureUpload.vue';
+import BigDecision from '@/components/BigDecision.vue';
 
 export default {
   components: {
     PictureUpload,
+    BigDecision,
   },
   props: {
     avatar: String,
@@ -225,6 +239,7 @@ export default {
   data: () => ({
     thumbnailDialog: false,
     coverDialog: false,
+    deleteDialog: false,
     editTitle: false,
     newTitle: '',
     editTagline: false,
@@ -294,6 +309,17 @@ export default {
       }
       this.editAcceptingApps = false;
     },
+    async deleteProject() {
+      const response = await apiCall.methods.delete(
+        `/projects/${this.$route.params.id}`,
+        '',
+        {},
+        this.$route.fullPath,
+      );
+      if (response.status === 200) {
+        this.$router.push('/');
+      }
+    },
     toggleEditTitle() {
       this.editTitle = !this.editTitle;
       this.newTitle = this.title;
@@ -323,7 +349,7 @@ export default {
     },
     newTaglineInvalid() {
       if (this.newTagline === null) return true;
-      return this.newTagline.length === 0 || this.newTitle.newTagline > 256;
+      return this.newTagline.length === 0 || this.newTagline.length > 256;
     },
     newDescriptionInvalid() {
       if (this.newDescription === null) return true;

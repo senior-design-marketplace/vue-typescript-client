@@ -205,13 +205,52 @@
                 >
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                <v-btn
-                  v-if="onProject && editEntryIndex(item.id) === -1"
-                  @click="deleteBoardEntry(item.id)"
-                  icon
-                >
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
+                <v-dialog v-if="onProject && editEntryIndex(item.id) === -1" max-width="500px">
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" icon>
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title>
+                      Delete Board Entry?<br />{{ formatDate(item.createdAt) }}
+                    </v-card-title>
+                    <v-card-text>
+                      <v-container>
+                        <v-container
+                          v-if="editEntryIndex(item.id) === -1 && item.document.type === 'TEXT'"
+                          class="text-left"
+                          v-text="item.document.body"
+                        />
+                        <v-img
+                          v-else-if="
+                            editEntryIndex(item.id) === -1 && item.document.mediaType === 'IMAGE'
+                          "
+                          :src="item.document.mediaLink"
+                          min-height="350"
+                          max-height="350"
+                          contain
+                        />
+                        <VuePlyr
+                          v-else-if="
+                            editEntryIndex(item.id) === -1 && item.document.mediaType === 'VIDEO'
+                          "
+                          :emit="['enterfullscreen', 'exitfullscreen']"
+                          @enterfullscreen="fullscreen = true"
+                          @exitfullscreen="fullscreen = false"
+                        >
+                          <video
+                            :src="item.document.mediaLink"
+                            :style="!fullscreen ? 'max-height:350px;' : ''"
+                          />
+                        </VuePlyr>
+                      </v-container>
+                      <v-btn @click="deleteBoardEntry(item.id)">
+                        <h2>Delete</h2>
+                      </v-btn>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
               </v-card-title>
               <v-card-text v-if="item.document.type === 'TEXT'" class="text-left">
                 <v-container

@@ -45,8 +45,66 @@
             </v-tooltip>
           </td>
           <td>
-              <v-btn @click="replyApplication(item, 'ACCEPTED')" color="success">Accept</v-btn>
-              <v-btn @click="replyApplication(item, 'REJECTED')" color="error">Reject</v-btn>
+            <v-dialog max-width="500px">
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on" color="success">Accept</v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  Accept Application?
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-avatar size="36" color="primary">
+                      <v-img v-if="item.thumbnailLink !== undefined" :src="item.thumbnailLink" />
+                      <span v-else class="white--text headline">
+                        {{ item.projectId.substring(0, 1).toLowerCase() }}
+                      </span>
+                    </v-avatar>
+                    {{item.projectId}}
+                    <br />
+                    <v-avatar size="36" color="primary">
+                      <v-img v-if="item.thumbnailLink !== undefined" :src="item.thumbnailLink" />
+                      <v-icon v-else dark>mdi-account-circle</v-icon>
+                    </v-avatar>
+                    {{item.userId}}
+                  </v-container>
+                  <v-btn @click="replyApplication(item, 'ACCEPTED')" color="success">
+                    <h2>Accept</h2>
+                  </v-btn>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
+            <v-dialog max-width="500px">
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on" color="error">Reject</v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  Reject Application?
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-avatar size="36" color="primary">
+                      <v-img v-if="item.thumbnailLink !== undefined" :src="item.thumbnailLink" />
+                      <span v-else class="white--text headline">
+                        {{ item.projectId.substring(0, 1).toLowerCase() }}
+                      </span>
+                    </v-avatar>
+                    {{item.projectId}}
+                    <br />
+                    <v-avatar size="36" color="primary">
+                      <v-img v-if="item.thumbnailLink !== undefined" :src="item.thumbnailLink" />
+                      <v-icon v-else dark>mdi-account-circle</v-icon>
+                    </v-avatar>
+                    {{item.userId}}
+                  </v-container>
+                  <v-btn @click="replyApplication(item, 'REJECTED')" color="error">
+                    <h2>Reject</h2>
+                  </v-btn>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
           </td>
         </tr>
       </template>
