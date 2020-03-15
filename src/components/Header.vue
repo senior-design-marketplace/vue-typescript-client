@@ -7,8 +7,8 @@
             <v-img
               :src="require('@/../public/assets/header.jpg')"
               :aspect-ratio="6.71906355"
-              max-height="75"
-              max-width="504"
+              max-height="60"
+              max-width="403"
             />
           </router-link>
         </v-container>

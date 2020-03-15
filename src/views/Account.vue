@@ -34,12 +34,31 @@
               <h5>Role</h5>
               <h2>{{ role }}</h2>
               <br />
-              <v-textarea outlined name="Bio" label="Bio" counter="2048"></v-textarea>
-              <v-col cols="12" sm="3">
-                <v-btn outlined block>
-                  <h2>Submit Bio</h2>
+              <h2 class="text-left">
+                Bio:
+                <v-btn :disabled="newBioInvalid" v-if="editBio" icon @click="updateBio()">
+                  <v-icon>mdi-check</v-icon>
                 </v-btn>
-              </v-col>
+                <v-btn v-if="editBio" icon @click="toggleEditBio">
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-btn v-else icon @click="toggleEditBio">
+                  <v-icon> mdi-pencil</v-icon>
+                </v-btn>
+              </h2>
+              <v-container v-if="!editBio" class="text-left" v-text="bio" />
+              <v-textarea
+                v-else
+                class="mx-1"
+                rows="3"
+                counter="256"
+                no-resize
+                outlined
+                clearable
+                :placeholder="bio"
+                v-model="newBio"
+                :rules="[rules.length(256)]"
+              />
 
               <v-row v-if="this.$route.path == '/debug'" class="mx-10 my-10">
                 <v-text-field label="Token" hide-details v-model="token" ref="tokenRef" />
@@ -74,6 +93,7 @@
 </template>
 
 <script>
+import apiCall from '@/apiCall';
 import PictureUpload from '@/components/PictureUpload.vue';
 
 export default {
@@ -83,6 +103,11 @@ export default {
   data() {
     return {
       dialog: false,
+      newBio: null,
+      editBio: false,
+      rules: {
+        length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
+      },
     };
   },
   methods: {
@@ -98,6 +123,27 @@ export default {
     },
     hotswapAvatar(file) {
       this.$store.state.userDetails.thumbnailLink = URL.createObjectURL(file);
+    },
+    toggleEditBio() {
+      this.editBio = !this.editBio;
+      this.newBio = this.bio;
+    },
+    async updateBio() {
+      const response = await apiCall.methods.patch(
+        `/users/${this.$store.state.userDetails.cognitoUsername}`,
+        '',
+        {
+          bio: this.newBio,
+        },
+        this.$route.fullPath,
+      );
+      if (response.status === 200) {
+        this.editBio = false;
+        this.$store.commit('updateUserDetail', {
+          detail: 'bio',
+          value: this.newBio,
+        });
+      }
     },
   },
   computed: {
@@ -119,8 +165,15 @@ export default {
     role() {
       return this.$store.state.userDetails.role;
     },
+    bio() {
+      return this.$store.state.userDetails.bio;
+    },
     token() {
       return this.$store.state.userDetails.token;
+    },
+    newBioInvalid() {
+      if (this.newBio === null) return true;
+      return this.newBio.length === 0 || this.newBio.length > 256;
     },
   },
 };

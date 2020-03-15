@@ -19,7 +19,7 @@
             />
           </v-avatar>
         </template>
-        <span>Click to change avatar</span>
+        <span>Click to change avatar.</span>
       </v-tooltip>
       <v-avatar v-else size="50" class="mx-1" :color="avatar !== null ? undefined : 'primary'">
         <v-img v-if="avatar !== null" :src="avatar" max-height="50" max-width="50" />
@@ -47,17 +47,22 @@
         <v-icon>mdi-check</v-icon>
       </v-btn>
       <v-btn v-if="editTitle" icon @click="toggleEditTitle">
-        <v-icon color="gray">mdi-close</v-icon>
+        <v-icon>mdi-close</v-icon>
       </v-btn>
       <v-btn v-else-if="onProject" icon @click="toggleEditTitle">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
+      <v-btn v-if="isAdmin" icon @click="deleteDialog = true">
+        <v-icon>
+          mdi-delete
+        </v-icon>
+      </v-btn>
       <v-item-group>
         <v-list-item>
           <v-item v-slot:default="{ active, toggle }">
             <v-btn icon @click="toggle">
-              <v-icon v-bind:color="active ? 'yellow accent-4' : 'gray'">mdi-star</v-icon>
+              <v-icon v-bind:color="active ? 'yellow accent-4' : 'grey'">mdi-star</v-icon>
             </v-btn>
           </v-item>
         </v-list-item>
@@ -65,14 +70,14 @@
       <v-tooltip top max-width="175">
         <template v-slot:activator="{ on }">
           <v-btn v-if="onProject" icon v-on="on" @click="toggleAcceptingApps()">
-            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'gray'">
-              mdi-sticker-check-outline
+            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'error'">
+              {{ acceptingApps ? "mdi-sticker-check-outline" : "mdi-sticker-remove-outline" }}
             </v-icon>
             <v-progress-circular v-else color="primary" indeterminate />
           </v-btn>
           <span v-else icon v-on="on">
-            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'gray'">
-              mdi-sticker-check-outline
+            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'error'">
+              {{ acceptingApps ? "mdi-sticker-check-outline" : "mdi-sticker-remove-outline" }}
             </v-icon>
             <v-progress-circular v-else color="primary" indeterminate />
           </span>
@@ -124,7 +129,7 @@
             <v-icon>mdi-check</v-icon>
           </v-btn>
           <v-btn v-if="editTagline" icon @click="toggleEditTagline">
-            <v-icon color="gray">mdi-close</v-icon>
+            <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-btn v-else-if="onProject" icon @click="toggleEditTagline">
             <v-icon> mdi-pencil</v-icon>
@@ -154,7 +159,7 @@
             <v-icon>mdi-check</v-icon>
           </v-btn>
           <v-btn v-if="editDescription" icon @click="toggleEditDescription">
-            <v-icon color="gray">mdi-close</v-icon>
+            <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-btn v-else-if="onProject" icon @click="toggleEditDescription">
             <v-icon>mdi-pencil</v-icon>
@@ -198,16 +203,25 @@
       :avatar="false"
       @file="hotswapCoverImage"
     />
+    <BigDecision
+      v-model="deleteDialog"
+      title="Delete Project"
+      :body="`Are you sure you want to delete ${title}? This permanent and irreversible.`"
+      :stringToType="title"
+      @confirm="deleteProject"
+    />
   </div>
 </template>
 
 <script>
 import apiCall from '@/apiCall';
 import PictureUpload from '@/components/PictureUpload.vue';
+import BigDecision from '@/components/BigDecision.vue';
 
 export default {
   components: {
     PictureUpload,
+    BigDecision,
   },
   props: {
     avatar: String,
@@ -225,6 +239,7 @@ export default {
   data: () => ({
     thumbnailDialog: false,
     coverDialog: false,
+    deleteDialog: false,
     editTitle: false,
     newTitle: '',
     editTagline: false,
@@ -291,7 +306,18 @@ export default {
       );
       if (response.status === 200) {
         this.acceptingApps = !this.acceptingApps;
-        this.editAcceptingApps = false;
+      }
+      this.editAcceptingApps = false;
+    },
+    async deleteProject() {
+      const response = await apiCall.methods.delete(
+        `/projects/${this.$route.params.id}`,
+        '',
+        {},
+        this.$route.fullPath,
+      );
+      if (response.status === 200) {
+        this.$router.push('/');
       }
     },
     toggleEditTitle() {
@@ -323,7 +349,7 @@ export default {
     },
     newTaglineInvalid() {
       if (this.newTagline === null) return true;
-      return this.newTagline.length === 0 || this.newTitle.newTagline > 256;
+      return this.newTagline.length === 0 || this.newTagline.length > 256;
     },
     newDescriptionInvalid() {
       if (this.newDescription === null) return true;

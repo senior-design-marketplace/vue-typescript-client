@@ -50,15 +50,32 @@
                   <v-icon color="primary">mdi-account-check</v-icon>
                 </span>
               </template>
-              <span>You are a member of {{ item.title }}</span>
+              <span>You are a member of {{ item.title }}.</span>
             </v-tooltip>
-            <v-tooltip v-else-if="item.acceptingApplications" top max-width="175">
+            <v-tooltip v-else-if="alreadyApplied(item.id)" top max-width="175">
               <template v-slot:activator="{ on }">
                 <span icon v-on="on">
-                  <v-icon color="success">mdi-sticker-check-outline</v-icon>
+                  <v-icon color="warning">mdi-sticker-minus-outline</v-icon>
                 </span>
               </template>
-              <span>{{ item.title }} is accepting applications.</span>
+              <span>You have a pending application to {{ item.title }}.</span>
+            </v-tooltip>
+            <v-tooltip v-else top max-width="175">
+              <template v-slot:activator="{ on }">
+                <span icon v-on="on">
+                  <v-icon v-bind:color="item.acceptingApplications ? 'success' : 'error'">
+                    {{
+                      item.acceptingApplications
+                      ? "mdi-sticker-check-outline"
+                      : "mdi-sticker-remove-outline"
+                    }}
+                  </v-icon>
+                </span>
+              </template>
+              <span v-if="item.acceptingApplications">
+                {{ item.title }} is accepting applications.
+              </span>
+              <span v-else>{{ item.title }} is not accepting applications.</span>
             </v-tooltip>
           </td>
           <td>
@@ -133,6 +150,17 @@ export default {
   methods: {
     onProject(projectId) {
       return this.$store.getters.isAdmin(projectId) || this.$store.getters.isContributor(projectId);
+    },
+    alreadyApplied(projectId) {
+      const myPendingApps = this.myApps.filter(app => app.status === 'PENDING');
+      return myPendingApps.map(app => app.projectId).includes(projectId);
+    },
+  },
+  computed: {
+    myApps() {
+      return this.$store.state.applications.filter(
+        app => app.userId === this.$store.state.userDetails.cognitoUsername,
+      );
     },
   },
 };
