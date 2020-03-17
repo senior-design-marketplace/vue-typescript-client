@@ -55,42 +55,45 @@ export default {
       }
     },
     async getRootData() {
-      const response = await apiCall.methods.get('/', '', this.$route.fullPath);
-      if (response.status === 200) {
-        this.$store.commit('setMajors', response.data.majors);
-        this.$store.commit('setTags', response.data.tags);
-        if (response.data.userDetails !== undefined) {
-          this.$store.commit('setNotifications', response.data.notifications);
-          this.$store.commit('setApplications', response.data.applications);
-          this.$store.commit('updateUserDetail', {
-            detail: 'bio',
-            value: response.data.userDetails.bio,
-          });
-          this.$store.commit('updateUserDetail', {
-            detail: 'cognitoUsername',
-            value: response.data.userDetails.id,
-          });
-          this.$store.commit('updateUserDetail', {
-            detail: 'thumbnailLink',
-            value: response.data.userDetails.thumbnailLink,
-          });
-          this.$store.commit('updateUserDetail', {
-            detail: 'contributorOn',
-            value: response.data.userDetails.contributorOn,
-          });
-          this.$store.commit('updateUserDetail', {
-            detail: 'administratorOn',
-            value: response.data.userDetails.administratorOn,
-          });
-        } else if (this.$store.getters.isLoggedIn) {
-          this.$store.commit('logout');
-          alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
-          if (process.env.NODE_ENV === 'production') {
-            this.$store.commit('setsavePath', this.$route.fullPath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
+      await apiCall.methods
+        .get('/', '', this.$route.fullPath)
+        .then((response) => {
+          if (response.status === 200) {
+            this.$store.commit('setMajors', response.data.majors);
+            this.$store.commit('setTags', response.data.tags);
+            if (response.data.userDetails !== undefined) {
+              this.$store.commit('setNotifications', response.data.notifications);
+              this.$store.commit('setApplications', response.data.applications);
+              this.$store.commit('updateUserDetail', {
+                detail: 'bio',
+                value: response.data.userDetails.bio,
+              });
+              this.$store.commit('updateUserDetail', {
+                detail: 'cognitoUsername',
+                value: response.data.userDetails.id,
+              });
+              this.$store.commit('updateUserDetail', {
+                detail: 'thumbnailLink',
+                value: response.data.userDetails.thumbnailLink,
+              });
+              this.$store.commit('updateUserDetail', {
+                detail: 'contributorOn',
+                value: response.data.userDetails.contributorOn,
+              });
+              this.$store.commit('updateUserDetail', {
+                detail: 'administratorOn',
+                value: response.data.userDetails.administratorOn,
+              });
+            } else if (this.$store.getters.isLoggedIn) {
+              this.$store.commit('setsavePath', this.$route.fullPath);
+              apiCall.methods.authError();
+            }
           }
-        }
-      }
+        })
+        .catch((error) => {
+          this.$store.commit('logout');
+          apiCall.methods.otherError('Error logging in to Marqetplace.');
+        });
     },
   },
 };

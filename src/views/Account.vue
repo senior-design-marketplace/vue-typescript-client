@@ -77,6 +77,11 @@
                   <v-icon>mdi-content-copy</v-icon>
                 </v-btn>
               </v-row>
+              <v-row v-if="this.$route.path == '/debug'" class="mx-10 my-10">
+                <v-textarea class="mx-1" rows="1" no-resize clearable v-model="debugRoute" />
+                <v-btn @click="otherLogin(debugRoute)"> {{ debugRoute }} Login </v-btn>
+                <v-btn @click="otherLogin('http://marqetplace-staging.s3-website-us-east-1.amazonaws.com/')"> Staging Login </v-btn>
+              </v-row>
             </v-col>
           </v-row>
         </v-container>
@@ -105,6 +110,7 @@ export default {
       dialog: false,
       newBio: null,
       editBio: false,
+      debugRoute: 'http://localhost:8080/',
       rules: {
         length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
       },
@@ -120,6 +126,9 @@ export default {
       const textToCopy = this.$refs.urlTokenRef.$el.querySelector('input');
       textToCopy.select();
       document.execCommand('copy');
+    },
+    otherLogin(debugRoute) {
+      window.location.href = `${debugRoute}#access_token=&id_token=${this.token}&`;
     },
     hotswapAvatar(file) {
       this.$store.state.userDetails.thumbnailLink = URL.createObjectURL(file);

@@ -23,7 +23,7 @@ export default new Router({
       meta: {
         keepAlive: false,
       },
-      component: () => import('./views/My Projects.vue'),
+      component: () => import('./views/MyProjects.vue'),
     },
     {
       path: '/create',

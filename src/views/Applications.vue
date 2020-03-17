@@ -1,7 +1,10 @@
 <template>
   <v-container>
     <br />
-    <h1 v-if="forApproval.length == 0 && myApps.length == 0">You currently have no applications</h1>
+    <h1 v-if="forApproval.length == 0 && myApps.length == 0">
+      <v-img contain max-height="500" :src="require('@/../public/assets/noApps.svg')" />
+      You currently have no applications.
+    </h1>
     <br />
     <AppsForApproval v-if="forApproval.length > 0" :applications="forApproval" />
     <br />
