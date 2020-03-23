@@ -61,28 +61,28 @@ export default {
           if (response.status === 200) {
             this.$store.commit('setMajors', response.data.majors);
             this.$store.commit('setTags', response.data.tags);
-            if (response.data.userDetails !== undefined) {
+            if (response.data.id !== undefined) {
               this.$store.commit('setNotifications', response.data.notifications);
               this.$store.commit('setApplications', response.data.applications);
               this.$store.commit('updateUserDetail', {
                 detail: 'bio',
-                value: response.data.userDetails.bio,
+                value: response.data.bio,
               });
               this.$store.commit('updateUserDetail', {
                 detail: 'cognitoUsername',
-                value: response.data.userDetails.id,
+                value: response.data.id,
               });
               this.$store.commit('updateUserDetail', {
                 detail: 'thumbnailLink',
-                value: response.data.userDetails.thumbnailLink,
+                value: response.data.thumbnailLink,
               });
               this.$store.commit('updateUserDetail', {
                 detail: 'contributorOn',
-                value: response.data.userDetails.contributorOn,
+                value: response.data.contributorOn,
               });
               this.$store.commit('updateUserDetail', {
                 detail: 'administratorOn',
-                value: response.data.userDetails.administratorOn,
+                value: response.data.administratorOn,
               });
             } else if (this.$store.getters.isLoggedIn) {
               this.$store.commit('setsavePath', this.$route.fullPath);
