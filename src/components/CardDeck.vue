@@ -1,9 +1,13 @@
 <template>
   <v-container>
+    <h1 v-if="items.length === 0 && !loading">
+      <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
+      No projects found that match those filters.
+    </h1>
     <v-data-iterator
       :items="items"
       hide-default-footer
-      no-data-text="No projects found that match those filters"
+      no-data-text
       loading-text="Loading projects..."
       disable-pagination
       :loading="loading"

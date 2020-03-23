@@ -1,13 +1,18 @@
 <template>
   <v-container>
+    <h1 v-if="items.length === 0 && !loading">
+      <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
+      No projects found that match those filters.
+    </h1>
     <v-data-table
+      v-else
       :headers="headers"
       :items="items"
       :items-per-page="15"
       hide-default-footer
       class="elevation-1"
       item-key="id"
-      no-data-text="No projects found that match those filters"
+      no-data-text
       loading-text="Loading projects..."
       :expanded="expanded"
       single-expand
@@ -30,10 +35,10 @@
               </span>
             </v-avatar>
           </td>
-          <td @click=$router.push(/project/+item.id) class="text-left">
+          <td @click=$router.push(/project/+item.id) class="text-left text-break">
             {{ item.title }}
           </td>
-          <td @click=$router.push(/project/+item.id) class="text-left">
+          <td @click=$router.push(/project/+item.id) class="text-left text-break">
             {{ item.tagline }}
           </td>
           <!-- <td>
@@ -87,7 +92,7 @@
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length" class="elevation-1">
-          <v-container style="overflow-wrap: break-word;">
+          <v-container class="text-left text-break">
             <v-img
               class="mx-1 my-1"
               style="float:left;"

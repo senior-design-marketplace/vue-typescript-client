@@ -29,9 +29,9 @@
           v-text="title.substring(0, 1).toLowerCase()"
         />
       </v-avatar>
-      <v-toolbar-title v-if="!editTitle" class="headline text-left text-wrap mx-1">
+      <v-container v-if="!editTitle" class="headline text-left text-break mx-1">
         {{ title }}
-      </v-toolbar-title>
+      </v-container>
       <v-textarea
         v-else
         class="mx-1"

@@ -36,17 +36,22 @@
               <br />
               <h2 class="text-left">
                 Bio:
-                <v-btn :disabled="newBioInvalid" v-if="editBio" icon @click="updateBio()">
+                <v-btn
+                  :disabled="newBioInvalid"
+                  v-if="editBio || bio === null"
+                  icon
+                  @click="updateBio()"
+                >
                   <v-icon>mdi-check</v-icon>
                 </v-btn>
-                <v-btn v-if="editBio" icon @click="toggleEditBio">
+                <v-btn v-if="editBio || bio === null" icon @click="toggleEditBio">
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
                 <v-btn v-else icon @click="toggleEditBio">
                   <v-icon> mdi-pencil</v-icon>
                 </v-btn>
               </h2>
-              <v-container v-if="!editBio" class="text-left" v-text="bio" />
+              <v-container v-if="!editBio && bio !== null" class="text-left" v-text="bio" />
               <v-textarea
                 v-else
                 class="mx-1"
@@ -77,6 +82,17 @@
                   <v-icon>mdi-content-copy</v-icon>
                 </v-btn>
               </v-row>
+              <v-row v-if="this.$route.path == '/debug'" class="mx-10 my-10">
+                <v-textarea class="mx-1" rows="1" no-resize clearable v-model="debugRoute" />
+                <v-btn @click="otherLogin(debugRoute)"> {{ debugRoute }} Login </v-btn>
+                <v-btn
+                  @click="
+                    otherLogin('http://marqetplace-staging.s3-website-us-east-1.amazonaws.com/')
+                  "
+                >
+                  Staging Login
+                </v-btn>
+              </v-row>
             </v-col>
           </v-row>
         </v-container>
@@ -105,6 +121,7 @@ export default {
       dialog: false,
       newBio: null,
       editBio: false,
+      debugRoute: 'http://localhost:8080/',
       rules: {
         length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
       },
@@ -120,6 +137,9 @@ export default {
       const textToCopy = this.$refs.urlTokenRef.$el.querySelector('input');
       textToCopy.select();
       document.execCommand('copy');
+    },
+    otherLogin(debugRoute) {
+      window.location.href = `${debugRoute}#access_token=&id_token=${this.token}&`;
     },
     hotswapAvatar(file) {
       this.$store.state.userDetails.thumbnailLink = URL.createObjectURL(file);

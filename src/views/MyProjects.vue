@@ -2,7 +2,10 @@
   <div>
     <br />
     <CardDeck v-if="myProjects.length > 0" :items="myProjects" :loading="loading" />
-    <h1 v-else>You are not on any projects!</h1>
+    <h1 v-else>
+      <v-img contain max-height="500" :src="require('@/../public/assets/noProjects.svg')" />
+      You are not on any projects!
+    </h1>
   </div>
 </template>
 

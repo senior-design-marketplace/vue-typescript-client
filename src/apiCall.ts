@@ -1,11 +1,39 @@
 import axios from 'axios';
+import Vue from 'vue';
 import store from '@/store';
+import ErrorDialog from '@/components/ErrorDialog.vue';
 
 const env = process.env.NODE_ENV === 'production' ? 'production' : 'staging';
 const apiUrl = 'https://3q6zl3xokg.execute-api.us-east-1.amazonaws.com/';
 
 export default {
   methods: {
+    authError() {
+      const ComponentClass = Vue.extend(ErrorDialog);
+      const vm = new ComponentClass({
+        propsData: {
+          value: true,
+          text: 'Session expired. Redirecting to login.',
+          src: '500.svg',
+        },
+      }).$mount();
+      document.body.appendChild(vm.$el);
+      store.commit('logout');
+      const interval = setTimeout(() => {
+        window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
+      }, 3000);
+    },
+    otherError(errorText) {
+      const ComponentClass = Vue.extend(ErrorDialog);
+      const vm = new ComponentClass({
+        propsData: {
+          value: true,
+          text: errorText,
+          src: '500.svg',
+        },
+      }).$mount();
+      document.body.appendChild(vm.$el);
+    },
     async get(path, queryParams, savePath) {
       const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}${queryParams}`;
       const resp = axios.get(url);
@@ -13,11 +41,12 @@ export default {
         .then((response) => {})
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
-            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
             store.commit('setsavePath', savePath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
-          } else if (error.response.data.message === 'Malformed request') {
-            alert("Malformed request"); // eslint-disable-line
+            this.authError();
+          } else if (error.response.data.type === 'BadRequestError') {
+            this.otherError(error.response.data.message);
+          } else if (path !== '/') {
+            this.otherError(error.response.status);
           }
         });
       return resp;
@@ -29,11 +58,12 @@ export default {
         .then((response) => {})
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
-            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
             store.commit('setsavePath', savePath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
-          } else if (error.response.data.message === 'Malformed request') {
-            alert("Malformed request"); // eslint-disable-line
+            this.authError();
+          } else if (error.response.data.type === 'BadRequestError') {
+            this.otherError(error.response.data.message);
+          } else {
+            this.otherError(error.response.status);
           }
         });
       return resp;
@@ -45,11 +75,12 @@ export default {
         .then((response) => {})
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
-            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
             store.commit('setsavePath', savePath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
-          } else if (error.response.data.message === 'Malformed request') {
-            alert("Malformed request"); // eslint-disable-line
+            this.authError();
+          } else if (error.response.data.type === 'BadRequestError') {
+            this.otherError(error.response.data.message);
+          } else {
+            this.otherError(error.response.status);
           }
         });
       return resp;
@@ -61,11 +92,12 @@ export default {
         .then((response) => {})
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
-            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
             store.commit('setsavePath', savePath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
-          } else if (error.response.data.message === 'Malformed request') {
-            alert("Malformed request"); // eslint-disable-line
+            this.authError();
+          } else if (error.response.data.type === 'BadRequestError') {
+            this.otherError(error.response.data.message);
+          } else {
+            this.otherError(error.response.status);
           }
         });
       return resp;
@@ -84,11 +116,12 @@ export default {
         })
         .catch((error) => {
           if (error.response.data.type === 'AuthenticationError') {
-            alert("Session expired. Redirecting to Stevens Login"); // eslint-disable-line
             store.commit('setsavePath', savePath);
-            window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
-          } else if (error.response.data.message === 'Malformed request') {
-            alert("Malformed request"); // eslint-disable-line
+            this.authError();
+          } else if (error.response.data.type === 'BadRequestError') {
+            this.otherError(error.response.data.message);
+          } else {
+            this.otherError(error.response.status);
           }
         });
       return resp2;
@@ -100,13 +133,6 @@ export default {
       });
       formData.append('file', mediaFile);
       const resp = axios.post(response.data.url, formData);
-      // resp
-      //   .then((response2 ) => {
-      //     console.log(response2); // eslint-disable-line
-      //   })
-      //   .catch((error) => {
-      //     console.log(error); // eslint-disable-line
-      //   });
       return resp;
     },
   },
