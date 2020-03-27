@@ -587,7 +587,7 @@ export default {
           linksArr.push(this.boardEntries[i].document.mediaLink);
         }
       }
-      const resp = axios.all(linksArr.map(l => axios.head(l))).then(
+      const resp = axios.all(linksArr.map(l => axios.get(l))).then(
         axios.spread((...res) => {
           const types = res.map(a => a.headers['content-type']);
           for (let i = 0; i < this.boardEntries.length; i += 1) {
