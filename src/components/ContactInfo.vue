@@ -30,7 +30,7 @@
             </v-avatar>
           </v-col>
           <v-col>
-            <span>{{ advisor.id }} </span>
+            <span>{{ advisor.firstName }} {{advisor.lastName}}</span>
           </v-col>
         </v-row>
       </v-container>
@@ -63,7 +63,7 @@
             </v-avatar>
           </v-col>
           <v-col>
-            <span>{{ member.id }} </span>
+            <span>{{ member.firstName }} {{member.lastName}} </span>
           </v-col>
         </v-row>
       </v-container>

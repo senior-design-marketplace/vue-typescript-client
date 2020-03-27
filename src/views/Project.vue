@@ -16,7 +16,11 @@
           v-bind:isAdmin="isAdmin"
         />
         <p />
-        <ProjectBoard v-model="items.boardItems" v-bind:onProject="onProject" />
+        <ProjectBoard
+          v-model="items.boardItems"
+          v-bind:onProject="onProject"
+          v-bind:createdAt="items.createdAt"
+        />
       </v-col>
       <v-col cols="12" sm="4">
         <Apply
@@ -32,7 +36,7 @@
           v-bind:administrators="items.administrators"
         />
         <p />
-        <Comments @comment="updateComments" v-bind:comments="comments" />
+        <Comments @comment="updateComments" v-bind:comments="items.comments" />
       </v-col>
     </v-row>
   </v-container>
@@ -57,44 +61,6 @@ export default {
   data() {
     return {
       items: [],
-      comments: [
-        {
-          author: 'Julia Cahn',
-          text: 'Example question here?',
-          datetime: 'Nov 13, 2019 12:00 PM',
-        },
-        {
-          author: 'Ruthy Levi',
-          text: 'What it do bby',
-          datetime: 'Nov 13, 2019 1:00 PM',
-        },
-        {
-          author: 'Herb Zieger',
-          text: 'Wow this demo looks awesome!',
-          datetime: 'Nov 13, 2019 12:00 PM',
-        },
-        {
-          author: 'Mark Freeman',
-          text: 'Ooga Booga.',
-          datetime: 'Nov 13, 2019 12:00 PM',
-        },
-        {
-          author: 'Jason Chlus',
-          text:
-            'Yo guys! Make sure to check out my vlog channel! https://www.youtube.com/channel/UC5UiolKpoLn920GnwidWQDQ',
-          datetime: 'Nov 13, 2019 12:00 PM',
-        },
-        {
-          author: 'Jakub Kolasinski',
-          text: 'A bad day on the slopes beats a good day at work!',
-          datetime: 'Nov 13, 2019 12:00 PM',
-        },
-        {
-          author: 'Tyler Lowe',
-          text: 'Have any of you guys seen Jarvis?',
-          datetime: 'Nov 13, 2019 12:00 PM',
-        },
-      ],
     };
   },
   mounted() {

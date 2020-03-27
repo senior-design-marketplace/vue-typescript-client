@@ -10,12 +10,6 @@
     <v-container fluid>
       <v-timeline dense>
         <v-slide-x-transition group hide-on-leave>
-          <v-timeline-item
-            v-if="(boardEntries === undefined || boardEntries.length === 0) && !onProject"
-            large
-            color="grey"
-            key="blank"
-          />
           <v-timeline-item v-if="onProject" large key="icon" class="text-left">
             <template v-if="!newEntry" v-slot:icon>
               <v-btn dark icon @click="newEntryToggle">
@@ -341,6 +335,27 @@
               </v-card-text>
             </v-card>
           </v-timeline-item>
+          <v-timeline-item key="created">
+            <v-card>
+              <v-card-title class="headline">
+                {{ formatDate(createdAt) }}
+                <v-spacer />
+              </v-card-title>
+              <v-card-text>
+                <v-img
+                  src="@/../public/assets/balloons.jpeg"
+                  height="350"
+                  gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+                >
+                  <v-overlay :absolute="true">
+                    <v-container class="white--text display-3">
+                      Project Created!
+                    </v-container>
+                  </v-overlay>
+                </v-img>
+              </v-card-text>
+            </v-card>
+          </v-timeline-item>
         </v-slide-x-transition>
       </v-timeline>
     </v-container>
@@ -360,6 +375,7 @@ export default {
   props: {
     value: Array,
     onProject: Boolean,
+    createdAt: String,
   },
   data() {
     return {
@@ -497,7 +513,7 @@ export default {
           this.$route.fullPath,
         )
         .catch((error) => {
-          alert("Media upload failed"); // eslint-disable-line
+          apiCall.methods.otherError('Media upload failed');
         });
       return response;
     },
