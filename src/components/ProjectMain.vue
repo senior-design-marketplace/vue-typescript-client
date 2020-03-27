@@ -82,8 +82,8 @@
             <v-progress-circular v-else color="primary" indeterminate />
           </span>
         </template>
-        <span v-if="acceptingApps">{{ title }} is accepting applications.</span>
-        <span v-else>{{ title }} is not accepting applications.</span>
+        <span v-if="acceptingApps">This project is accepting applications.</span>
+        <span v-else>This project is not accepting applications.</span>
       </v-tooltip>
     </v-toolbar>
     <p />

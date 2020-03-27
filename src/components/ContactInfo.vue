@@ -18,7 +18,7 @@
                   </v-avatar>
                 </v-badge>
               </template>
-              <span>{{ advisor.id }} is an administrator of {{ title }}.</span>
+              <span>Administrator of this project.</span>
             </v-tooltip>
             <v-avatar
               v-else
@@ -51,7 +51,7 @@
                   </v-avatar>
                 </v-badge>
               </template>
-              <span>{{ member.id }} is an administrator of {{ title }}.</span>
+              <span>Administrator of this project.</span>
             </v-tooltip>
             <v-avatar
               v-else

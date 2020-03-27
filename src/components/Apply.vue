@@ -19,13 +19,13 @@
           </span>
         </template>
         <span v-if="!isLoggedIn">You must be logged in to apply to a project.</span>
-        <span v-else-if="onProject">You are already a member of {{ title }}.</span>
+        <span v-else-if="onProject">You are already a member of this project.</span>
         <span v-else-if="alreadyApplied"
-          >You already have a pending application to {{ title }}.</span
+          >You already have a pending application.</span
         >
-        <span v-else-if="sent">Your application to {{ title }} has been sent!</span>
-        <span v-else-if="!acceptingApps">{{ title }} is not accepting applications.</span>
-        <span v-else>You cannot apply to {{ title }} right now.</span>
+        <span v-else-if="sent">Your application has been sent!</span>
+        <span v-else-if="!acceptingApps">This project is not accepting applications.</span>
+        <span v-else>You cannot apply to this project right now.</span>
       </v-tooltip>
       <v-dialog :persistent="loading" v-model="dialog" max-width="50%">
         <v-card>

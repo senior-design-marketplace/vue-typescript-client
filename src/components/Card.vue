@@ -27,7 +27,7 @@
                     <v-icon color="primary">mdi-account-check</v-icon>
                   </span>
                 </template>
-                <span>You are a member of {{ title }}.</span>
+                <span>You are a member of this project.</span>
               </v-tooltip>
             </v-item>
             <v-item v-else-if="alreadyApplied">
@@ -37,7 +37,7 @@
                     <v-icon color="warning">mdi-sticker-minus-outline</v-icon>
                   </span>
                 </template>
-                <span>You have a pending application to {{ title }}.</span>
+                <span>You have a pending application to this project.</span>
               </v-tooltip>
             </v-item>
             <v-item v-else>
@@ -53,8 +53,8 @@
                     </v-icon>
                   </span>
                 </template>
-                <span v-if="acceptingApps">{{ title }} is accepting applications.</span>
-                <span v-else>{{ title }} is not accepting applications.</span>
+                <span v-if="acceptingApps">This project is accepting applications.</span>
+                <span v-else>This project is not accepting applications.</span>
               </v-tooltip>
             </v-item>
           </v-list-item>
