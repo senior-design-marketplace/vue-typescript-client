@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Vue from 'vue';
 import store from '@/store';
+import router from '@/router';
 import ErrorDialog from '@/components/ErrorDialog.vue';
 
 const env = process.env.NODE_ENV === 'production' ? 'production' : 'staging';
@@ -43,10 +44,10 @@ export default {
           if (error.response.data.type === 'AuthenticationError') {
             store.commit('setsavePath', savePath);
             this.authError();
-          } else if (error.response.data.type === 'BadRequestError') {
-            this.otherError(error.response.data.message);
+          } else if (path !== '/' && error.response.status === 404) {
+            router.push('/404');
           } else if (path !== '/') {
-            this.otherError(error.response.status);
+            router.push(`/error/${error.response.status}/${error.response.data.message}`);
           }
         });
       return resp;
