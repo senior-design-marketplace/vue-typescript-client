@@ -18,7 +18,7 @@
                   </v-avatar>
                 </v-badge>
               </template>
-              <span>{{ advisor.id }} is an administrator of {{ title }}.</span>
+              <span>Administrator of this project.</span>
             </v-tooltip>
             <v-avatar
               v-else
@@ -30,7 +30,7 @@
             </v-avatar>
           </v-col>
           <v-col>
-            <span>{{ advisor.id }} </span>
+            <span>{{ advisor.firstName }} {{advisor.lastName}}</span>
           </v-col>
         </v-row>
       </v-container>
@@ -51,7 +51,7 @@
                   </v-avatar>
                 </v-badge>
               </template>
-              <span>{{ member.id }} is an administrator of {{ title }}.</span>
+              <span>Administrator of this project.</span>
             </v-tooltip>
             <v-avatar
               v-else
@@ -63,7 +63,7 @@
             </v-avatar>
           </v-col>
           <v-col>
-            <span>{{ member.id }} </span>
+            <span>{{ member.firstName }} {{member.lastName}} </span>
           </v-col>
         </v-row>
       </v-container>

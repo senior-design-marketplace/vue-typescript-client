@@ -41,7 +41,7 @@
               <template v-slot:activator="{ on }">
                 <v-icon v-on="on">mdi-format-page-break</v-icon>
               </template>
-              <span>{{item.userId}} did not include a note.</span>
+              <span>This application does not have a note.</span>
             </v-tooltip>
           </td>
           <td>

@@ -14,13 +14,13 @@
                 </v-col>
                 <v-col>
                   <v-list-item-content>
-                    <v-list-item-title>{{ comment.author }}</v-list-item-title>
-                    <v-list-item-subtitle>{{ comment.datetime }}</v-list-item-subtitle>
+                    <v-list-item-title>{{ comment.userId }}</v-list-item-title>
+                    <v-list-item-subtitle>{{ comment.createdAt }}</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-col>
               </v-list-item>
             </v-list>
-            <v-container>{{ comment.text }}</v-container>
+            <v-container>{{ comment.body }}</v-container>
           </v-card>
         </v-container>
       </v-card>
@@ -36,8 +36,10 @@
       <v-container>
         <v-row justify="end">
           <v-btn
-            :disabled="this.comment.length == 0 || this.comment.length > 256"
-            @click="submitComment()"
+            :disabled="
+              this.comment === null || this.comment.length == 0 || this.comment.length > 256
+            "
+            @click="postComment()"
             >Submit</v-btn
           >
         </v-row>
@@ -47,22 +49,37 @@
 </template>
 
 <script>
+import uuid from 'uuid/v4';
+import apiCall from '@/apiCall';
+
 export default {
   props: {
     comments: Array,
   },
   data() {
     return {
-      comment: '',
+      id: uuid(),
+      comment: null,
       rules: {
         length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
       },
     };
   },
   methods: {
-    submitComment() {
-      this.$emit('comment', this.comment);
-      this.comment = '';
+    async postComment() {
+      const response = await apiCall.methods.post(
+        `/projects/${this.$route.params.id}/comments`,
+        '',
+        {
+          id: this.id,
+          body: this.comment,
+        },
+        this.$route.fullPath,
+      );
+      if (response.status === 200) {
+        this.comment = '';
+        this.comments.push(response.data);
+      }
     },
   },
 };

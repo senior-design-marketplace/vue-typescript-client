@@ -74,12 +74,20 @@ export default new Router({
       component: () => import('./views/Project.vue'),
     },
     {
+      path: '/error/:type/:text',
+      name: 'error',
+      meta: {
+        keepAlive: false,
+      },
+      component: () => import('./views/error.vue'),
+    },
+    {
       path: '*',
       name: '404',
       meta: {
         keepAlive: false,
       },
-      component: () => import('./views/NotFound.vue'),
+      component: () => import('./views/404.vue'),
     },
   ],
 });

@@ -172,12 +172,18 @@ export default {
         .post(
           '/projects/',
           '',
-          {
-            id: this.id,
-            title: this.title,
-            tagline: this.tagline,
-            body: this.body,
-          },
+          this.body === null || this.body === ''
+            ? {
+              id: this.id,
+              title: this.title,
+              tagline: this.tagline,
+            }
+            : {
+              id: this.id,
+              title: this.title,
+              tagline: this.tagline,
+              body: this.body,
+            },
           this.$route.fullPath,
         )
         .then((response) => {
@@ -199,14 +205,13 @@ export default {
   },
   computed: {
     basicsInvalid() {
-      if (this.title === null || this.tagline === null || this.body === null) return true;
+      if (this.title === null || this.tagline === null) return true;
       return (
         this.title.length === 0
         || this.title.length > 64
         || this.tagline.length === 0
         || this.tagline.length > 256
-        || this.body.length === 0
-        || this.body.length > 2048
+        || (this.body !== null && this.body.length > 2048)
       );
     },
   },

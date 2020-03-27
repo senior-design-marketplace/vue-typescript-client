@@ -27,7 +27,7 @@ export default {
   methods: {
     showerrorDialog() {
       this.errorTime = new Date();
-      this.errorTime.setSeconds(this.errorTime.getSeconds() + 3);
+      this.errorTime.setSeconds(this.errorTime.getSeconds() + 2);
       this.updateerrorDialog();
       const interval = setInterval(() => {
         if (this.errorDialog < 0) {
@@ -37,7 +37,7 @@ export default {
       }, 150);
     },
     updateerrorDialog() {
-      this.errorDialog = (this.errorTime - new Date()) / 30;
+      this.errorDialog = (this.errorTime - new Date()) / 20;
     },
   },
   computed: {

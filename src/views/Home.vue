@@ -31,43 +31,43 @@ export default {
     window.addEventListener('scroll', () => {
       this.bottom = this.bottomVisible();
     });
-    this.page = 1;
+    this.page = 0;
     this.items = [];
     this.getProjects();
   },
   watch: {
     sort() {
-      this.page = 1;
+      this.page = 0;
       this.items = [];
       this.getProjects();
     },
     order() {
-      this.page = 1;
+      this.page = 0;
       this.items = [];
       this.getProjects();
     },
     major() {
-      this.page = 1;
+      this.page = 0;
       this.items = [];
       this.getProjects();
     },
     tag() {
-      this.page = 1;
+      this.page = 0;
       this.items = [];
       this.getProjects();
     },
     advisor() {
-      this.page = 1;
+      this.page = 0;
       this.items = [];
       this.getProjects();
     },
     acceptingApps() {
-      this.page = 1;
+      this.page = 0;
       this.items = [];
       this.getProjects();
     },
     hasAdvisor() {
-      this.page = 1;
+      this.page = 0;
       this.items = [];
       this.getProjects();
     },
@@ -85,7 +85,7 @@ export default {
       const orderQuery = this.order === 'ascending' ? '&order=reverse' : '';
       const majorQuery = this.major ? `&requestedMajor=${this.major}` : '';
       const tagQuery = this.tag ? `&tag=${this.tag}` : '';
-      const advisorQuery = this.advisor ? `&advisorId=${this.advisor}` : '';
+      const advisorQuery = this.advisor ? `&advisor=${this.advisor}` : '';
       const acceptingAppsQuery = this.acceptingApps ? '&acceptingApplications=true' : '';
       const hasAdvisorQuery = this.hasAdvisor ? '&hasAdvisor=true' : '';
 

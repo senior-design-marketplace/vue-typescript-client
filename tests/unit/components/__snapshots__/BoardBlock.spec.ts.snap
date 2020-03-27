@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`BoardBlock Renders correctly 1`] = `
-<v-card-stub loaderheight="4" tag="div" class="elevation-2">
-  <v-card-title-stub class="headline"></v-card-title-stub>
-  <v-card-text-stub class="text-left"></v-card-text-stub>
-</v-card-stub>
-`;
