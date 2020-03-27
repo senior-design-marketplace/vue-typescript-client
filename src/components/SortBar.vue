@@ -40,7 +40,7 @@
       />
       <v-text-field
         v-model="advisor"
-        label="Advisor"
+        label="Advisor Surname"
         autocomplete="off"
         outlined
         clearable
@@ -126,7 +126,7 @@
         />
         <v-text-field
           v-model="advisor"
-          label="Advisor"
+          label="Advisor Surname"
           autocomplete="off"
           outlined
           clearable

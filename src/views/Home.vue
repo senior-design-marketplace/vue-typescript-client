@@ -85,7 +85,7 @@ export default {
       const orderQuery = this.order === 'ascending' ? '&order=reverse' : '';
       const majorQuery = this.major ? `&requestedMajor=${this.major}` : '';
       const tagQuery = this.tag ? `&tag=${this.tag}` : '';
-      const advisorQuery = this.advisor ? `&advisorId=${this.advisor}` : '';
+      const advisorQuery = this.advisor ? `&advisor=${this.advisor}` : '';
       const acceptingAppsQuery = this.acceptingApps ? '&acceptingApplications=true' : '';
       const hasAdvisorQuery = this.hasAdvisor ? '&hasAdvisor=true' : '';
 
