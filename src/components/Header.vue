@@ -233,7 +233,6 @@ export default {
 
 <style>
 .item {
-  font-family: "Montserrat", sans-serif;
   font-size: 15px !important;
   font-weight: bold !important;
 }
