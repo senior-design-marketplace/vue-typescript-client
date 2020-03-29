@@ -61,10 +61,8 @@ export default {
           if (error.response.data.type === 'AuthenticationError') {
             store.commit('setsavePath', savePath);
             this.authError();
-          } else if (error.response.data.type === 'BadRequestError') {
-            this.otherError(error.response.data.message);
           } else {
-            this.otherError(error.response.status);
+            this.otherError(`Error ${error.response.status}: ${error.response.data.message}`);
           }
         });
       return resp;
@@ -78,10 +76,8 @@ export default {
           if (error.response.data.type === 'AuthenticationError') {
             store.commit('setsavePath', savePath);
             this.authError();
-          } else if (error.response.data.type === 'BadRequestError') {
-            this.otherError(error.response.data.message);
           } else {
-            this.otherError(error.response.status);
+            this.otherError(`Error ${error.response.status}: ${error.response.data.message}`);
           }
         });
       return resp;
@@ -95,10 +91,8 @@ export default {
           if (error.response.data.type === 'AuthenticationError') {
             store.commit('setsavePath', savePath);
             this.authError();
-          } else if (error.response.data.type === 'BadRequestError') {
-            this.otherError(error.response.data.message);
           } else {
-            this.otherError(error.response.status);
+            this.otherError(`Error ${error.response.status}: ${error.response.data.message}`);
           }
         });
       return resp;
@@ -119,10 +113,8 @@ export default {
           if (error.response.data.type === 'AuthenticationError') {
             store.commit('setsavePath', savePath);
             this.authError();
-          } else if (error.response.data.type === 'BadRequestError') {
-            this.otherError(error.response.data.message);
           } else {
-            this.otherError(error.response.status);
+            this.otherError(`Error ${error.response.status}: ${error.response.data.message}`);
           }
         });
       return resp2;

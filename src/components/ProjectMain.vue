@@ -38,7 +38,6 @@
         rows="1"
         counter="64"
         no-resize
-        clearable
         :placeholder="title"
         v-model="newTitle"
         :rules="[rules.length(64)]"
@@ -143,7 +142,6 @@
           counter="256"
           no-resize
           outlined
-          clearable
           :placeholder="tagline"
           v-model="newTagline"
           :rules="[rules.length(256)]"
@@ -173,7 +171,6 @@
           counter="2048"
           no-resize
           outlined
-          clearable
           :placeholder="description"
           v-model="newDescription"
           :rules="[rules.length(2048)]"

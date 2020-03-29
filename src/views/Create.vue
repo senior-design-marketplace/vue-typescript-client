@@ -48,7 +48,6 @@
                   rows="1"
                   counter="64"
                   outlined
-                  clearable
                   label="Title"
                   v-model="title"
                   :rules="[rules.length(64)]"
@@ -58,7 +57,6 @@
                   rows="3"
                   counter="256"
                   outlined
-                  clearable
                   label="Tagline"
                   v-model="tagline"
                   :rules="[rules.length(256)]"
@@ -68,7 +66,6 @@
                   rows="15"
                   counter="2048"
                   outlined
-                  clearable
                   label="Description"
                   v-model="body"
                   :rules="[rules.length(2048)]"

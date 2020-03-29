@@ -44,7 +44,6 @@
             <br />
             <v-textarea
               outlined
-              clearable
               v-model="note"
               name="Note"
               label="Note"
