@@ -1,37 +1,142 @@
 <template>
   <v-card>
     <v-container>
-      <v-data-iterator :items="history">
-        <template v-slot:default="props">
-          <v-row>
-            <v-col cols="12" sm="4" class="headline">
-              Type & Time
-            </v-col>
-            <v-col cols="12" sm="4" class="headline">
-              Before
-            </v-col>
-            <v-col cols="12" sm="4" class="headline">
-              After
-            </v-col>
-          </v-row>
-          <v-row v-for="item in props.items" :key="item.id">
-            <v-col cols="12" sm="4">
-              {{ item.type }}
+      <v-data-table
+        :items="history"
+        :expanded.sync="expanded"
+        item-key="id"
+        class="elevation-1"
+        disable-pagination
+        hide-default-footer
+      >
+        <template v-slot:item="{ item, expand, isExpanded }">
+          <tr @click="expand(!isExpanded)" style="cursor:pointer;" class="text-left">
+            <td>
+              {{ displayType(item.type) }} by {{ item.initiateId }}
               <br />
               {{ calendarTime(item.createdAt) }}
-              <br />
-              by {{item.initiateId}}
-            </v-col>
-            <v-col cols="12" sm="4">
-              {{ difference(item.after, item.before) }}
-            </v-col>
-            <v-col cols="12" sm="4">
-              {{ difference(item.before, item.after) }}
-            </v-col>
-            <v-divider inset/>
-          </v-row>
+            </td>
+            <td>
+              <v-btn v-if="!isExpanded" icon>
+                <v-icon> mdi-chevron-right </v-icon>
+              </v-btn>
+              <v-btn v-else icon>
+                <v-icon> mdi-chevron-down </v-icon>
+              </v-btn>
+            </td>
+          </tr>
         </template>
-      </v-data-iterator>
+        <template v-slot:expanded-item="{ headers, item }">
+          <td>
+            <v-container
+              v-if="item.type === 'PROJECT_CREATED'"
+              :colspan="headers.length"
+              class="text-left"
+            >
+              Title: {{ item.after.title }} <br />
+              Tagline: {{ item.after.tagline }} <br />
+              Description: {{ item.after.body }}
+              <v-icon v-if="item.after.body === null"> mdi-close </v-icon><br />
+              Accepting Applications:
+              <v-icon> {{ item.after.acceptingApplications ? "mdi-check" : "mdi-close" }} </v-icon>
+            </v-container>
+
+            <v-container
+              v-else-if="item.type === 'PROJECT_UPDATED'"
+              :colspan="headers.length"
+              class="text-left"
+            >
+              <span v-if="differenceKey(item.before, item.after) === 'title'">
+                Title updated from "{{ item.before.title }}" to "{{ item.after.title }}"
+              </span>
+              <span v-else-if="differenceKey(item.before, item.after) === 'tagline'">
+                Tagline updated from "{{ item.before.tagline }}" to "{{ item.after.tagline }}"
+              </span>
+              <span v-else-if="differenceKey(item.before, item.after) === 'body'">
+                Description updated from "{{ item.before.body }}" to "{{ item.after.body }}"
+              </span>
+              <span v-else-if="differenceKey(item.before, item.after) === 'acceptingApplications'">
+                <span v-if="!item.after.acceptingApplications"> Not </span>
+                Accepting Applications
+                <v-icon>
+                  {{ item.after.acceptingApplications ? "mdi-check" : "mdi-close" }}
+                </v-icon>
+              </span>
+            </v-container>
+
+            <v-container
+              v-else-if="item.type === 'APPLICATION_CREATED'"
+              :colspan="headers.length"
+              class="text-left"
+            >
+              Name: {{ item.after.userId }} <br />
+              Status: {{ item.after.status }} <br />
+              Note: {{ item.after.note }}
+              <v-icon v-if="item.after.note === null"> mdi-close </v-icon>
+            </v-container>
+
+            <v-container
+              v-else-if="
+                item.type === 'APPLICATION_ACCEPTED' || item.type === 'APPLICATION_REJECTED'
+              "
+              :colspan="headers.length"
+              class="text-left"
+            >
+              Name: {{ item.after.userId }} <br />
+              Status: {{ item.after.status }}<br />
+              Note: {{ item.after.note }}
+              <v-icon v-if="item.after.note === null"> mdi-close </v-icon>
+            </v-container>
+
+            <v-container
+              v-else-if="item.type === 'ENTRY_CREATED'"
+              :colspan="headers.length"
+              class="text-left"
+            >
+              Board Entry Type: {{ item.after.document.mediaType }} <br />
+              <span v-if="item.after.document.type === 'TEXT'">
+                Body: {{ item.after.document.body }}
+              </span>
+              <span v-else>
+                <v-img
+                  v-if="item.after.document.mediaType === 'IMAGE'"
+                  :src="item.after.document.mediaLink"
+                  min-height="350"
+                  max-height="350"
+                  contain
+                />
+                <VuePlyr
+                  v-else-if="item.after.document.mediaType === 'VIDEO'"
+                  :emit="['enterfullscreen', 'exitfullscreen']"
+                  @enterfullscreen="fullscreen = true"
+                  @exitfullscreen="fullscreen = false"
+                >
+                  <video
+                    :src="item.after.document.mediaLink"
+                    :style="!fullscreen ? 'max-height:350px;' : ''"
+                  />
+                </VuePlyr>
+              </span>
+            </v-container>
+
+            <v-container
+              v-else-if="item.type === 'ENTRY_UPDATED'"
+              :colspan="headers.length"
+              class="text-left"
+            >
+              Entry that was created {{ calendarTime(item.before.createdAt) }} updated from "{{
+                item.before.document.body
+              }}" to "{{ item.after.document.body }}"
+            </v-container>
+
+            <v-container v-else :colspan="headers.length" class="text-left">
+              More info about {{ item.id }}
+            </v-container>
+
+            <v-divider :colspan="headers.length" />
+          </td>
+        </template>
+      </v-data-table>
     </v-container>
   </v-card>
 </template>
@@ -39,21 +144,83 @@
 <script>
 import { diff } from 'deep-object-diff';
 import moment from 'moment';
+import VuePlyr from 'vue-plyr';
+import axios from 'axios';
 
 export default {
+  components: {
+    VuePlyr,
+  },
   props: {
     history: Array,
   },
+  data() {
+    return {
+      expanded: [],
+      fullscreen: false,
+    };
+  },
   methods: {
-    displayType() {
-
+    displayType(type) {
+      switch (type) {
+        case 'PROJECT_CREATED':
+          return 'Project Created';
+        case 'PROJECT_UPDATED':
+          return 'Project Updated';
+        case 'APPLICATION_CREATED':
+          return 'Application Created';
+        case 'APPLICATION_ACCEPTED':
+          return 'Application Accepted';
+        case 'APPLICATION_REJECTED':
+          return 'Application Rejected';
+        case 'ENTRY_CREATED':
+          return 'Board Entry Created';
+        case 'ENTRY_UPDATED':
+          return 'Board Entry Updated';
+        default:
+          return type;
+      }
     },
-    difference(lhs, rhs) {
-      return diff(lhs, rhs);
+    differenceKey(lhs, rhs) {
+      if (diff(lhs, rhs) === null) return null;
+      return Object.keys(diff(lhs, rhs))[0];
     },
     calendarTime(dateInput) {
       return moment(dateInput).calendar();
     },
+    async addMediaTypes() {
+      const linksArr = [];
+      for (let i = 0; i < this.history.length; i += 1) {
+        if (
+          this.history[i].type === 'ENTRY_CREATED'
+          && this.history[i].after.document.mediaType === undefined
+          && this.history[i].after.document.type === 'MEDIA'
+        ) {
+          linksArr.push(this.history[i].after.document.mediaLink);
+        }
+      }
+      const resp = axios.all(linksArr.map(l => axios.get(l))).then(
+        axios.spread((...res) => {
+          const types = res.map(a => a.headers['content-type']);
+          for (let i = 0; i < this.history.length; i += 1) {
+            if (
+              this.history[i].type === 'ENTRY_CREATED'
+              && this.history[i].after.document.mediaType === undefined
+              && this.history[i].after.document.type === 'MEDIA'
+            ) {
+              if (types.shift() === 'video/mp4') {
+                this.$set(this.history[i].after.document, 'mediaType', 'VIDEO');
+              } else {
+                this.$set(this.history[i].after.document, 'mediaType', 'IMAGE');
+              }
+            }
+          }
+        }),
+      );
+    },
+  },
+  mounted() {
+    this.addMediaTypes();
   },
 };
 </script>

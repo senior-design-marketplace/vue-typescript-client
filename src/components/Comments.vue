@@ -63,25 +63,7 @@
                 </v-dialog>
               </v-card-title>
               <v-container v-if="edits !== item.id" v-text="item.body" />
-              <v-container v-if="replies === item.id">
-                <v-textarea
-                  class="mx-1"
-                  rows="5"
-                  counter="256"
-                  label="Reply"
-                  outlined
-                  v-model="replyText"
-                  :rules="[rules.length(256)]"
-                />
-                <v-row justify="end">
-                  <v-btn
-                    @click="replyComment(item.id, replyText)"
-                    :disabled="commentInvalid(replyText)"
-                    >Reply</v-btn
-                  >
-                </v-row>
-              </v-container>
-              <v-container v-if="edits === item.id">
+              <v-container v-else>
                 <v-textarea
                   class="mx-1"
                   rows="5"
@@ -97,6 +79,24 @@
                     @click="editComment(item.id, editText)"
                     :disabled="commentInvalid(editText)"
                     >Edit</v-btn
+                  >
+                </v-row>
+              </v-container>
+              <v-container v-if="replies === item.id">
+                <v-textarea
+                  class="mx-1"
+                  rows="5"
+                  counter="256"
+                  label="Reply"
+                  outlined
+                  v-model="replyText"
+                  :rules="[rules.length(256)]"
+                />
+                <v-row justify="end">
+                  <v-btn
+                    @click="replyComment(item.id, replyText)"
+                    :disabled="commentInvalid(replyText)"
+                    >Reply</v-btn
                   >
                 </v-row>
               </v-container>

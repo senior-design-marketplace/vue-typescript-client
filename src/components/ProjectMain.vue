@@ -57,7 +57,7 @@
           mdi-delete
         </v-icon>
       </v-btn>
-      <v-item-group>
+      <!-- <v-item-group>
         <v-list-item>
           <v-item v-slot:default="{ active, toggle }">
             <v-btn icon @click="toggle">
@@ -65,7 +65,7 @@
             </v-btn>
           </v-item>
         </v-list-item>
-      </v-item-group>
+      </v-item-group> -->
       <v-tooltip top max-width="175">
         <template v-slot:activator="{ on }">
           <v-btn v-if="onProject" icon v-on="on" @click="toggleAcceptingApps()">
