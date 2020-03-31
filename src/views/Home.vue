@@ -46,6 +46,11 @@ export default {
       this.items = [];
       this.getProjects();
     },
+    title() {
+      this.page = 0;
+      this.items = [];
+      this.getProjects();
+    },
     major() {
       this.page = 0;
       this.items = [];
@@ -83,6 +88,7 @@ export default {
       this.loading = true;
       const sortQuery = `&sortBy=${this.sort}`;
       const orderQuery = this.order === 'ascending' ? '&order=reverse' : '';
+      const titleQuery = this.title ? `&title=${this.title}` : '';
       const majorQuery = this.major ? `&requestedMajor=${this.major}` : '';
       const tagQuery = this.tag ? `&tag=${this.tag}` : '';
       const advisorQuery = this.advisor ? `&advisor=${this.advisor}` : '';
@@ -91,6 +97,7 @@ export default {
 
       const params = `${sortQuery
         + orderQuery
+        + titleQuery
         + majorQuery
         + tagQuery
         + advisorQuery
@@ -118,6 +125,9 @@ export default {
     },
     order() {
       return this.$store.state.filters.order;
+    },
+    title() {
+      return this.$store.state.filters.title;
     },
     major() {
       return this.$store.state.filters.major;
