@@ -28,6 +28,7 @@ export default new Vuex.Store({
     filters: {
       sort: 'new',
       order: 'descending',
+      title: '',
       major: '',
       tag: '',
       advisor: '',
@@ -44,6 +45,7 @@ export default new Vuex.Store({
       state.filters = {
         sort: 'new',
         order: 'descending',
+        title: '',
         major: '',
         tag: '',
         advisor: '',

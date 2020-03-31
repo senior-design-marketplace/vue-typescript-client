@@ -38,7 +38,6 @@
         rows="1"
         counter="64"
         no-resize
-        clearable
         :placeholder="title"
         v-model="newTitle"
         :rules="[rules.length(64)]"
@@ -58,7 +57,7 @@
           mdi-delete
         </v-icon>
       </v-btn>
-      <v-item-group>
+      <!-- <v-item-group>
         <v-list-item>
           <v-item v-slot:default="{ active, toggle }">
             <v-btn icon @click="toggle">
@@ -66,7 +65,7 @@
             </v-btn>
           </v-item>
         </v-list-item>
-      </v-item-group>
+      </v-item-group> -->
       <v-tooltip top max-width="175">
         <template v-slot:activator="{ on }">
           <v-btn v-if="onProject" icon v-on="on" @click="toggleAcceptingApps()">
@@ -143,7 +142,6 @@
           counter="256"
           no-resize
           outlined
-          clearable
           :placeholder="tagline"
           v-model="newTagline"
           :rules="[rules.length(256)]"
@@ -173,7 +171,6 @@
           counter="2048"
           no-resize
           outlined
-          clearable
           :placeholder="description"
           v-model="newDescription"
           :rules="[rules.length(2048)]"

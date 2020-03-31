@@ -14,6 +14,17 @@
       <v-btn @click="toggleOrder" class="mx-1">
         <v-icon>{{ order == "descending" ? "mdi-sort-descending" : "mdi-sort-ascending" }}</v-icon>
       </v-btn>
+      <v-text-field
+        v-model="title"
+        label="Project"
+        autocomplete="off"
+        outlined
+        clearable
+        dense
+        class="mx-1"
+        flat
+        hide-details
+      />
       <v-autocomplete
         v-model="major"
         :items="availableMajors"
@@ -203,6 +214,17 @@ export default {
       },
       set(newView) {
         this.$store.commit('updateFilter', { filter: 'view', value: newView });
+      },
+    },
+    title: {
+      get() {
+        return this.$store.state.filters.title;
+      },
+      set(newTitle) {
+        clearTimeout(this.titleTimeout);
+        this.titleTimeout = setTimeout(() => {
+          this.$store.commit('updateFilter', { filter: 'title', value: newTitle });
+        }, 500);
       },
     },
     major: {

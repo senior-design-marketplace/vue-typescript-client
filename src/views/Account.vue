@@ -59,7 +59,6 @@
                 counter="256"
                 no-resize
                 outlined
-                clearable
                 :placeholder="bio"
                 v-model="newBio"
                 :rules="[rules.length(256)]"
@@ -83,7 +82,7 @@
                 </v-btn>
               </v-row>
               <v-row v-if="this.$route.path == '/debug'" class="mx-10 my-10">
-                <v-textarea class="mx-1" rows="1" no-resize clearable v-model="debugRoute" />
+                <v-textarea class="mx-1" rows="1" no-resize v-model="debugRoute" />
                 <v-btn @click="otherLogin(debugRoute)"> {{ debugRoute }} Login </v-btn>
                 <v-btn
                   @click="

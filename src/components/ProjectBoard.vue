@@ -1,12 +1,5 @@
 <template>
   <v-card>
-    <v-item-group>
-      <v-list-item>
-        <v-list-item-content>
-          <h2 class="text-left">Project Board:</h2>
-        </v-list-item-content>
-      </v-list-item>
-    </v-item-group>
     <v-container fluid>
       <v-timeline dense>
         <v-slide-x-transition group hide-on-leave>
@@ -69,7 +62,6 @@
                   rows="5"
                   counter="2048"
                   outlined
-                  clearable
                   v-model="newTextEntry"
                   :rules="[rules.length(2048)]"
                 />
@@ -144,7 +136,7 @@
           <v-timeline-item v-for="item in boardEntries" :key="item.id">
             <v-card class="elevation-2">
               <v-card-title class="headline">
-                {{ formatDate(item.createdAt) }}
+                {{ calendarTime(item.createdAt) }}
                 <v-spacer />
                 <v-btn
                   v-if="
@@ -207,7 +199,7 @@
                   </template>
                   <v-card>
                     <v-card-title>
-                      Delete Board Entry?<br />{{ formatDate(item.createdAt) }}
+                      Delete Board Entry?<br />{{ calendarTime(item.createdAt) }}
                     </v-card-title>
                     <v-card-text>
                       <v-container>
@@ -258,7 +250,6 @@
                   rows="5"
                   counter="2048"
                   outlined
-                  clearable
                   :placeholder="item.document.body"
                   v-model="editEntries[editEntryIndex(item.id)].body"
                   :rules="[rules.length(2048)]"
@@ -338,7 +329,7 @@
           <v-timeline-item key="created">
             <v-card>
               <v-card-title class="headline">
-                {{ formatDate(createdAt) }}
+                {{ calendarTime(createdAt) }}
                 <v-spacer />
               </v-card-title>
               <v-card-text>
@@ -365,6 +356,7 @@
 <script>
 import axios from 'axios';
 import uuid from 'uuid/v4';
+import moment from 'moment';
 import VuePlyr from 'vue-plyr';
 import apiCall from '@/apiCall';
 
@@ -398,26 +390,8 @@ export default {
     };
   },
   methods: {
-    formatDate(dateInput) {
-      const d = new Date(dateInput);
-      const year = d.getFullYear();
-      const day = d.getDate();
-      const months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-      ];
-      const month = months[d.getMonth()];
-      return `${month} ${day}, ${year}`;
+    calendarTime(dateInput) {
+      return moment(dateInput).calendar();
     },
     editEntryIndex(entryId) {
       return this.editEntries.map(entry => entry.id).indexOf(entryId);
