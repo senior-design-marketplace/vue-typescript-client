@@ -27,7 +27,9 @@ export default {
       return this.$store.state.view;
     },
     myProjects() {
-      return this.$store.state.userDetails.administratorOn;
+      return this.$store.state.userDetails.administratorOn.concat(
+        this.$store.state.userDetails.contributorOn,
+      );
     },
   },
 };
