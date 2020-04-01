@@ -7,7 +7,7 @@
       item-key="id"
       disable-pagination
       class="elevation-1"
-      :expanded="expanded"
+      single-expand
       hide-default-footer
     >
       <template v-slot:item="{ item, expand, isExpanded }">
@@ -31,20 +31,44 @@
               {{ item.status }}
             </v-chip>
           </td>
-          <td @click=$router.push(/project/+item.projectId)>{{ new Date(item.createdAt) }}</td>
-          <td @click=$router.push(/project/+item.projectId)>{{ new Date(item.updatedAt) }}</td>
+          <td @click=$router.push(/project/+item.projectId)>{{ calendarTime(item.createdAt) }}</td>
           <td v-if="item.note !== null">
-            <v-btn  icon @click="expand(!isExpanded)">
+            <v-btn icon @click="expand(!isExpanded); toggleEditNote(false, '');">
               <v-icon> mdi-chevron-down </v-icon>
             </v-btn>
           </td>
           <td v-else>
             <v-tooltip top max-width="175">
               <template v-slot:activator="{ on }">
-                <v-icon v-on="on">mdi-format-page-break</v-icon>
+                <v-btn v-on="on" icon @click="expand(!isExpanded); toggleEditNote(false, '');">
+                  <v-icon>mdi-format-page-break</v-icon>
+                </v-btn>
               </template>
               <span>You did not include a note on this application.</span>
             </v-tooltip>
+          </td>
+          <td>
+            <v-btn @click="deleteApp=item.id" icon>
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+            <v-dialog v-if="item.id === deleteApp" v-model="deleteApp" max-width="500px">
+              <v-card>
+                <v-card-title class="break-word">
+                  Delete Application to {{item.projectId}}?<br />
+                  {{calendarTime(item.createdAt)}}
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-container class="text-left">
+                      Note:<br />{{item.note}}
+                    </v-container>
+                  </v-container>
+                  <v-btn @click="deleteApplication(item.id, item.projectId)">
+                    <h2>Delete</h2>
+                  </v-btn>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
           </td>
         </tr>
       </template>
@@ -53,10 +77,35 @@
           <v-container class="text-left" style="overflow-wrap: break-word;">
             <h4>
               Your Note:
+              <v-btn v-if="!editNote" icon @click="toggleEditNote(true, item.note)">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn
+                v-if="editNote"
+                icon
+                @click="editApplication(item.id, item.projectId)"
+                :disabled="newNoteInvalid"
+              >
+                <v-icon>mdi-check</v-icon>
+              </v-btn>
+              <v-btn v-if="editNote" icon @click="toggleEditNote(false, '')">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
             </h4>
-            <v-container>
+            <v-container v-if="!editNote">
               {{ item.note }}
             </v-container>
+            <v-textarea
+              v-else
+              class="mx-1"
+              rows="3"
+              counter="256"
+              no-resize
+              outlined
+              :placeholder="item.note"
+              v-model="newNote"
+              :rules="[rules.length(256)]"
+            />
           </v-container>
         </td>
       </template>
@@ -65,6 +114,9 @@
 </template>
 
 <script>
+import moment from 'moment';
+import apiCall from '@/apiCall';
+
 export default {
   props: {
     applications: Array,
@@ -72,6 +124,9 @@ export default {
   data() {
     return {
       expanded: [],
+      editNote: false,
+      deleteApp: null,
+      newNote: null,
       headers: [
         {
           text: ' ',
@@ -97,19 +152,75 @@ export default {
           sortable: false,
         },
         {
-          text: 'Last Updated',
-          align: 'center',
-          value: 'updatedAt',
-          sortable: false,
-        },
-        {
           text: 'Note',
           align: 'center',
           width: '50px',
           sortable: false,
         },
+        {
+          text: 'Delete',
+          align: 'center',
+          width: '50px',
+          sortable: false,
+        },
       ],
+      rules: {
+        length: len => v => v === null || v.length <= len || `Invalid character length, must be less than ${len}`,
+      },
     };
+  },
+  methods: {
+    calendarTime(dateInput) {
+      return moment(dateInput).calendar();
+    },
+    toggleEditNote(bool, note) {
+      this.newNote = note;
+      this.editNote = bool;
+    },
+    async deleteApplication(applicationId, projectId) {
+      apiCall.methods.delete(
+        `/projects/${projectId}/applications/${applicationId}`,
+        '',
+        {},
+        this.$route.fullPath,
+      ).then((response) => {
+        if (response.status === 200) {
+          const index = this.$store.state.applications.map(app => app.id).indexOf(applicationId);
+          this.$store.state.applications.splice(index, 1);
+          this.deleteApp = null;
+        }
+      });
+    },
+    async editApplication(applicationId, projectId) {
+      this.loading = true;
+      await apiCall.methods
+        .patch(
+          `/projects/${projectId}/applications/${applicationId}`,
+          '',
+          this.newNote === null || this.newNote.length === 0
+            ? { note: ' ' }
+            : { note: this.newNote },
+          this.$route.fullPath,
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            const index = this.$store.state.applications.map(app => app.id).indexOf(applicationId);
+            this.$store.state.applications[index].note = this.newNote;
+            toggleEditNote(false, '');
+          }
+        });
+    },
+  },
+  watch: {
+    expanded() {
+      this.newNote = this.expanded.note;
+    },
+  },
+  computed: {
+    newNoteInvalid() {
+      if (this.newNote === null) return false;
+      return this.newNote.length > 256;
+    },
   },
 };
 </script>
