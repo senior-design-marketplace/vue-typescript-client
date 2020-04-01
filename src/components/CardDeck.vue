@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <h1 v-if="items.length === 0 && !loading">
+    <Loading v-if="loading" value="Loading Projects"/>
+    <h1 v-else-if="items.length === 0">
       <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
       No projects found that match those filters.
     </h1>
@@ -8,7 +9,7 @@
       :items="items"
       hide-default-footer
       no-data-text
-      loading-text="Loading projects..."
+      loading-text=""
       disable-pagination
       :loading="loading"
     >
@@ -29,16 +30,17 @@
         </v-row>
       </template>
     </v-data-iterator>
-    <v-progress-linear v-if="loading" color="primary" indeterminate />
   </v-container>
 </template>
 
 <script>
+import Loading from '@/components/Loading.vue';
 import Card from '@/components/Card.vue';
 
 export default {
   components: {
     Card,
+    Loading,
   },
   props: {
     items: Array,
