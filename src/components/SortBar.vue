@@ -16,7 +16,7 @@
       </v-btn>
       <v-text-field
         v-model="title"
-        label="Project"
+        label="Project Title"
         autocomplete="off"
         outlined
         clearable

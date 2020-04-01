@@ -23,12 +23,7 @@
           v-bind:onProject="onProject"
         />
         <p />
-        <ContactInfo
-          v-bind:title="items.title"
-          v-bind:members="members"
-          v-bind:advisors="advisors"
-          v-bind:administrators="items.administrators"
-        />
+        <ContactInfo v-bind:members="items.members" />
       </v-col>
     </v-row>
     <v-card>
@@ -105,30 +100,14 @@ export default {
     projectId() {
       return this.$route.params.id;
     },
-    members() {
-      if (this.items.administrators === undefined || this.items.administrators === undefined) {
-        return [];
-      }
-      return this.items.administrators
-        .filter(admin => !admin.isAdvisor)
-        .concat(
-          this.items.contributors.filter(
-            contrib => !this.items.administrators.map(admin => admin.id).includes(contrib.id),
-          ),
-        );
-    },
-    advisors() {
-      if (this.items.administrators === undefined) return [];
-      return this.items.administrators.filter(admin => admin.isAdvisor);
-    },
-    onProject() {
-      return this.isAdmin || this.isContributor;
-    },
     isAdmin() {
       return this.$store.getters.isAdmin(this.projectId);
     },
     isContributor() {
       return this.$store.getters.isContributor(this.projectId);
+    },
+    onProject() {
+      return this.isAdmin || this.isContributor;
     },
   },
 };
