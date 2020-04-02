@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <Loading v-if="loading" value="Loading Project"/>
+    <Loading v-if="loading" value="Loading Project" />
     <span v-else>
       <v-row>
         <v-col cols="12" sm="8">
@@ -25,7 +25,10 @@
             v-bind:onProject="onProject"
           />
           <p />
-          <ContactInfo v-bind:members="items.members" />
+          <ContactInfo
+            v-bind:contributors="items.contributors"
+            v-bind:administrators="items.administrators"
+          />
         </v-col>
       </v-row>
       <v-card>

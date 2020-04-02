@@ -85,29 +85,32 @@
 <script>
 export default {
   props: {
-    members: Array,
+    contributors: Array,
+    administrators: Array,
   },
   methods: {
-    isAdmin(personId) {
-      if (this.members === undefined) return [];
-      return this.members
-        .filter(member => member.role === 'ADMINISTRATOR')
-        .map(admin => admin.id)
-        .includes(personId);
-    },
     isContributor(personId) {
       if (this.members === undefined) return [];
-      return this.members
-        .filter(member => member.role === 'CONTRIBUTOR')
-        .map(admin => admin.id)
-        .includes(personId);
+      return this.contributors.map(admin => admin.id).includes(personId);
+    },
+    isAdmin(personId) {
+      if (this.members === undefined) return [];
+      return this.administrators.map(admin => admin.id).includes(personId);
     },
     isAdvisor(personId) {
       if (this.members === undefined) return [];
       return this.members
-        .filter(member => member.isAdvisor)
+        .filter(member => member.roles.includes('faculty'))
         .map(admin => admin.id)
         .includes(personId);
+    },
+  },
+  computed: {
+    members() {
+      if (this.administrators === undefined || this.contributors === undefined) {
+        return [];
+      }
+      return this.administrators.concat(this.contributors);
     },
   },
 };
