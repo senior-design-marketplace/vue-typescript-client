@@ -22,6 +22,7 @@ export default new Vuex.Store({
       role: '',
       bio: '',
       thumbnailLink: '',
+      resumeLink: '',
       contributorOn: [],
       administratorOn: [],
     },
@@ -86,6 +87,7 @@ export default new Vuex.Store({
         role: '',
         bio: '',
         thumbnailLink: '',
+        resumeLink: '',
         contributorOn: [],
         administratorOn: [],
       };

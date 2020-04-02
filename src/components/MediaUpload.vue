@@ -10,7 +10,7 @@
         <v-progress-circular v-if="loading" indeterminate color="primary" />
       </v-card-title>
       <v-card-text>
-        <v-container v-if="this.file !== undefined">
+        <v-container v-if="this.file !== undefined && type === 'image'">
           <h2>Preview</h2>
           <br />
           <v-avatar v-if="avatar" size="150">
@@ -23,7 +23,7 @@
           outlined
           dense
           show-size
-          accept="image/jpeg, image/png"
+          :accept="types"
           prepend-icon="mdi-camera"
           :rules="[rules.size]"
           :disabled="loading"
@@ -47,6 +47,7 @@ import apiCall from '@/apiCall';
 export default {
   props: {
     value: Boolean,
+    types: String,
     path: undefined,
     title: undefined,
     avatar: Boolean,
@@ -91,6 +92,10 @@ export default {
     image() {
       if (this.file !== undefined) return URL.createObjectURL(this.file);
       return '';
+    },
+    type() {
+      const regex = /(.*)\//gm;
+      return regex.exec(this.file.type)[1];
     },
   },
 };
