@@ -44,9 +44,27 @@
                     $router.push(`/applications/${item.document.application.id}`).catch(err => {})
                   "
                 >
-                  <v-list-item-title>
-                    {{ displayType(item.document.type) }}
-                    sent to {{ item.document.application.projectId }}
+                  <v-list-item-title class="text-right">
+                    {{ displayType(item.document.type) }} sent to
+                    {{ item.document.application.projectId }}
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content
+                  v-else-if="item.document.type === 'APPLICATION'"
+                  @click="
+                    $router.push(`/applications/${item.document.application.id}`).catch(err => {})
+                  "
+                >
+                  <v-list-item-title class="text-right">
+                      {{ displayType(item.document.type) }}
+                      from {{ item.document.application.userId }}
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content v-else>
+                  <v-list-item-title class="text-right">
+                      {{ displayType(item.document.type) }}
                     <v-icon>mdi-chevron-right</v-icon>
                   </v-list-item-title>
                 </v-list-item-content>
