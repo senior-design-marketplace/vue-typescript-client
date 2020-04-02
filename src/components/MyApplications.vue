@@ -10,9 +10,11 @@
       single-expand
       hide-default-footer
     >
-      <template v-slot:item="{ item, expand, isExpanded }">
-        <tr style="cursor:pointer;">
-          <td @click=$router.push(/project/+item.projectId)>
+      <template v-slot:item="{ item }">
+        <tr style="cursor:pointer;" >
+          <td
+          @click=$router.push(/project/+item.projectId)
+          :style="highlight&&appId===item.id?border(true, false, false, true):''">
             <v-avatar size="36" color="primary">
               <v-img v-if="item.thumbnailLink !== undefined" :src="item.thumbnailLink" />
               <span v-else class="white--text headline">
@@ -20,8 +22,16 @@
               </span>
             </v-avatar>
           </td>
-          <td @click=$router.push(/project/+item.projectId)>{{ item.projectId }}</td>
-          <td @click=$router.push(/project/+item.projectId)>
+          <td
+          @click=$router.push(/project/+item.projectId)
+          :style="highlight&&appId===item.id?border(true, false, false, false):''"
+          >
+            {{ item.projectId }}
+          </td>
+          <td
+          @click=$router.push(/project/+item.projectId)
+          :style="highlight&&appId===item.id?border(true, false, false, false):''"
+          >
             <v-chip
             label
             :color="item.status==='PENDING'?'yellow accent-3'
@@ -31,23 +41,34 @@
               {{ item.status }}
             </v-chip>
           </td>
-          <td @click=$router.push(/project/+item.projectId)>{{ calendarTime(item.createdAt) }}</td>
-          <td v-if="item.note !== null">
-            <v-btn icon @click="expand(!isExpanded); toggleEditNote(false, '');">
+          <td
+          @click=$router.push(/project/+item.projectId)
+          :style="highlight&&appId===item.id?border(true, false, false, false):''"
+          >
+            {{ calendarTime(item.createdAt) }}
+          </td>
+          <td
+          v-if="item.note !== null"
+          :style="highlight&&appId===item.id?border(true, false, false, false):''"
+          >
+            <v-btn icon @click="toggleEditNote(false, ''); toggleExpanded(item.id)">
               <v-icon> mdi-chevron-down </v-icon>
             </v-btn>
           </td>
-          <td v-else>
+          <td
+          v-else
+          :style="highlight&&appId===item.id?border(true, false, false, false):''"
+          >
             <v-tooltip top max-width="175">
               <template v-slot:activator="{ on }">
-                <v-btn v-on="on" icon @click="expand(!isExpanded); toggleEditNote(false, '');">
+                <v-btn v-on="on" icon @click="toggleEditNote(false, '');">
                   <v-icon>mdi-format-page-break</v-icon>
                 </v-btn>
               </template>
               <span>You did not include a note on this application.</span>
             </v-tooltip>
           </td>
-          <td>
+          <td :style="highlight&&appId===item.id?border(true, false, true, false):''">
             <v-btn @click="deleteApp=item.id" icon>
               <v-icon>mdi-delete</v-icon>
             </v-btn>
@@ -71,9 +92,12 @@
             </v-dialog>
           </td>
         </tr>
-      </template>
-      <template v-slot:expanded-item="{ headers, item }">
-        <td :colspan="headers.length" class="elevation-1">
+
+        <td
+        v-if="expanded === item.id"
+        :colspan="headers.length"
+        class="elevation-1"
+        :style="highlight&&appId===item.id?border(false, true, true, true):''">
           <v-container class="text-left" style="overflow-wrap: break-word;">
             <h4>
               Your Note:
@@ -123,10 +147,11 @@ export default {
   },
   data() {
     return {
-      expanded: [],
+      expanded: null,
       editNote: false,
       deleteApp: null,
       newNote: null,
+      highlight: false,
       headers: [
         {
           text: ' ',
@@ -177,6 +202,28 @@ export default {
       this.newNote = note;
       this.editNote = bool;
     },
+    toggleExpanded(id) {
+      if (this.expanded === id) this.expanded = null;
+      else this.expanded = id;
+    },
+    border(top, bottom, right, left) {
+      const border = '2mm solid #03A9F5';
+      let out = '';
+      out += top ? `border-top: ${border};` : '';
+      out += bottom ? `border-bottom: ${border};` : '';
+      out += right ? `border-right: ${border};` : '';
+      out += left ? `border-left: ${border};` : '';
+      return out;
+    },
+    highlightApp() {
+      if (this.appId !== undefined) {
+        this.expanded = this.appId;
+        this.highlight = true;
+        setTimeout(() => {
+          this.highlight = false;
+        }, 1000);
+      }
+    },
     async deleteApplication(applicationId, projectId) {
       apiCall.methods.delete(
         `/projects/${projectId}/applications/${applicationId}`,
@@ -212,14 +259,20 @@ export default {
     },
   },
   watch: {
-    expanded() {
-      this.newNote = this.expanded.note;
+    appId() {
+      this.highlightApp();
     },
+  },
+  mounted() {
+    this.highlightApp();
   },
   computed: {
     newNoteInvalid() {
       if (this.newNote === null) return false;
       return this.newNote.length > 256;
+    },
+    appId() {
+      return this.$route.params.id;
     },
   },
 };
