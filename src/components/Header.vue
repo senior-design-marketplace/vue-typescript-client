@@ -2,16 +2,16 @@
   <div>
     <v-app-bar dark height="100" color="secondary">
       <v-app-bar-nav-icon @click="drawer = true" class="d-flex d-lg-none"></v-app-bar-nav-icon>
-        <v-container>
-          <router-link to="/">
-            <v-img
-              :src="require('@/../public/assets/header.jpg')"
-              :aspect-ratio="6.71906355"
-              max-height="60"
-              max-width="403"
-            />
-          </router-link>
-        </v-container>
+      <v-container>
+        <router-link to="/">
+          <v-img
+            :src="require('@/../public/assets/header.jpg')"
+            :aspect-ratio="6.71906355"
+            max-height="60"
+            max-width="403"
+          />
+        </router-link>
+      </v-container>
       <v-spacer></v-spacer>
       <v-toolbar-items class="d-none d-lg-flex">
         <v-btn text class="item" to="/">Projects</v-btn>
@@ -25,7 +25,7 @@
         <v-menu v-if="isLoggedIn && notifications.length > 0" open-on-hover offset-y>
           <template v-slot:activator="{ on }">
             <span v-on="on">
-              <v-btn icon >
+              <v-btn icon to="/notifications">
                 <v-badge color="red" overlap :content="notifications.length">
                   <v-icon>mdi-bell</v-icon>
                 </v-badge>
@@ -33,11 +33,43 @@
             </span>
           </template>
           <v-list>
-            <v-list-item v-for="(item, index) in notifications" :key="index">
-              <v-btn :to=/project/+item.document.application.projectId >
-                {{ item.document.type }}status:{{ item.document.application.status }}
-              </v-btn>
-            </v-list-item>
+            <v-list-item-group>
+              <v-list-item v-for="(item, index) in notifications" :key="index">
+                <v-list-item-content
+                  v-if="
+                    item.document.type === 'APPLICATION' &&
+                      item.document.application.userId === $store.state.userDetails.cognitoUsername
+                  "
+                  @click="
+                    $router.push(`/applications/${item.document.application.id}`).catch(err => {})
+                  "
+                >
+                  <v-list-item-title class="text-right">
+                    {{ displayType(item.document.type) }} sent to
+                    {{ item.document.application.projectId }}
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content
+                  v-else-if="item.document.type === 'APPLICATION'"
+                  @click="
+                    $router.push(`/applications/${item.document.application.id}`).catch(err => {})
+                  "
+                >
+                  <v-list-item-title class="text-right">
+                      {{ displayType(item.document.type) }}
+                      from {{ item.document.application.userId }}
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content v-else>
+                  <v-list-item-title class="text-right">
+                      {{ displayType(item.document.type) }}
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
           </v-list>
         </v-menu>
         <v-tooltip v-else-if="isLoggedIn && notifications.length === 0" top max-width="175">
@@ -77,10 +109,10 @@
       <v-toolbar v-if="isLoggedIn" class="px-2" to="/account" dark color="secondary">
         <v-list-item-avatar>
           <v-img
-                v-if="$store.state.userDetails.thumbnailLink !== null"
-                :src="$store.state.userDetails.thumbnailLink"
-              />
-              <v-icon v-else>mdi-account-circle</v-icon>
+            v-if="$store.state.userDetails.thumbnailLink !== null"
+            :src="$store.state.userDetails.thumbnailLink"
+          />
+          <v-icon v-else>mdi-account-circle</v-icon>
         </v-list-item-avatar>
         <v-list-item-title>{{ name }}</v-list-item-title>
       </v-toolbar>
@@ -215,6 +247,14 @@ export default {
     login() {
       this.$store.commit('setsavePath', this.$route.fullPath);
       window.location.href = 'https://marqetplace.auth.us-east-1.amazoncognito.com/oauth2/authorize?identity_provider=stevens-shibboleth&redirect_uri=https://www.marqetplace.xyz&response_type=TOKEN&client_id=6893005so6v9k2kuunc4acckps';
+    },
+    displayType(type) {
+      switch (type) {
+        case 'APPLICATION':
+          return 'Application';
+        default:
+          return type;
+      }
     },
   },
   computed: {

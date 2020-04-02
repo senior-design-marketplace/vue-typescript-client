@@ -42,6 +42,14 @@ export default new Router({
       component: () => import('./views/Applications.vue'),
     },
     {
+      path: '/applications/:id',
+      name: 'applications/id',
+      meta: {
+        keepAlive: false,
+      },
+      component: () => import('./views/Applications.vue'),
+    },
+    {
       path: '/about',
       name: 'about',
       meta: {
@@ -64,6 +72,14 @@ export default new Router({
         keepAlive: false,
       },
       component: () => import('./views/Account.vue'),
+    },
+    {
+      path: '/notifications',
+      name: 'notifications',
+      meta: {
+        keepAlive: false,
+      },
+      component: () => import('./views/Notifications.vue'),
     },
     {
       path: '/project/:id',

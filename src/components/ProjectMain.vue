@@ -186,17 +186,19 @@
         </v-chip-group>
       </v-container>
     </v-card>
-    <PictureUpload
+    <MediaUpload
       v-model="thumbnailDialog"
       :path="`/projects/${this.$route.params.id}/thumbnail`"
       title="Thumbnail Upload"
+      types="image/jpeg, image/png"
       :avatar="true"
       @file="hotswapThumbnail"
     />
-    <PictureUpload
+    <MediaUpload
       v-model="coverDialog"
       :path="`/projects/${this.$route.params.id}/cover`"
       title="Cover Image Upload"
+      types="image/jpeg, image/png"
       :avatar="false"
       @file="hotswapCoverImage"
     />
@@ -212,12 +214,12 @@
 
 <script>
 import apiCall from '@/apiCall';
-import PictureUpload from '@/components/PictureUpload.vue';
 import BigDecision from '@/components/BigDecision.vue';
+import MediaUpload from '@/components/MediaUpload.vue';
 
 export default {
   components: {
-    PictureUpload,
+    MediaUpload,
     BigDecision,
   },
   props: {

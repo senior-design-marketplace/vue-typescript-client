@@ -77,6 +77,10 @@ export default {
                 value: response.data.thumbnailLink,
               });
               this.$store.commit('updateUserDetail', {
+                detail: 'resumeLink',
+                value: response.data.resumeLink,
+              });
+              this.$store.commit('updateUserDetail', {
                 detail: 'contributorOn',
                 value: response.data.contributorOn,
               });

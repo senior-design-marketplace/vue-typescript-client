@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <h1 v-if="items.length === 0 && !loading">
+    <Loading v-if="loading" value="Loading Projects"/>
+    <h1 v-else-if="items.length === 0">
       <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
       No projects found that match those filters.
     </h1>
@@ -109,9 +110,13 @@
 </template>
 
 <script>
+import Loading from '@/components/Loading.vue';
 import apiCall from '@/apiCall';
 
 export default {
+  components: {
+    Loading,
+  },
   data() {
     return {
       expanded: [],

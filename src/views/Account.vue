@@ -5,7 +5,7 @@
         <h1>My Profile</h1>
         <v-hover v-slot:default="{ hover }" style="cursor:pointer;">
           <v-avatar
-            @click.stop="dialog = true"
+            @click.stop="avatarDialog = true"
             size="150"
             :color="thumbnailLink !== null ? undefined : 'primary'"
           >
@@ -63,6 +63,23 @@
                 v-model="newBio"
                 :rules="[rules.length(256)]"
               />
+              <h2>
+                Resume:
+                <v-btn
+                  v-if="resumeLink !== null"
+                  icon
+                  v-model="showResume"
+                  @click="showResume = !showResume"
+                >
+                  <v-icon>mdi-file-eye</v-icon>
+                </v-btn>
+                <v-btn icon @click="resumeDialog = true">
+                  <v-icon>mdi-file-upload</v-icon>
+                </v-btn>
+              </h2>
+              <v-container v-if="showResume" style="height: 1250px;">
+                <iframe width="100%" height="100%" :src="resumeLink" />
+              </v-container>
 
               <v-row v-if="this.$route.path == '/debug'" class="mx-10 my-10">
                 <v-text-field label="Token" hide-details v-model="token" ref="tokenRef" />
@@ -97,10 +114,19 @@
         </v-container>
       </v-card>
     </v-row>
-    <PictureUpload
-      v-model="dialog"
+    <MediaUpload
+      v-model="resumeDialog"
+      :path="`/users/${this.$store.state.userDetails.cognitoUsername}/resume`"
+      title="Resume Upload"
+      types=".pdf"
+      :avatar="false"
+      @file="showResume = true"
+    />
+    <MediaUpload
+      v-model="avatarDialog"
       :path="`/users/${this.$store.state.userDetails.cognitoUsername}/avatar`"
       title="Avatar Upload"
+      types="image/jpeg, image/png"
       :avatar="true"
       @file="hotswapAvatar"
     />
@@ -108,16 +134,18 @@
 </template>
 
 <script>
+import MediaUpload from '@/components/MediaUpload.vue';
 import apiCall from '@/apiCall';
-import PictureUpload from '@/components/PictureUpload.vue';
 
 export default {
   components: {
-    PictureUpload,
+    MediaUpload,
   },
   data() {
     return {
-      dialog: false,
+      avatarDialog: false,
+      resumeDialog: false,
+      showResume: false,
       newBio: null,
       editBio: false,
       debugRoute: 'http://localhost:8080/',
@@ -168,6 +196,9 @@ export default {
   computed: {
     thumbnailLink() {
       return this.$store.state.userDetails.thumbnailLink;
+    },
+    resumeLink() {
+      return this.$store.state.userDetails.resumeLink;
     },
     first() {
       return this.$store.state.userDetails.firstName;
