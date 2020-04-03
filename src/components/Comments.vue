@@ -15,7 +15,7 @@
               </v-btn>
 
               <v-btn
-                v-if="edits !== item.id && isLoggedIn && (isAdmin || postedComment(item.id))"
+                v-if="edits !== item.id && isLoggedIn && postedComment(item.id)"
                 icon
                 @click="editEdit(item.id)"
               >
