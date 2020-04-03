@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="max-width: 1185px;">
     <Loading v-if="loading" value="Loading Project" />
     <span v-else>
       <v-row>

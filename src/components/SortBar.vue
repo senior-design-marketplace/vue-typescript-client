@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar class="d-none d-md-flex">
+    <v-toolbar class="d-none d-md-flex d-flex justify-center">
       <v-menu>
         <template v-slot:activator="{ on }">
           <v-btn color="primary" dark v-on="on">{{ sort }}</v-btn>

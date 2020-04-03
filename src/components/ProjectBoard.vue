@@ -1,34 +1,44 @@
 <template>
-  <v-card>
-    <v-container fluid>
-      <v-timeline dense>
-        <v-slide-x-transition group hide-on-leave>
-          <v-timeline-item v-if="onProject" large key="icon" class="text-left">
-            <template v-if="!newEntry" v-slot:icon>
-              <v-btn dark icon @click="newEntryToggle">
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </template>
-            <template v-else v-slot:icon>
-              <v-btn dark icon @click="newEntryToggle">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-            </template>
-            <v-card
+  <v-container fluid style="max-width: 918px;">
+    <v-timeline dense>
+      <v-slide-x-transition group hide-on-leave>
+        <v-timeline-item v-if="onProject" large key="icon" class="text-left">
+          <template v-if="!newEntry" v-slot:icon>
+            <v-btn dark icon @click="newEntryToggle">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </template>
+          <template v-else v-slot:icon>
+            <v-btn dark icon @click="newEntryToggle">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </template>
+          <v-card
+            v-if="newEntry && newEntryType === undefined"
+            color="primary"
+            class="d-inline-block"
+            style="border-radius:15px;"
+          >
+            <v-btn-toggle
               v-if="newEntry && newEntryType === undefined"
-              color="primary"
+              background-color="primary"
+              dark
+              borderless
+              rounded
               class="d-inline-block"
-              style="border-radius:15px;"
+              v-model="newEntryType"
             >
-              <v-btn-toggle
-                v-if="newEntry && newEntryType === undefined"
-                background-color="primary"
-                dark
-                borderless
-                rounded
-                class="d-inline-block"
-                v-model="newEntryType"
-              >
+              <v-btn x-large icon>
+                <v-icon>mdi-textbox</v-icon>
+              </v-btn>
+              <v-btn x-large icon>
+                <v-icon>mdi-camera</v-icon>
+              </v-btn>
+            </v-btn-toggle>
+          </v-card>
+          <v-card v-if="newEntryType === 0" class="elevation-2">
+            <v-card-title class="headline">
+              <v-btn-toggle borderless rounded v-model="newEntryType">
                 <v-btn x-large icon>
                   <v-icon>mdi-textbox</v-icon>
                 </v-btn>
@@ -36,321 +46,309 @@
                   <v-icon>mdi-camera</v-icon>
                 </v-btn>
               </v-btn-toggle>
-            </v-card>
-            <v-card v-if="newEntryType === 0" class="elevation-2">
-              <v-card-title class="headline">
-                <v-btn-toggle borderless rounded v-model="newEntryType">
-                  <v-btn x-large icon>
-                    <v-icon>mdi-textbox</v-icon>
-                  </v-btn>
-                  <v-btn x-large icon>
-                    <v-icon>mdi-camera</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-                <span class="mx-2">
-                  New Text Entry
-                </span>
-                <v-spacer />
-                <v-btn v-if="!loading" icon @click="newEntryToggle">
-                  <v-icon>mdi-close</v-icon>
+              <span class="mx-2">
+                New Text Entry
+              </span>
+              <v-spacer />
+              <v-btn v-if="!loading" icon @click="newEntryToggle">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-progress-circular v-else indeterminate color="primary" />
+            </v-card-title>
+            <v-card-text class="text-left">
+              <v-textarea
+                class="mx-1"
+                rows="5"
+                counter="2048"
+                outlined
+                v-model="newTextEntry"
+                :rules="[rules.length(2048)]"
+              />
+              <v-btn @click="postTextBoardEntry" :disabled="newTextBoardEntryInvalid || loading">
+                Post
+              </v-btn>
+            </v-card-text>
+          </v-card>
+          <v-card v-if="newEntryType === 1" class="elevation-2">
+            <v-card-title class="headline">
+              <v-btn-toggle borderless rounded v-model="newEntryType">
+                <v-btn x-large icon>
+                  <v-icon>mdi-textbox</v-icon>
                 </v-btn>
-                <v-progress-circular v-else indeterminate color="primary" />
-              </v-card-title>
-              <v-card-text class="text-left">
-                <v-textarea
-                  class="mx-1"
-                  rows="5"
-                  counter="2048"
-                  outlined
-                  v-model="newTextEntry"
-                  :rules="[rules.length(2048)]"
-                />
-                <v-btn @click="postTextBoardEntry" :disabled="newTextBoardEntryInvalid || loading">
-                  Post
+                <v-btn x-large icon>
+                  <v-icon>mdi-camera</v-icon>
                 </v-btn>
-              </v-card-text>
-            </v-card>
-            <v-card v-if="newEntryType === 1" class="elevation-2">
-              <v-card-title class="headline">
-                <v-btn-toggle borderless rounded v-model="newEntryType">
-                  <v-btn x-large icon>
-                    <v-icon>mdi-textbox</v-icon>
-                  </v-btn>
-                  <v-btn x-large icon>
-                    <v-icon>mdi-camera</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
-                <span class="mx-2">
-                  New Picture/Video Entry
-                </span>
-                <v-spacer />
-                <v-btn v-if="!loading" icon @click="newEntryToggle">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-progress-circular v-else indeterminate color="primary" />
-              </v-card-title>
-              <v-card-text class="text-left">
-                <span v-if="newMediaEntry !== undefined">
-                  <v-container>
-                    <h2>Preview</h2>
-                  </v-container>
-                  <v-img
-                    v-if="newMediaEntry.type !== 'video/mp4'"
-                    :src="image(newMediaEntry)"
-                    min-height="350"
-                    max-height="350"
-                    contain
-                  />
-                  <VuePlyr
-                    v-else-if="newMediaEntry.type === 'video/mp4'"
-                    :emit="['enterfullscreen', 'exitfullscreen']"
-                    @enterfullscreen="fullscreen = true"
-                    @exitfullscreen="fullscreen = false"
-                  >
-                    <video
-                      :src="image(newMediaEntry)"
-                      :style="!fullscreen ? 'max-height:350px;' : ''"
-                    />
-                  </VuePlyr>
-                  <br />
-                </span>
-                <v-file-input
-                  v-model="newMediaEntry"
-                  outlined
-                  dense
-                  show-size
-                  accept="image/jpeg, image/png, image/gif, video/mp4"
-                  prepend-icon="mdi-camera"
-                  :rules="[rules.size]"
-                  :disabled="loading"
-                />
-                <v-btn
-                  @click="postMediaBoardEntry()"
-                  :disabled="newMediaBoardEntryInvalid || loading"
-                >
-                  Post
-                </v-btn>
-              </v-card-text>
-            </v-card>
-          </v-timeline-item>
-          <v-timeline-item v-for="item in boardEntries" :key="item.id">
-            <v-card class="elevation-2">
-              <v-card-title class="headline">
-                {{ calendarTime(item.createdAt) }}
-                <v-spacer />
-                <v-btn
-                  v-if="
-                    editEntryIndex(item.id) !== -1 &&
-                      item.document.type === 'TEXT' &&
-                      !editEntries[editEntryIndex(item.id)].loading
-                  "
-                  icon
-                  :disabled="editEntryIsInvalid(item.id)"
-                  @click="editBoardEntry(item.id)"
-                >
-                  <v-icon>mdi-check</v-icon>
-                </v-btn>
-                <v-btn
-                  v-if="
-                    editEntryIndex(item.id) !== -1 &&
-                      item.document.type === 'MEDIA' &&
-                      !editEntries[editEntryIndex(item.id)].loading
-                  "
-                  icon
-                  :disabled="editEntryIsInvalid(item.id)"
-                  @click="uploadMediaFile(item.id)"
-                >
-                  <v-icon>mdi-check</v-icon>
-                </v-btn>
-                <v-progress-circular
-                  v-if="
-                    editEntryIndex(item.id) !== -1 && editEntries[editEntryIndex(item.id)].loading
-                  "
-                  indeterminate
-                  color="primary"
-                />
-                <v-btn
-                  v-if="
-                    editEntryIndex(item.id) !== -1 && !editEntries[editEntryIndex(item.id)].loading
-                  "
-                  icon
-                  @click="toggleEditEntry(item.id, '', '')"
-                >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-btn
-                  v-if="onProject && editEntryIndex(item.id) === -1"
-                  @click="
-                    toggleEditEntry(
-                      item.id,
-                      item.document.type === 'TEXT' ? item.document.body : '',
-                      item.document.type === 'MEDIA' ? item.document.mediaType : ''
-                    )
-                  "
-                  icon
-                >
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-                <v-dialog v-if="onProject && editEntryIndex(item.id) === -1" max-width="500px">
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" icon>
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-title>
-                      Delete Board Entry?<br />{{ calendarTime(item.createdAt) }}
-                    </v-card-title>
-                    <v-card-text>
-                      <v-container>
-                        <v-container
-                          v-if="editEntryIndex(item.id) === -1 && item.document.type === 'TEXT'"
-                          class="text-left"
-                          v-text="item.document.body"
-                        />
-                        <v-img
-                          v-else-if="
-                            editEntryIndex(item.id) === -1 && item.document.mediaType === 'IMAGE'
-                          "
-                          :src="item.document.mediaLink"
-                          min-height="350"
-                          max-height="350"
-                          contain
-                        />
-                        <VuePlyr
-                          v-else-if="
-                            editEntryIndex(item.id) === -1 && item.document.mediaType === 'VIDEO'
-                          "
-                          :emit="['enterfullscreen', 'exitfullscreen']"
-                          @enterfullscreen="fullscreen = true"
-                          @exitfullscreen="fullscreen = false"
-                        >
-                          <video
-                            :src="item.document.mediaLink"
-                            :style="!fullscreen ? 'max-height:350px;' : ''"
-                          />
-                        </VuePlyr>
-                      </v-container>
-                      <v-btn @click="deleteBoardEntry(item.id)">
-                        <h2>Delete</h2>
-                      </v-btn>
-                    </v-card-text>
-                  </v-card>
-                </v-dialog>
-              </v-card-title>
-              <v-card-text v-if="item.document.type === 'TEXT'" class="text-left">
-                <v-container
-                  v-if="editEntryIndex(item.id) === -1"
-                  class="text-left"
-                  v-text="item.document.body"
-                />
-                <v-textarea
-                  v-else
-                  class="mx-1"
-                  rows="5"
-                  counter="2048"
-                  outlined
-                  :placeholder="item.document.body"
-                  v-model="editEntries[editEntryIndex(item.id)].body"
-                  :rules="[rules.length(2048)]"
-                />
-              </v-card-text>
-              <v-card-text v-if="item.document.type === 'MEDIA'">
-                <v-container v-if="editEntryIndex(item.id) !== -1">
+              </v-btn-toggle>
+              <span class="mx-2">
+                New Picture/Video Entry
+              </span>
+              <v-spacer />
+              <v-btn v-if="!loading" icon @click="newEntryToggle">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-progress-circular v-else indeterminate color="primary" />
+            </v-card-title>
+            <v-card-text class="text-left">
+              <span v-if="newMediaEntry !== undefined">
+                <v-container>
                   <h2>Preview</h2>
                 </v-container>
                 <v-img
-                  v-if="editEntryIndex(item.id) === -1 && item.document.mediaType === 'IMAGE'"
-                  :src="item.document.mediaLink"
+                  v-if="newMediaEntry.type !== 'video/mp4'"
+                  :src="image(newMediaEntry)"
                   min-height="350"
                   max-height="350"
                   contain
                 />
-                <v-img
-                  v-else-if="
-                    editEntryIndex(item.id) !== -1 &&
-                      editEntries[editEntryIndex(item.id)].mediaType === 'IMAGE'
-                  "
+                <VuePlyr
+                  v-else-if="newMediaEntry.type === 'video/mp4'"
+                  :emit="['enterfullscreen', 'exitfullscreen']"
+                  @enterfullscreen="fullscreen = true"
+                  @exitfullscreen="fullscreen = false"
+                >
+                  <video
+                    :src="image(newMediaEntry)"
+                    :style="!fullscreen ? 'max-height:350px;' : ''"
+                  />
+                </VuePlyr>
+                <br />
+              </span>
+              <v-file-input
+                v-model="newMediaEntry"
+                outlined
+                dense
+                show-size
+                accept="image/jpeg, image/png, image/gif, video/mp4"
+                prepend-icon="mdi-camera"
+                :rules="[rules.size]"
+                :disabled="loading"
+              />
+              <v-btn
+                @click="postMediaBoardEntry()"
+                :disabled="newMediaBoardEntryInvalid || loading"
+              >
+                Post
+              </v-btn>
+            </v-card-text>
+          </v-card>
+        </v-timeline-item>
+        <v-timeline-item v-for="item in boardEntries" :key="item.id">
+          <v-card class="elevation-2">
+            <v-card-title class="headline">
+              {{ calendarTime(item.createdAt) }}
+              <v-spacer />
+              <v-btn
+                v-if="
+                  editEntryIndex(item.id) !== -1 &&
+                    item.document.type === 'TEXT' &&
+                    !editEntries[editEntryIndex(item.id)].loading
+                "
+                icon
+                :disabled="editEntryIsInvalid(item.id)"
+                @click="editBoardEntry(item.id)"
+              >
+                <v-icon>mdi-check</v-icon>
+              </v-btn>
+              <v-btn
+                v-if="
+                  editEntryIndex(item.id) !== -1 &&
+                    item.document.type === 'MEDIA' &&
+                    !editEntries[editEntryIndex(item.id)].loading
+                "
+                icon
+                :disabled="editEntryIsInvalid(item.id)"
+                @click="uploadMediaFile(item.id)"
+              >
+                <v-icon>mdi-check</v-icon>
+              </v-btn>
+              <v-progress-circular
+                v-if="
+                  editEntryIndex(item.id) !== -1 && editEntries[editEntryIndex(item.id)].loading
+                "
+                indeterminate
+                color="primary"
+              />
+              <v-btn
+                v-if="
+                  editEntryIndex(item.id) !== -1 && !editEntries[editEntryIndex(item.id)].loading
+                "
+                icon
+                @click="toggleEditEntry(item.id, '', '')"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-btn
+                v-if="onProject && editEntryIndex(item.id) === -1"
+                @click="
+                  toggleEditEntry(
+                    item.id,
+                    item.document.type === 'TEXT' ? item.document.body : '',
+                    item.document.type === 'MEDIA' ? item.document.mediaType : ''
+                  )
+                "
+                icon
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-dialog v-if="onProject && editEntryIndex(item.id) === -1" max-width="500px">
+                <template v-slot:activator="{ on }">
+                  <v-btn v-on="on" icon>
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title>
+                    Delete Board Entry?<br />{{ calendarTime(item.createdAt) }}
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container>
+                      <v-container
+                        v-if="editEntryIndex(item.id) === -1 && item.document.type === 'TEXT'"
+                        class="text-left"
+                        v-text="item.document.body"
+                      />
+                      <v-img
+                        v-else-if="
+                          editEntryIndex(item.id) === -1 && item.document.mediaType === 'IMAGE'
+                        "
+                        :src="item.document.mediaLink"
+                        min-height="350"
+                        max-height="350"
+                        contain
+                      />
+                      <VuePlyr
+                        v-else-if="
+                          editEntryIndex(item.id) === -1 && item.document.mediaType === 'VIDEO'
+                        "
+                        :emit="['enterfullscreen', 'exitfullscreen']"
+                        @enterfullscreen="fullscreen = true"
+                        @exitfullscreen="fullscreen = false"
+                      >
+                        <video
+                          :src="item.document.mediaLink"
+                          :style="!fullscreen ? 'max-height:350px;' : ''"
+                        />
+                      </VuePlyr>
+                    </v-container>
+                    <v-btn @click="deleteBoardEntry(item.id)">
+                      <h2>Delete</h2>
+                    </v-btn>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
+            </v-card-title>
+            <v-card-text v-if="item.document.type === 'TEXT'" class="text-left">
+              <v-container
+                v-if="editEntryIndex(item.id) === -1"
+                class="text-left"
+                v-text="item.document.body"
+              />
+              <v-textarea
+                v-else
+                class="mx-1"
+                rows="5"
+                counter="2048"
+                outlined
+                :placeholder="item.document.body"
+                v-model="editEntries[editEntryIndex(item.id)].body"
+                :rules="[rules.length(2048)]"
+              />
+            </v-card-text>
+            <v-card-text v-if="item.document.type === 'MEDIA'">
+              <v-container v-if="editEntryIndex(item.id) !== -1">
+                <h2>Preview</h2>
+              </v-container>
+              <v-img
+                v-if="editEntryIndex(item.id) === -1 && item.document.mediaType === 'IMAGE'"
+                :src="item.document.mediaLink"
+                min-height="350"
+                max-height="350"
+                contain
+              />
+              <v-img
+                v-else-if="
+                  editEntryIndex(item.id) !== -1 &&
+                    editEntries[editEntryIndex(item.id)].mediaType === 'IMAGE'
+                "
+                :src="
+                  image(editEntries[editEntryIndex(item.id)].body) === ''
+                    ? item.document.mediaLink
+                    : image(editEntries[editEntryIndex(item.id)].body)
+                "
+                min-height="350"
+                max-height="350"
+                contain
+              />
+              <VuePlyr
+                v-else-if="editEntryIndex(item.id) === -1 && item.document.mediaType === 'VIDEO'"
+                :emit="['enterfullscreen', 'exitfullscreen']"
+                @enterfullscreen="fullscreen = true"
+                @exitfullscreen="fullscreen = false"
+              >
+                <video
+                  :src="item.document.mediaLink"
+                  :style="!fullscreen ? 'max-height:350px;' : ''"
+                />
+              </VuePlyr>
+              <VuePlyr
+                v-else-if="
+                  editEntryIndex(item.id) !== -1 &&
+                    editEntries[editEntryIndex(item.id)].mediaType === 'VIDEO'
+                "
+                :emit="['enterfullscreen', 'exitfullscreen']"
+                @enterfullscreen="fullscreen = true"
+                @exitfullscreen="fullscreen = false"
+              >
+                <video
                   :src="
                     image(editEntries[editEntryIndex(item.id)].body) === ''
                       ? item.document.mediaLink
                       : image(editEntries[editEntryIndex(item.id)].body)
                   "
-                  min-height="350"
-                  max-height="350"
-                  contain
+                  :style="!fullscreen ? 'max-height:350px;' : ''"
                 />
-                <VuePlyr
-                  v-else-if="editEntryIndex(item.id) === -1 && item.document.mediaType === 'VIDEO'"
-                  :emit="['enterfullscreen', 'exitfullscreen']"
-                  @enterfullscreen="fullscreen = true"
-                  @exitfullscreen="fullscreen = false"
-                >
-                  <video
-                    :src="item.document.mediaLink"
-                    :style="!fullscreen ? 'max-height:350px;' : ''"
-                  />
-                </VuePlyr>
-                <VuePlyr
-                  v-else-if="
-                    editEntryIndex(item.id) !== -1 &&
-                      editEntries[editEntryIndex(item.id)].mediaType === 'VIDEO'
-                  "
-                  :emit="['enterfullscreen', 'exitfullscreen']"
-                  @enterfullscreen="fullscreen = true"
-                  @exitfullscreen="fullscreen = false"
-                >
-                  <video
-                    :src="
-                      image(editEntries[editEntryIndex(item.id)].body) === ''
-                        ? item.document.mediaLink
-                        : image(editEntries[editEntryIndex(item.id)].body)
-                    "
-                    :style="!fullscreen ? 'max-height:350px;' : ''"
-                  />
-                </VuePlyr>
+              </VuePlyr>
 
-                <br v-if="editEntryIndex(item.id) !== -1" />
-                <v-file-input
-                  v-if="editEntryIndex(item.id) !== -1"
-                  v-model="editEntries[editEntryIndex(item.id)].body"
-                  outlined
-                  dense
-                  show-size
-                  accept="image/jpeg, image/png, image/gif, video/mp4"
-                  prepend-icon="mdi-camera"
-                  v-on:change="addEditMediaType(editEntries[editEntryIndex(item.id)].body, item.id)"
-                  :rules="[rules.size]"
-                  :disabled="editEntries[editEntryIndex(item.id)].loading"
-                />
-              </v-card-text>
-            </v-card>
-          </v-timeline-item>
-          <v-timeline-item key="created">
-            <v-card>
-              <v-card-title class="headline">
-                {{ calendarTime(createdAt) }}
-                <v-spacer />
-              </v-card-title>
-              <v-card-text>
-                <v-img
-                  src="@/../public/assets/balloons.jpeg"
-                  height="350"
-                  gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-                >
-                  <v-overlay :absolute="true">
-                    <v-container class="white--text display-3">
-                      Project Created!
-                    </v-container>
-                  </v-overlay>
-                </v-img>
-              </v-card-text>
-            </v-card>
-          </v-timeline-item>
-        </v-slide-x-transition>
-      </v-timeline>
-    </v-container>
-  </v-card>
+              <br v-if="editEntryIndex(item.id) !== -1" />
+              <v-file-input
+                v-if="editEntryIndex(item.id) !== -1"
+                v-model="editEntries[editEntryIndex(item.id)].body"
+                outlined
+                dense
+                show-size
+                accept="image/jpeg, image/png, image/gif, video/mp4"
+                prepend-icon="mdi-camera"
+                v-on:change="addEditMediaType(editEntries[editEntryIndex(item.id)].body, item.id)"
+                :rules="[rules.size]"
+                :disabled="editEntries[editEntryIndex(item.id)].loading"
+              />
+            </v-card-text>
+          </v-card>
+        </v-timeline-item>
+        <v-timeline-item key="created">
+          <v-card>
+            <v-card-title class="headline">
+              {{ calendarTime(createdAt) }}
+              <v-spacer />
+            </v-card-title>
+            <v-card-text>
+              <v-img
+                src="@/../public/assets/balloons.jpeg"
+                height="350"
+                gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+              >
+                <v-overlay :absolute="true">
+                  <v-container class="white--text display-3">
+                    Project Created!
+                  </v-container>
+                </v-overlay>
+              </v-img>
+            </v-card-text>
+          </v-card>
+        </v-timeline-item>
+      </v-slide-x-transition>
+    </v-timeline>
+  </v-container>
 </template>
 
 <script>

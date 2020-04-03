@@ -27,7 +27,7 @@
         <span v-else-if="!acceptingApps">This project is not accepting applications.</span>
         <span v-else>You cannot apply to this project right now.</span>
       </v-tooltip>
-      <v-dialog :persistent="loading" v-model="dialog" max-width="50%">
+      <v-dialog :persistent="loading" v-model="dialog" max-width="600">
         <v-card>
           <v-card-title class="headline">
             Apply to {{ title }}

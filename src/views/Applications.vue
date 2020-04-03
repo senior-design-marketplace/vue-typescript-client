@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="max-width: 1185px;">
     <br />
     <h1 v-if="forApproval.length == 0 && myApps.length == 0">
       <v-img contain max-height="500" :src="require('@/../public/assets/noApps.svg')" />

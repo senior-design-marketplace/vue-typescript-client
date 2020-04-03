@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="max-width: 1185px;">
     <br />
     <h1>About Us</h1>
     <br />
