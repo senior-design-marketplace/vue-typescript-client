@@ -61,7 +61,7 @@
           >
             <v-tooltip top max-width="175">
               <template v-slot:activator="{ on }">
-                <v-btn v-on="on" icon @click="toggleEditNote(false, '');">
+                <v-btn v-on="on" icon @click="toggleEditNote(false, ''); toggleExpanded(item.id)">
                   <v-icon>mdi-format-page-break</v-icon>
                 </v-btn>
               </template>
