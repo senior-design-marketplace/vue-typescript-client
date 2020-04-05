@@ -80,7 +80,7 @@
           />
         </v-container>
 
-        <span style="float: right;" class="text-left">
+        <span v-if="onProject" style="float: right;" class="text-left">
           <v-btn
             v-if="editMajors || majors.length === 0"
             icon
@@ -101,7 +101,7 @@
             <span>Edit majors</span>
           </v-tooltip>
         </span>
-        <v-container style="max-width: 900px;">
+        <v-container style="max-width: 900px;" v-if="onProject || majors.length > 0">
           <v-chip-group column v-if="!editMajors && majors.length !== 0">
             <v-tooltip top max-width="175" v-for="major in majors" :key="major">
               <template v-slot:activator="{ on }">
@@ -113,7 +113,7 @@
             </v-tooltip>
           </v-chip-group>
           <v-autocomplete
-            v-else
+            v-else-if="onProject"
             v-model="newMajors"
             :items="availableMajors"
             outlined
@@ -143,7 +143,7 @@
           </v-autocomplete>
         </v-container>
 
-        <span style="float: right;" class="text-left">
+        <span v-if="onProject" style="float: right;" class="text-left">
           <v-btn
             v-if="editTags || tags.length === 0"
             icon
@@ -164,7 +164,7 @@
             <span>Edit tags</span>
           </v-tooltip>
         </span>
-        <v-container style="max-width: 900px;">
+        <v-container style="max-width: 900px;" v-if="onProject || tags.length > 0">
           <v-chip-group column v-if="!editTags && tags.length !== 0">
             <v-tooltip bottom max-width="175" v-for="tag in tags" :key="tag">
               <template v-slot:activator="{ on }">
@@ -176,7 +176,7 @@
             </v-tooltip>
           </v-chip-group>
           <v-autocomplete
-            v-else
+            v-else-if="onProject"
             v-model="newTags"
             :items="availableTags"
             outlined
