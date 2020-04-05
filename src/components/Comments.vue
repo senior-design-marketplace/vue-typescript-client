@@ -22,7 +22,7 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-btn
-                v-else-if="isLoggedIn && (isAdmin || postedComment(item.id))"
+                v-else-if="isLoggedIn && postedComment(item.id)"
                 icon
                 @click="editEdit(item.id)"
               >
