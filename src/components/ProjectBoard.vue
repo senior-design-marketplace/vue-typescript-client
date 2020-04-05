@@ -206,6 +206,7 @@
                         v-if="editEntryIndex(item.id) === -1 && item.document.type === 'TEXT'"
                         class="text-left"
                         v-text="item.document.body"
+                        style="white-space: pre-line;"
                       />
                       <v-img
                         v-else-if="
@@ -242,6 +243,7 @@
                 v-if="editEntryIndex(item.id) === -1"
                 class="text-left"
                 v-text="item.document.body"
+                style="white-space: pre-line;"
               />
               <v-textarea
                 v-else

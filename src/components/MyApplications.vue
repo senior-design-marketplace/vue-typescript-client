@@ -116,7 +116,7 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </h4>
-            <v-container v-if="!editNote">
+            <v-container v-if="!editNote" style="white-space: pre-line;">
               {{ item.note }}
             </v-container>
             <v-textarea

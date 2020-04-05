@@ -46,7 +46,7 @@
                           <v-card-title class="subtitle-2">
                             {{ relativeTime(item.createdAt) }} by {{ item.userId }}
                           </v-card-title>
-                          <v-container v-text="item.body" />
+                          <v-container v-text="item.body" style="white-space: pre-line;"/>
                         </v-card>
                         <v-divider inset />
                       </template>
@@ -58,7 +58,11 @@
                 </v-card>
               </v-dialog>
             </v-card-title>
-            <v-container v-if="edits !== item.id" v-text="item.body" />
+            <v-container
+              v-if="edits !== item.id"
+              v-text="item.body"
+              style="white-space: pre-line;"
+            />
             <v-container v-else>
               <v-textarea
                 class="mx-1"
