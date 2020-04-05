@@ -131,7 +131,7 @@
             <h4>
               {{item.userId}}'s Note:
             </h4>
-            <v-container>
+            <v-container style="white-space: pre-line;">
               {{ item.note }}
             </v-container>
           </v-container>
@@ -203,7 +203,7 @@ export default {
   methods: {
     async replyApplication(item, decision) {
       this.selectItem(item);
-      const response = await apiCall.methods.patch(
+      const response = await apiCall.methods.post(
         `/projects/${item.projectId}/applications/${item.id}`,
         '',
         { response: decision },

@@ -1,153 +1,44 @@
 <template>
   <div>
-    <v-toolbar>
-      <v-tooltip v-if="onProject" top max-width="175">
-        <template v-slot:activator="{ on }">
-          <v-avatar
-            v-on="on"
-            @click.stop="thumbnailDialog = true"
-            size="50"
-            :color="avatar !== null ? undefined : 'primary'"
-            class="mx-1"
-            style="cursor:pointer;"
-          >
-            <v-img v-if="avatar != null" :src="avatar" max-height="50" max-width="50" />
-            <span
-              v-else-if="title != null"
-              class="white--text headline"
-              v-text="title.substring(0, 1).toLowerCase()"
-            />
-          </v-avatar>
-        </template>
-        <span>Click to change avatar.</span>
-      </v-tooltip>
-      <v-avatar v-else size="50" class="mx-1" :color="avatar !== null ? undefined : 'primary'">
-        <v-img v-if="avatar !== null" :src="avatar" max-height="50" max-width="50" />
-        <span
-          v-else-if="title != null"
-          class="white--text headline"
-          v-text="title.substring(0, 1).toLowerCase()"
-        />
-      </v-avatar>
-      <v-container v-if="!editTitle" class="headline text-left text-break mx-1">
-        {{ title }}
-      </v-container>
-      <v-textarea
-        v-else
-        class="mx-1"
-        rows="1"
-        counter="64"
-        no-resize
-        :placeholder="title"
-        v-model="newTitle"
-        :rules="[rules.length(64)]"
-      />
-      <v-btn :disabled="newTitleInvalid" v-if="editTitle" icon @click="updateTitle()">
-        <v-icon>mdi-check</v-icon>
-      </v-btn>
-      <v-btn v-if="editTitle" icon @click="toggleEditTitle">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-      <v-btn v-else-if="onProject" icon @click="toggleEditTitle">
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn v-if="isAdmin" icon @click="deleteDialog = true">
-        <v-icon>
-          mdi-delete
-        </v-icon>
-      </v-btn>
-      <!-- <v-item-group>
-        <v-list-item>
-          <v-item v-slot:default="{ active, toggle }">
-            <v-btn icon @click="toggle">
-              <v-icon v-bind:color="active ? 'yellow accent-4' : 'grey'">mdi-star</v-icon>
-            </v-btn>
-          </v-item>
-        </v-list-item>
-      </v-item-group> -->
-      <v-tooltip top max-width="175">
-        <template v-slot:activator="{ on }">
-          <v-btn v-if="onProject" icon v-on="on" @click="toggleAcceptingApps()">
-            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'error'">
-              {{ acceptingApps ? "mdi-sticker-check-outline" : "mdi-sticker-remove-outline" }}
-            </v-icon>
-            <v-progress-circular v-else color="primary" indeterminate />
-          </v-btn>
-          <span v-else icon v-on="on">
-            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'error'">
-              {{ acceptingApps ? "mdi-sticker-check-outline" : "mdi-sticker-remove-outline" }}
-            </v-icon>
-            <v-progress-circular v-else color="primary" indeterminate />
-          </span>
-        </template>
-        <span v-if="acceptingApps">This project is accepting applications.</span>
-        <span v-else>This project is not accepting applications.</span>
-      </v-tooltip>
-    </v-toolbar>
-    <p />
-    <v-card>
-      <v-hover v-if="onProject" v-slot:default="{ hover }" style="cursor:pointer;">
-        <span @click.stop="coverDialog = true" size="150" color="primary">
-          <v-img v-if="coverImg != null" :src="coverImg" height="350"></v-img>
-          <v-img
-            v-else
-            :src="randomCover"
-            height="350"
-            gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-          >
-            <v-overlay :absolute="true">
-              <v-container class="white--text display-3" v-text="title" />
-            </v-overlay>
-          </v-img>
-          <v-overlay :value="hover" absolute opacity="0.75">
-            <v-container class="white--text headline">Click to change cover image.</v-container>
-          </v-overlay>
-        </span>
-      </v-hover>
-      <span v-else size="150" color="primary">
-        <v-img v-if="coverImg != null" :src="coverImg" height="350"></v-img>
-        <v-img
-          v-else
-          :src="randomCover"
-          height="350"
-          gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-        >
-          <v-overlay :absolute="true">
-            <v-container class="white--text display-3" v-text="title" />
-          </v-overlay>
-        </v-img>
-      </span>
-    </v-card>
-    <p />
     <v-card>
       <v-container>
-        <h2 class="text-left">
-          Tagline:
+        <span style="float: right;" class="text-left">
           <v-btn :disabled="newTaglineInvalid" v-if="editTagline" icon @click="updateTagline()">
             <v-icon>mdi-check</v-icon>
           </v-btn>
           <v-btn v-if="editTagline" icon @click="toggleEditTagline">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-btn v-else-if="onProject" icon @click="toggleEditTagline">
-            <v-icon> mdi-pencil</v-icon>
-          </v-btn>
-        </h2>
-        <v-container v-if="!editTagline" class="text-left" v-text="tagline" />
-        <v-textarea
-          v-else
-          class="mx-1"
-          rows="3"
-          counter="256"
-          no-resize
-          outlined
-          :placeholder="tagline"
-          v-model="newTagline"
-          :rules="[rules.length(256)]"
+          <v-tooltip v-else-if="onProject" top max-width="175">
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon @click="toggleEditTagline">
+                <v-icon> mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+            <span>Edit tagline</span>
+          </v-tooltip>
+        </span>
+        <v-container
+          v-if="!editTagline"
+          style="max-width: 900px; white-space: pre-line;"
+          class="blockquote"
+          v-text="tagline"
         />
-        <h2 class="text-left">
-          Description:
+        <v-container v-else style="max-width: 900px;">
+          <v-textarea
+            class="mx-1"
+            label="Tagline"
+            counter="256"
+            :rows="1"
+            no-resize
+            auto-grow
+            outlined
+            :placeholder="tagline"
+            v-model="newTagline"
+            :rules="[rules.length(256)]"
+          />
+        </v-container>
+        <span style="float: right;" class="text-left">
           <v-btn
             :disabled="newDescriptionInvalid"
             v-if="editDescription"
@@ -159,111 +50,219 @@
           <v-btn v-if="editDescription" icon @click="toggleEditDescription">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-btn v-else-if="onProject" icon @click="toggleEditDescription">
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-        </h2>
-        <v-container v-if="!editDescription" class="text-left" v-text="description" />
-        <v-textarea
-          v-else
-          class="mx-1"
-          rows="15"
-          counter="2048"
-          no-resize
-          outlined
-          :placeholder="description"
-          v-model="newDescription"
-          :rules="[rules.length(2048)]"
+          <v-tooltip v-else-if="onProject" top max-width="175">
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon @click="toggleEditDescription">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+            <span>Edit description</span>
+          </v-tooltip>
+        </span>
+        <v-container
+          v-if="!editDescription"
+          style="max-width: 900px; white-space: pre-line;"
+          class="text-left"
+          v-text="description"
         />
-        <h2 class="text-left">Majors:</h2>
-        <v-chip-group column>
-          <v-chip label v-for="major in majors" :key="major" class="noClick">{{ major }}</v-chip>
-        </v-chip-group>
-        <br />
-        <h2 class="text-left">Tags:</h2>
-        <v-chip-group column>
-          <v-chip label v-for="tag in tags" :key="tag" class="noClick">{{ tag }}</v-chip>
-        </v-chip-group>
+        <v-container v-else style="max-width: 900px;">
+          <v-textarea
+            class="mx-1"
+            label="Description"
+            counter="2048"
+            :rows="1"
+            no-resize
+            auto-grow
+            outlined
+            :placeholder="description"
+            v-model="newDescription"
+            :rules="[rules.length(2048)]"
+          />
+        </v-container>
+
+        <span v-if="onProject" style="float: right;" class="text-left">
+          <v-btn
+            v-if="editMajors || majors.length === 0"
+            icon
+            @click="updateMajors()"
+            :disabled="majors.length === 0 && newMajors.length === 0"
+          >
+            <v-icon>mdi-check</v-icon>
+          </v-btn>
+          <v-btn v-if="editMajors" icon @click="toggleEditMajors">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-tooltip v-else-if="onProject && majors.length !== 0" top max-width="175">
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon @click="toggleEditMajors">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+            <span>Edit majors</span>
+          </v-tooltip>
+        </span>
+        <v-container style="max-width: 900px;" v-if="onProject || majors.length > 0">
+          <v-chip-group column v-if="!editMajors && majors.length !== 0">
+            <v-tooltip top max-width="175" v-for="major in majors" :key="major">
+              <template v-slot:activator="{ on }">
+                <v-chip v-on="on" label color="secondary" @click="searchBy('major', major)">
+                  {{ major }}
+                </v-chip>
+              </template>
+              <span>This project is requesting {{ major }} majors.</span>
+            </v-tooltip>
+          </v-chip-group>
+          <v-autocomplete
+            v-else-if="onProject"
+            v-model="newMajors"
+            :items="availableMajors"
+            outlined
+            chips
+            clearable
+            label="Majors"
+            multiple
+          >
+            <template v-slot:selection="data">
+              <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                label
+                color="secondary"
+                @click="data.select"
+                @click:close="removeMajor(data.item)"
+              >
+                {{ data.item }}
+              </v-chip>
+            </template>
+            <template v-slot:item="data">
+              <template>
+                <v-list-item-content v-text="data.item"></v-list-item-content>
+              </template>
+            </template>
+          </v-autocomplete>
+        </v-container>
+
+        <span v-if="onProject" style="float: right;" class="text-left">
+          <v-btn
+            v-if="editTags || tags.length === 0"
+            icon
+            @click="updateTags()"
+            :disabled="tags.length === 0 && newTags.length === 0"
+          >
+            <v-icon>mdi-check</v-icon>
+          </v-btn>
+          <v-btn v-if="editTags" icon @click="toggleEditTags">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-tooltip v-else-if="onProject && tags.length !== 0" top max-width="175">
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon @click="toggleEditTags">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+            <span>Edit tags</span>
+          </v-tooltip>
+        </span>
+        <v-container style="max-width: 900px;" v-if="onProject || tags.length > 0">
+          <v-chip-group column v-if="!editTags && tags.length !== 0">
+            <v-tooltip bottom max-width="175" v-for="tag in tags" :key="tag">
+              <template v-slot:activator="{ on }">
+                <v-chip v-on="on" label color="primary" @click="searchBy('tag', tag)">
+                  {{ tag }}
+                </v-chip>
+              </template>
+              <span>This project is tagged with {{ tag }}.</span>
+            </v-tooltip>
+          </v-chip-group>
+          <v-autocomplete
+            v-else-if="onProject"
+            v-model="newTags"
+            :items="availableTags"
+            outlined
+            chips
+            clearable
+            label="Tags"
+            multiple
+          >
+            <template v-slot:selection="data">
+              <v-chip
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                close
+                label
+                color="primary"
+                @click="data.select"
+                @click:close="removeTag(data.item)"
+              >
+                {{ data.item }}
+              </v-chip>
+            </template>
+            <template v-slot:item="data">
+              <template>
+                <v-list-item-content v-text="data.item"></v-list-item-content>
+              </template>
+            </template>
+          </v-autocomplete>
+        </v-container>
       </v-container>
     </v-card>
-    <MediaUpload
-      v-model="thumbnailDialog"
-      :path="`/projects/${this.$route.params.id}/thumbnail`"
-      title="Thumbnail Upload"
-      types="image/jpeg, image/png"
-      :avatar="true"
-      @file="hotswapThumbnail"
-    />
-    <MediaUpload
-      v-model="coverDialog"
-      :path="`/projects/${this.$route.params.id}/cover`"
-      title="Cover Image Upload"
-      types="image/jpeg, image/png"
-      :avatar="false"
-      @file="hotswapCoverImage"
-    />
-    <BigDecision
-      v-model="deleteDialog"
-      title="Delete Project"
-      :body="`Are you sure you want to delete ${title}? This permanent and irreversible.`"
-      :stringToType="title"
-      @confirm="deleteProject"
-    />
   </div>
 </template>
 
 <script>
 import apiCall from '@/apiCall';
-import BigDecision from '@/components/BigDecision.vue';
-import MediaUpload from '@/components/MediaUpload.vue';
 
 export default {
-  components: {
-    MediaUpload,
-    BigDecision,
-  },
   props: {
-    avatar: String,
-    title: String,
-    starred: Boolean,
-    coverImg: String,
     tagline: String,
     description: String,
     majors: Array,
     tags: Array,
-    acceptingApps: Boolean,
     onProject: Boolean,
-    isAdmin: Boolean,
   },
   data: () => ({
-    thumbnailDialog: false,
-    coverDialog: false,
-    deleteDialog: false,
-    editTitle: false,
-    newTitle: '',
     editTagline: false,
     newTagline: '',
     editDescription: false,
     newDescription: '',
-    editAcceptingApps: false,
+    editMajors: false,
+    newMajors: [],
+    editTags: false,
+    newTags: [],
     rules: {
       length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
     },
   }),
   methods: {
-    async updateTitle() {
-      const response = await apiCall.methods.patch(
-        `/projects/${this.$route.params.id}`,
-        '',
-        {
-          title: this.newTitle,
-        },
-        this.$route.fullPath,
-      );
-      if (response.status === 200) {
-        this.editTitle = false;
-        this.title = this.newTitle;
-      }
+    toggleEditTagline() {
+      this.editTagline = !this.editTagline;
+      this.newTagline = this.tagline;
+    },
+    toggleEditDescription() {
+      this.editDescription = !this.editDescription;
+      this.newDescription = this.description;
+    },
+    toggleEditMajors() {
+      this.editMajors = !this.editMajors;
+      this.newMajors = this.majors;
+    },
+    toggleEditTags() {
+      this.editTags = !this.editTags;
+      this.newTags = this.tags;
+    },
+    searchBy(type, newValue) {
+      this.$store.commit('resetFilters');
+      this.$store.commit('updateFilter', { filter: type, value: newValue });
+      this.$router.push('/');
+    },
+    removeMajor(item) {
+      const index = this.newMajors.indexOf(item);
+      if (index >= 0) this.newMajors.splice(index, 1);
+    },
+    removeTag(item) {
+      const index = this.newTags.indexOf(item);
+      if (index >= 0) this.newTags.splice(index, 1);
     },
     async updateTagline() {
       const response = await apiCall.methods.patch(
@@ -293,58 +292,37 @@ export default {
         this.description = this.newDescription;
       }
     },
-    async toggleAcceptingApps() {
-      this.editAcceptingApps = true;
-      const response = await apiCall.methods.patch(
-        `/projects/${this.$route.params.id}`,
+    async updateMajors() {
+      const response = await apiCall.methods.put(
+        `/projects/${this.$route.params.id}/majors`,
         '',
-        {
-          acceptingApplications: !this.acceptingApps,
-        },
+        this.newMajors,
         this.$route.fullPath,
       );
       if (response.status === 200) {
-        this.acceptingApps = !this.acceptingApps;
+        this.editMajors = false;
+        this.majors = this.newMajors;
       }
-      this.editAcceptingApps = false;
     },
-    async deleteProject() {
-      const response = await apiCall.methods.delete(
-        `/projects/${this.$route.params.id}`,
+    async updateTags() {
+      const response = await apiCall.methods.put(
+        `/projects/${this.$route.params.id}/tags`,
         '',
-        {},
+        this.newTags,
         this.$route.fullPath,
       );
       if (response.status === 200) {
-        this.$router.push('/');
+        this.editTags = false;
+        this.tags = this.newTags;
       }
-    },
-    toggleEditTitle() {
-      this.editTitle = !this.editTitle;
-      this.newTitle = this.title;
-    },
-    toggleEditTagline() {
-      this.editTagline = !this.editTagline;
-      this.newTagline = this.tagline;
-    },
-    toggleEditDescription() {
-      this.editDescription = !this.editDescription;
-      this.newDescription = this.description;
-    },
-    hotswapThumbnail(file) {
-      this.avatar = URL.createObjectURL(file);
-    },
-    hotswapCoverImage(file) {
-      this.coverImg = URL.createObjectURL(file);
     },
   },
   computed: {
-    randomCover() {
-      return `https://picsum.photos/766/350?${this.title}`;
+    availableMajors() {
+      return this.$store.state.majors;
     },
-    newTitleInvalid() {
-      if (this.newTitle === null) return true;
-      return this.newTitle.length === 0 || this.newTitle.length > 64;
+    availableTags() {
+      return this.$store.state.tags;
     },
     newTaglineInvalid() {
       if (this.newTagline === null) return true;
@@ -357,9 +335,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.noClick {
-  pointer-events: none;
-}
-</style>

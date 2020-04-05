@@ -1,81 +1,76 @@
 <template>
-  <v-card>
-    <v-container>
-      <v-tooltip
-        :disabled="acceptingApps && !onProject && isLoggedIn && !alreadyApplied && !sent"
-        top
-        max-width="175"
-      >
-        <template v-slot:activator="{ on }">
-          <span v-on="on">
-            <v-btn
-              :disabled="!acceptingApps || onProject || !isLoggedIn || alreadyApplied || sent"
-              outlined
-              block
-              @click.stop="dialog = true"
-            >
-              <h2>Apply</h2>
-            </v-btn>
-          </span>
-        </template>
-        <span v-if="!isLoggedIn">You must be logged in to apply to a project.</span>
-        <span v-else-if="onProject">You are already a member of this project.</span>
-        <span v-else-if="alreadyApplied"
-          >You already have a pending application.</span
-        >
-        <span v-else-if="sent">Your application has been sent!</span>
-        <span v-else-if="!acceptingApps">This project is not accepting applications.</span>
-        <span v-else>You cannot apply to this project right now.</span>
-      </v-tooltip>
-      <v-dialog :persistent="loading" v-model="dialog" max-width="50%">
-        <v-card>
-          <v-card-title class="headline">
-            Apply to {{ title }}
-            <v-spacer></v-spacer>
-            <v-progress-circular v-if="loading" indeterminate color="primary" />
-          </v-card-title>
-          <v-card-text class="text-left">
-            Write your application note below. You may want to include things such as:
-            <ul>
-              <li>why you want to be on the project</li>
-              <li>what your strengths are</li>
-              <li>a link to your resume</li>
-            </ul>
-            <br />
-            <v-textarea
-              outlined
-              v-model="note"
-              name="Note"
-              label="Note"
-              counter="256"
-              :disabled="loading"
-              :rules="[rules.length(256)]"
-            ></v-textarea>
-          </v-card-text>
-          <v-card-text>
-            <v-btn
-              :disabled="(note !== null && note.length > 256) || loading"
-              outlined
-              color="primary"
-              @click="submitApplication"
-            >
-              <h2>Submit</h2>
-            </v-btn>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-      <v-dialog :value="sentDialog > 0" max-width="600">
-        <v-card>
-          <h1>
-            <v-img contain max-height="500" :src="require('@/../public/assets/appCreated.svg')" />
-            Application to {{ title }} sent!
-          </h1>
+  <span>
+    <v-tooltip :disabled="buttonEnabled" top max-width="175">
+      <template v-slot:activator="{ on }">
+        <v-hover v-slot:default="{ hover }">
+          <v-toolbar
+            @click="!buttonEnabled ? '' : (dialog = true)"
+            v-on="on"
+            :style="buttonEnabled ? 'cursor: pointer;' : ''"
+            :elevation="buttonEnabled ? (hover ? 12 : 4) : 1"
+            :ripple="false"
+          >
+            <v-container :class="buttonEnabled ? 'headline' : 'grey--text headline'">
+              Apply
+            </v-container>
+          </v-toolbar>
+        </v-hover>
+      </template>
+      <span v-if="!isLoggedIn">You must be logged in to apply to a project.</span>
+      <span v-else-if="onProject">You are already a member of this project.</span>
+      <span v-else-if="alreadyApplied">You already have a pending application.</span>
+      <span v-else-if="sent">Your application has been sent!</span>
+      <span v-else-if="!acceptingApps">This project is not accepting applications.</span>
+      <span v-else>You cannot apply to this project right now.</span>
+    </v-tooltip>
+    <v-dialog :persistent="loading" v-model="dialog" max-width="600">
+      <v-card>
+        <v-card-title class="headline">
+          Apply to {{ title }}
+          <v-spacer></v-spacer>
+          <v-progress-circular v-if="loading" indeterminate color="primary" />
+        </v-card-title>
+        <v-card-text class="text-left">
+          Write your application note below. You may want to include things such as:
+          <ul>
+            <li>why you want to be on the project</li>
+            <li>what your strengths are</li>
+            <li>a link to your resume</li>
+          </ul>
           <br />
-          <v-progress-linear :value="sentDialog" />
-        </v-card>
-      </v-dialog>
-    </v-container>
-  </v-card>
+          <v-textarea
+            outlined
+            v-model="note"
+            name="Note"
+            label="Note"
+            counter="256"
+            :disabled="loading"
+            :rules="[rules.length(256)]"
+          ></v-textarea>
+        </v-card-text>
+        <v-card-text>
+          <v-btn
+            :disabled="(note !== null && note.length > 256) || loading"
+            outlined
+            color="primary"
+            @click="submitApplication"
+          >
+            <h2>Submit</h2>
+          </v-btn>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-dialog :value="sentDialog > 0" max-width="600">
+      <v-card>
+        <h1>
+          <v-img contain max-height="500" :src="require('@/../public/assets/appCreated.svg')" />
+          Application to {{ title }} sent!
+        </h1>
+        <br />
+        <v-progress-linear :value="sentDialog" />
+      </v-card>
+    </v-dialog>
+  </span>
 </template>
 
 <script>
@@ -156,6 +151,15 @@ export default {
     alreadyApplied() {
       const myPendingApps = this.myApps.filter(app => app.status === 'PENDING');
       return myPendingApps.map(app => app.projectId).includes(this.$route.params.id);
+    },
+    buttonEnabled() {
+      return (
+        this.acceptingApps
+        && !this.onProject
+        && this.isLoggedIn
+        && !this.alreadyApplied
+        && !this.sent
+      );
     },
   },
 };

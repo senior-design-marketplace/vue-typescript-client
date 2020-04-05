@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-toolbar class="d-none d-md-flex">
+    <v-toolbar class="d-none d-md-flex d-flex justify-center">
       <v-menu>
         <template v-slot:activator="{ on }">
           <v-btn color="primary" dark v-on="on">{{ sort }}</v-btn>
         </template>
         <v-list>
           <v-list-item v-for="(item, index) in sortList" :key="index" @click="sort = item">
-            <v-list-item-title>{{ item }}</v-list-item-title>
+            <v-list-item-title class="text-uppercase">{{ item }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>

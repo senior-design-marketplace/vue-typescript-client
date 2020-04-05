@@ -1,144 +1,140 @@
 <template>
-  <v-card>
-    <v-container>
-      <v-data-table
-        :items="history"
-        :expanded.sync="expanded"
-        item-key="id"
-        class="elevation-1"
-        disable-pagination
-        hide-default-footer
-      >
-        <template v-slot:item="{ item, expand, isExpanded }">
-          <tr @click="expand(!isExpanded)" style="cursor:pointer;" class="text-left">
-            <td>
-              {{ displayType(item.type) }} by {{ item.initiateId }}
-              <br />
-              {{ calendarTime(item.createdAt) }}
-            </td>
-            <td>
-              <v-btn v-if="!isExpanded" icon>
-                <v-icon> mdi-chevron-right </v-icon>
-              </v-btn>
-              <v-btn v-else icon>
-                <v-icon> mdi-chevron-down </v-icon>
-              </v-btn>
-            </td>
-          </tr>
-        </template>
-        <template v-slot:expanded-item="{ headers, item }">
+  <v-container fluid style="max-width: 500px;">
+    <v-data-table
+      :items="history"
+      :expanded.sync="expanded"
+      item-key="id"
+      class="elevation-1"
+      disable-pagination
+      hide-default-footer
+    >
+      <template v-slot:item="{ item, expand, isExpanded }">
+        <tr @click="expand(!isExpanded)" style="cursor:pointer;" class="text-left">
           <td>
-            <v-container
-              v-if="item.type === 'PROJECT_CREATED'"
-              :colspan="headers.length"
-              class="text-left"
-            >
-              Title: {{ item.after.title }} <br />
-              Tagline: {{ item.after.tagline }} <br />
-              Description: {{ item.after.body }}
-              <v-icon v-if="item.after.body === null"> mdi-close </v-icon><br />
-              Accepting Applications:
-              <v-icon> {{ item.after.acceptingApplications ? "mdi-check" : "mdi-close" }} </v-icon>
-            </v-container>
-
-            <v-container
-              v-else-if="item.type === 'PROJECT_UPDATED'"
-              :colspan="headers.length"
-              class="text-left"
-            >
-              <span v-if="differenceKey(item.before, item.after) === 'title'">
-                Title updated from "{{ item.before.title }}" to "{{ item.after.title }}"
-              </span>
-              <span v-else-if="differenceKey(item.before, item.after) === 'tagline'">
-                Tagline updated from "{{ item.before.tagline }}" to "{{ item.after.tagline }}"
-              </span>
-              <span v-else-if="differenceKey(item.before, item.after) === 'body'">
-                Description updated from "{{ item.before.body }}" to "{{ item.after.body }}"
-              </span>
-              <span v-else-if="differenceKey(item.before, item.after) === 'acceptingApplications'">
-                <span v-if="!item.after.acceptingApplications"> Not </span>
-                Accepting Applications
-                <v-icon>
-                  {{ item.after.acceptingApplications ? "mdi-check" : "mdi-close" }}
-                </v-icon>
-              </span>
-            </v-container>
-
-            <v-container
-              v-else-if="item.type === 'APPLICATION_CREATED'"
-              :colspan="headers.length"
-              class="text-left"
-            >
-              Name: {{ item.after.userId }} <br />
-              Status: {{ item.after.status }} <br />
-              Note: {{ item.after.note }}
-              <v-icon v-if="item.after.note === null"> mdi-close </v-icon>
-            </v-container>
-
-            <v-container
-              v-else-if="
-                item.type === 'APPLICATION_ACCEPTED' || item.type === 'APPLICATION_REJECTED'
-              "
-              :colspan="headers.length"
-              class="text-left"
-            >
-              Name: {{ item.after.userId }} <br />
-              Status: {{ item.after.status }}<br />
-              Note: {{ item.after.note }}
-              <v-icon v-if="item.after.note === null"> mdi-close </v-icon>
-            </v-container>
-
-            <v-container
-              v-else-if="item.type === 'ENTRY_CREATED'"
-              :colspan="headers.length"
-              class="text-left"
-            >
-              Board Entry Type: {{ item.after.document.mediaType }} <br />
-              <span v-if="item.after.document.type === 'TEXT'">
-                Body: {{ item.after.document.body }}
-              </span>
-              <span v-else>
-                <v-img
-                  v-if="item.after.document.mediaType === 'IMAGE'"
-                  :src="item.after.document.mediaLink"
-                  min-height="350"
-                  max-height="350"
-                  contain
-                />
-                <VuePlyr
-                  v-else-if="item.after.document.mediaType === 'VIDEO'"
-                  :emit="['enterfullscreen', 'exitfullscreen']"
-                  @enterfullscreen="fullscreen = true"
-                  @exitfullscreen="fullscreen = false"
-                >
-                  <video
-                    :src="item.after.document.mediaLink"
-                    :style="!fullscreen ? 'max-height:350px;' : ''"
-                  />
-                </VuePlyr>
-              </span>
-            </v-container>
-
-            <v-container
-              v-else-if="item.type === 'ENTRY_UPDATED'"
-              :colspan="headers.length"
-              class="text-left"
-            >
-              Entry that was created {{ calendarTime(item.before.createdAt) }} updated from "{{
-                item.before.document.body
-              }}" to "{{ item.after.document.body }}"
-            </v-container>
-
-            <v-container v-else :colspan="headers.length" class="text-left">
-              More info about {{ item.id }}
-            </v-container>
-
-            <v-divider :colspan="headers.length" />
+            {{ displayType(item.type) }} by {{ item.initiateId }}
+            <br />
+            {{ calendarTime(item.createdAt) }}
           </td>
-        </template>
-      </v-data-table>
-    </v-container>
-  </v-card>
+          <td>
+            <v-btn v-if="!isExpanded" icon>
+              <v-icon> mdi-chevron-right </v-icon>
+            </v-btn>
+            <v-btn v-else icon>
+              <v-icon> mdi-chevron-down </v-icon>
+            </v-btn>
+          </td>
+        </tr>
+      </template>
+      <template v-slot:expanded-item="{ headers, item }">
+        <td>
+          <v-container
+            v-if="item.type === 'PROJECT_CREATED'"
+            :colspan="headers.length"
+            class="text-left"
+          >
+            Title: {{ item.after.title }} <br />
+            Tagline: {{ item.after.tagline }} <br />
+            Description: {{ item.after.body }}
+            <v-icon v-if="item.after.body === null"> mdi-close </v-icon><br />
+            Accepting Applications:
+            <v-icon> {{ item.after.acceptingApplications ? "mdi-check" : "mdi-close" }} </v-icon>
+          </v-container>
+
+          <v-container
+            v-else-if="item.type === 'PROJECT_UPDATED'"
+            :colspan="headers.length"
+            class="text-left"
+          >
+            <span v-if="differenceKey(item.before, item.after) === 'title'">
+              Title updated from "{{ item.before.title }}" to "{{ item.after.title }}"
+            </span>
+            <span v-else-if="differenceKey(item.before, item.after) === 'tagline'">
+              Tagline updated from "{{ item.before.tagline }}" to "{{ item.after.tagline }}"
+            </span>
+            <span v-else-if="differenceKey(item.before, item.after) === 'body'">
+              Description updated from "{{ item.before.body }}" to "{{ item.after.body }}"
+            </span>
+            <span v-else-if="differenceKey(item.before, item.after) === 'acceptingApplications'">
+              <span v-if="!item.after.acceptingApplications"> Not </span>
+              Accepting Applications
+              <v-icon>
+                {{ item.after.acceptingApplications ? "mdi-check" : "mdi-close" }}
+              </v-icon>
+            </span>
+          </v-container>
+
+          <v-container
+            v-else-if="item.type === 'APPLICATION_CREATED'"
+            :colspan="headers.length"
+            class="text-left"
+          >
+            Name: {{ item.after.userId }} <br />
+            Status: {{ item.after.status }} <br />
+            Note: {{ item.after.note }}
+            <v-icon v-if="item.after.note === null"> mdi-close </v-icon>
+          </v-container>
+
+          <v-container
+            v-else-if="item.type === 'APPLICATION_ACCEPTED' || item.type === 'APPLICATION_REJECTED'"
+            :colspan="headers.length"
+            class="text-left"
+          >
+            Name: {{ item.after.userId }} <br />
+            Status: {{ item.after.status }}<br />
+            Note: {{ item.after.note }}
+            <v-icon v-if="item.after.note === null"> mdi-close </v-icon>
+          </v-container>
+
+          <v-container
+            v-else-if="item.type === 'ENTRY_CREATED'"
+            :colspan="headers.length"
+            class="text-left"
+          >
+            Board Entry Type: {{ item.after.document.mediaType }} <br />
+            <span v-if="item.after.document.type === 'TEXT'">
+              Body: {{ item.after.document.body }}
+            </span>
+            <span v-else>
+              <v-img
+                v-if="item.after.document.mediaType === 'IMAGE'"
+                :src="item.after.document.mediaLink"
+                min-height="350"
+                max-height="350"
+                contain
+              />
+              <VuePlyr
+                v-else-if="item.after.document.mediaType === 'VIDEO'"
+                :emit="['enterfullscreen', 'exitfullscreen']"
+                @enterfullscreen="fullscreen = true"
+                @exitfullscreen="fullscreen = false"
+              >
+                <video
+                  :src="item.after.document.mediaLink"
+                  :style="!fullscreen ? 'max-height:350px;' : ''"
+                />
+              </VuePlyr>
+            </span>
+          </v-container>
+
+          <v-container
+            v-else-if="item.type === 'ENTRY_UPDATED'"
+            :colspan="headers.length"
+            class="text-left"
+          >
+            Entry that was created {{ calendarTime(item.before.createdAt) }} updated from "{{
+              item.before.document.body
+            }}" to "{{ item.after.document.body }}"
+          </v-container>
+
+          <v-container v-else :colspan="headers.length" class="text-left">
+            More info about {{ item.id }}
+          </v-container>
+
+          <v-divider :colspan="headers.length" />
+        </td>
+      </template>
+    </v-data-table>
+  </v-container>
 </template>
 
 <script>

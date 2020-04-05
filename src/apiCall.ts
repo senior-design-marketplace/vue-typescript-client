@@ -97,6 +97,21 @@ export default {
         });
       return resp;
     },
+    async put(path, queryParams, body, savePath) {
+      const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}${queryParams}`;
+      const resp = axios.put(url, body);
+      resp
+        .then((response) => {})
+        .catch((error) => {
+          if (error.response.data.type === 'AuthenticationError') {
+            store.commit('setsavePath', savePath);
+            this.authError();
+          } else {
+            this.otherError(`Error ${error.response.status}: ${error.response.data.message}`);
+          }
+        });
+      return resp;
+    },
     async mediaUpload(path, fileType, mediaFile, savePath) {
       const url = `${apiUrl}${env}${path}?id_token=${store.state.userDetails.token}`;
       const resp = axios.post(url, {

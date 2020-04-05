@@ -44,10 +44,10 @@
                 >
                   <v-icon>mdi-check</v-icon>
                 </v-btn>
-                <v-btn v-if="editBio || bio === null" icon @click="toggleEditBio">
+                <v-btn v-if="editBio" icon @click="toggleEditBio">
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
-                <v-btn v-else icon @click="toggleEditBio">
+                <v-btn v-else-if="bio !== null" icon @click="toggleEditBio">
                   <v-icon> mdi-pencil</v-icon>
                 </v-btn>
               </h2>
@@ -68,12 +68,13 @@
                 <v-btn
                   v-if="resumeLink !== null"
                   icon
+                  x-large
                   v-model="showResume"
                   @click="showResume = !showResume"
                 >
                   <v-icon>mdi-file-eye</v-icon>
                 </v-btn>
-                <v-btn icon @click="resumeDialog = true">
+                <v-btn icon @click="resumeDialog = true" x-large>
                   <v-icon>mdi-file-upload</v-icon>
                 </v-btn>
               </h2>
