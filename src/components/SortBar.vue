@@ -7,7 +7,7 @@
         </template>
         <v-list>
           <v-list-item v-for="(item, index) in sortList" :key="index" @click="sort = item">
-            <v-list-item-title>{{ item }}</v-list-item-title>
+            <v-list-item-title class="text-uppercase">{{ item }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
