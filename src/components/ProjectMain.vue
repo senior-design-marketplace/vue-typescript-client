@@ -67,15 +67,28 @@
             :rules="[rules.length(2048)]"
           />
         </v-container>
-        <h2 class="text-left">Majors:</h2>
-        <v-chip-group column>
-          <v-chip label v-for="major in majors" :key="major" class="noClick">{{ major }}</v-chip>
-        </v-chip-group>
-        <br />
-        <h2 class="text-left">Tags:</h2>
-        <v-chip-group column>
-          <v-chip label v-for="tag in tags" :key="tag" class="noClick">{{ tag }}</v-chip>
-        </v-chip-group>
+        <v-container style="max-width: 900px;">
+          <v-chip-group column>
+            <v-tooltip top max-width="175" v-for="major in majors" :key="major">
+              <template v-slot:activator="{ on }">
+                <v-chip v-on="on" label color="secondary" @click="searchBy('major', major)">
+                  {{ major }}
+                </v-chip>
+              </template>
+              <span>This project is requesting {{ major }} majors.</span>
+            </v-tooltip>
+          </v-chip-group>
+          <v-chip-group column>
+            <v-tooltip bottom max-width="175" v-for="tag in tags" :key="tag">
+              <template v-slot:activator="{ on }">
+                <v-chip v-on="on" label color="primary" @click="searchBy('tag', tag)">
+                  {{ tag }}
+                </v-chip>
+              </template>
+              <span>This project is tagged with {{ tag }}.</span>
+            </v-tooltip>
+          </v-chip-group>
+        </v-container>
       </v-container>
     </v-card>
   </div>
@@ -137,6 +150,11 @@ export default {
     toggleEditDescription() {
       this.editDescription = !this.editDescription;
       this.newDescription = this.description;
+    },
+    searchBy(type, newValue) {
+      this.$store.commit('resetFilters');
+      this.$store.commit('updateFilter', { filter: type, value: newValue });
+      this.$router.push('/');
     },
   },
   computed: {
