@@ -1,129 +1,8 @@
 <template>
   <div>
-    <v-toolbar>
-      <v-tooltip v-if="onProject" top max-width="175">
-        <template v-slot:activator="{ on }">
-          <v-avatar
-            v-on="on"
-            @click.stop="thumbnailDialog = true"
-            size="50"
-            :color="avatar !== null ? undefined : 'primary'"
-            class="mx-1"
-            style="cursor:pointer;"
-          >
-            <v-img v-if="avatar != null" :src="avatar" max-height="50" max-width="50" />
-            <span
-              v-else-if="title != null"
-              class="white--text headline"
-              v-text="title.substring(0, 1).toLowerCase()"
-            />
-          </v-avatar>
-        </template>
-        <span>Click to change avatar.</span>
-      </v-tooltip>
-      <v-avatar v-else size="50" class="mx-1" :color="avatar !== null ? undefined : 'primary'">
-        <v-img v-if="avatar !== null" :src="avatar" max-height="50" max-width="50" />
-        <span
-          v-else-if="title != null"
-          class="white--text headline"
-          v-text="title.substring(0, 1).toLowerCase()"
-        />
-      </v-avatar>
-      <v-container v-if="!editTitle" class="headline text-left text-break mx-1">
-        {{ title }}
-      </v-container>
-      <v-textarea
-        v-else
-        class="mx-1"
-        rows="1"
-        counter="64"
-        no-resize
-        :placeholder="title"
-        v-model="newTitle"
-        :rules="[rules.length(64)]"
-      />
-      <v-btn :disabled="newTitleInvalid" v-if="editTitle" icon @click="updateTitle()">
-        <v-icon>mdi-check</v-icon>
-      </v-btn>
-      <v-btn v-if="editTitle" icon @click="toggleEditTitle">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-      <v-btn v-else-if="onProject" icon @click="toggleEditTitle">
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn v-if="isAdmin" icon @click="deleteDialog = true">
-        <v-icon>
-          mdi-delete
-        </v-icon>
-      </v-btn>
-      <!-- <v-item-group>
-        <v-list-item>
-          <v-item v-slot:default="{ active, toggle }">
-            <v-btn icon @click="toggle">
-              <v-icon v-bind:color="active ? 'yellow accent-4' : 'grey'">mdi-star</v-icon>
-            </v-btn>
-          </v-item>
-        </v-list-item>
-      </v-item-group> -->
-      <v-tooltip top max-width="175">
-        <template v-slot:activator="{ on }">
-          <v-btn v-if="onProject" icon v-on="on" @click="toggleAcceptingApps()">
-            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'error'">
-              {{ acceptingApps ? "mdi-sticker-check-outline" : "mdi-sticker-remove-outline" }}
-            </v-icon>
-            <v-progress-circular v-else color="primary" indeterminate />
-          </v-btn>
-          <span v-else icon v-on="on">
-            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'error'">
-              {{ acceptingApps ? "mdi-sticker-check-outline" : "mdi-sticker-remove-outline" }}
-            </v-icon>
-            <v-progress-circular v-else color="primary" indeterminate />
-          </span>
-        </template>
-        <span v-if="acceptingApps">This project is accepting applications.</span>
-        <span v-else>This project is not accepting applications.</span>
-      </v-tooltip>
-    </v-toolbar>
-    <p />
-    <v-card>
-      <v-hover v-if="onProject" v-slot:default="{ hover }" style="cursor:pointer;">
-        <span @click.stop="coverDialog = true" size="150" color="primary">
-          <v-img v-if="coverImg != null" :src="coverImg" height="350"></v-img>
-          <v-img
-            v-else
-            :src="randomCover"
-            height="350"
-            gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-          >
-            <v-overlay :absolute="true">
-              <v-container class="white--text display-3" v-text="title" />
-            </v-overlay>
-          </v-img>
-          <v-overlay :value="hover" absolute opacity="0.75">
-            <v-container class="white--text headline">Click to change cover image.</v-container>
-          </v-overlay>
-        </span>
-      </v-hover>
-      <span v-else size="150" color="primary">
-        <v-img v-if="coverImg != null" :src="coverImg" height="350"></v-img>
-        <v-img
-          v-else
-          :src="randomCover"
-          height="350"
-          gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-        >
-          <v-overlay :absolute="true">
-            <v-container class="white--text display-3" v-text="title" />
-          </v-overlay>
-        </v-img>
-      </span>
-    </v-card>
-    <p />
     <v-card>
       <v-container>
-        <h2 class="text-left">
-          Tagline:
+        <span style="float: right;" class="text-left">
           <v-btn :disabled="newTaglineInvalid" v-if="editTagline" icon @click="updateTagline()">
             <v-icon>mdi-check</v-icon>
           </v-btn>
@@ -133,21 +12,27 @@
           <v-btn v-else-if="onProject" icon @click="toggleEditTagline">
             <v-icon> mdi-pencil</v-icon>
           </v-btn>
-        </h2>
-        <v-container v-if="!editTagline" class="text-left" v-text="tagline" />
-        <v-textarea
-          v-else
-          class="mx-1"
-          rows="3"
-          counter="256"
-          no-resize
-          outlined
-          :placeholder="tagline"
-          v-model="newTagline"
-          :rules="[rules.length(256)]"
+        </span>
+        <v-container
+          v-if="!editTagline"
+          style="max-width: 900px; white-space: pre-line;"
+          class="blockquote"
+          v-text="tagline"
         />
-        <h2 class="text-left">
-          Description:
+        <v-container v-else style="max-width: 900px;">
+          <v-textarea
+            class="mx-1"
+            label="Tagline"
+            counter="256"
+            no-resize
+            auto-grow
+            outlined
+            :placeholder="tagline"
+            v-model="newTagline"
+            :rules="[rules.length(256)]"
+          />
+        </v-container>
+        <span style="float: right;" class="text-left">
           <v-btn
             :disabled="newDescriptionInvalid"
             v-if="editDescription"
@@ -162,19 +47,26 @@
           <v-btn v-else-if="onProject" icon @click="toggleEditDescription">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
-        </h2>
-        <v-container v-if="!editDescription" class="text-left" v-text="description" />
-        <v-textarea
-          v-else
-          class="mx-1"
-          rows="15"
-          counter="2048"
-          no-resize
-          outlined
-          :placeholder="description"
-          v-model="newDescription"
-          :rules="[rules.length(2048)]"
+        </span>
+        <v-container
+          v-if="!editDescription"
+          style="max-width: 900px; white-space: pre-line;"
+          class="text-left"
+          v-text="description"
         />
+        <v-container v-else style="max-width: 900px;">
+          <v-textarea
+            class="mx-1"
+            label="Description"
+            counter="2048"
+            no-resize
+            auto-grow
+            outlined
+            :placeholder="description"
+            v-model="newDescription"
+            :rules="[rules.length(2048)]"
+          />
+        </v-container>
         <h2 class="text-left">Majors:</h2>
         <v-chip-group column>
           <v-chip label v-for="major in majors" :key="major" class="noClick">{{ major }}</v-chip>
@@ -186,85 +78,30 @@
         </v-chip-group>
       </v-container>
     </v-card>
-    <MediaUpload
-      v-model="thumbnailDialog"
-      :path="`/projects/${this.$route.params.id}/thumbnail`"
-      title="Thumbnail Upload"
-      types="image/jpeg, image/png"
-      :avatar="true"
-      @file="hotswapThumbnail"
-    />
-    <MediaUpload
-      v-model="coverDialog"
-      :path="`/projects/${this.$route.params.id}/cover`"
-      title="Cover Image Upload"
-      types="image/jpeg, image/png"
-      :avatar="false"
-      @file="hotswapCoverImage"
-    />
-    <BigDecision
-      v-model="deleteDialog"
-      title="Delete Project"
-      :body="`Are you sure you want to delete ${title}? This permanent and irreversible.`"
-      :stringToType="title"
-      @confirm="deleteProject"
-    />
   </div>
 </template>
 
 <script>
 import apiCall from '@/apiCall';
-import BigDecision from '@/components/BigDecision.vue';
-import MediaUpload from '@/components/MediaUpload.vue';
 
 export default {
-  components: {
-    MediaUpload,
-    BigDecision,
-  },
   props: {
-    avatar: String,
-    title: String,
-    starred: Boolean,
-    coverImg: String,
     tagline: String,
     description: String,
     majors: Array,
     tags: Array,
-    acceptingApps: Boolean,
     onProject: Boolean,
-    isAdmin: Boolean,
   },
   data: () => ({
-    thumbnailDialog: false,
-    coverDialog: false,
-    deleteDialog: false,
-    editTitle: false,
-    newTitle: '',
     editTagline: false,
     newTagline: '',
     editDescription: false,
     newDescription: '',
-    editAcceptingApps: false,
     rules: {
       length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
     },
   }),
   methods: {
-    async updateTitle() {
-      const response = await apiCall.methods.patch(
-        `/projects/${this.$route.params.id}`,
-        '',
-        {
-          title: this.newTitle,
-        },
-        this.$route.fullPath,
-      );
-      if (response.status === 200) {
-        this.editTitle = false;
-        this.title = this.newTitle;
-      }
-    },
     async updateTagline() {
       const response = await apiCall.methods.patch(
         `/projects/${this.$route.params.id}`,
@@ -293,36 +130,6 @@ export default {
         this.description = this.newDescription;
       }
     },
-    async toggleAcceptingApps() {
-      this.editAcceptingApps = true;
-      const response = await apiCall.methods.patch(
-        `/projects/${this.$route.params.id}`,
-        '',
-        {
-          acceptingApplications: !this.acceptingApps,
-        },
-        this.$route.fullPath,
-      );
-      if (response.status === 200) {
-        this.acceptingApps = !this.acceptingApps;
-      }
-      this.editAcceptingApps = false;
-    },
-    async deleteProject() {
-      const response = await apiCall.methods.delete(
-        `/projects/${this.$route.params.id}`,
-        '',
-        {},
-        this.$route.fullPath,
-      );
-      if (response.status === 200) {
-        this.$router.push('/');
-      }
-    },
-    toggleEditTitle() {
-      this.editTitle = !this.editTitle;
-      this.newTitle = this.title;
-    },
     toggleEditTagline() {
       this.editTagline = !this.editTagline;
       this.newTagline = this.tagline;
@@ -331,21 +138,8 @@ export default {
       this.editDescription = !this.editDescription;
       this.newDescription = this.description;
     },
-    hotswapThumbnail(file) {
-      this.avatar = URL.createObjectURL(file);
-    },
-    hotswapCoverImage(file) {
-      this.coverImg = URL.createObjectURL(file);
-    },
   },
   computed: {
-    randomCover() {
-      return `https://picsum.photos/766/350?${this.title}`;
-    },
-    newTitleInvalid() {
-      if (this.newTitle === null) return true;
-      return this.newTitle.length === 0 || this.newTitle.length > 64;
-    },
     newTaglineInvalid() {
       if (this.newTagline === null) return true;
       return this.newTagline.length === 0 || this.newTagline.length > 256;
@@ -357,9 +151,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.noClick {
-  pointer-events: none;
-}
-</style>

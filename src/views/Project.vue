@@ -4,15 +4,11 @@
     <span v-else>
       <v-row>
         <v-col cols="12" sm="8">
-          <ProjectMain
+          <ProjectTitle
             v-bind:avatar="items.thumbnailLink"
             v-bind:title="items.title"
             v-bind:starred="items.starred"
             v-bind:coverImg="items.coverLink"
-            v-bind:tagline="items.tagline"
-            v-bind:description="items.body"
-            v-bind:majors="items.requestedMajors"
-            v-bind:tags="items.tags"
             v-bind:acceptingApps="items.acceptingApplications"
             v-bind:onProject="onProject"
             v-bind:isAdmin="isAdmin"
@@ -31,6 +27,14 @@
           />
         </v-col>
       </v-row>
+      <ProjectMain
+        v-bind:tagline="items.tagline"
+        v-bind:description="items.body"
+        v-bind:majors="items.requestedMajors"
+        v-bind:tags="items.tags"
+        v-bind:onProject="onProject"
+      />
+      <p />
       <v-card>
         <v-tabs centered icons-and-text dark background-color="secondary">
           <v-tab>Project Board<v-icon>mdi-timeline</v-icon></v-tab>
@@ -63,6 +67,7 @@
 import apiCall from '@/apiCall';
 import Loading from '@/components/Loading.vue';
 import ProjectBoard from '@/components/ProjectBoard.vue';
+import ProjectTitle from '@/components/ProjectTitle.vue';
 import ProjectMain from '@/components/ProjectMain.vue';
 import ContactInfo from '@/components/ContactInfo.vue';
 import Comments from '@/components/Comments.vue';
@@ -72,6 +77,7 @@ import AuditLog from '@/components/AuditLog.vue';
 export default {
   components: {
     Loading,
+    ProjectTitle,
     ProjectMain,
     ProjectBoard,
     ContactInfo,
