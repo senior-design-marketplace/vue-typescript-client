@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar>
-      <v-tooltip v-if="onProject" top max-width="175">
+      <v-tooltip v-if="onProject" top>
         <template v-slot:activator="{ on }">
           <v-avatar
             v-on="on"
@@ -9,7 +9,7 @@
             size="50"
             :color="avatar !== null ? undefined : 'primary'"
             class="mx-1"
-            style="cursor:pointer;"
+            style="cursor: pointer;"
           >
             <v-img v-if="avatar != null" :src="avatar" max-height="50" max-width="50" />
             <span
@@ -48,9 +48,14 @@
       <v-btn v-if="editTitle" icon @click="toggleEditTitle">
         <v-icon>mdi-close</v-icon>
       </v-btn>
-      <v-btn v-else-if="onProject" icon @click="toggleEditTitle">
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
+      <v-tooltip v-else-if="onProject" top max-width="175">
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" icon @click="toggleEditTitle">
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </template>
+        <span>Edit title</span>
+      </v-tooltip>
       <v-spacer></v-spacer>
       <v-btn v-if="isAdmin" icon @click="deleteDialog = true">
         <v-icon>
@@ -87,7 +92,7 @@
     </v-toolbar>
     <p />
     <v-card>
-      <v-hover v-if="onProject" v-slot:default="{ hover }" style="cursor:pointer;">
+      <v-hover v-if="onProject" v-slot:default="{ hover }" style="cursor: pointer;">
         <span @click.stop="coverDialog = true" size="150" color="primary">
           <v-img v-if="coverImg != null" :src="coverImg" height="511"></v-img>
           <v-img
