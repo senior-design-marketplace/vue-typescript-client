@@ -88,7 +88,7 @@
         </tr>
       </template>
       <template v-slot:expanded-item="{ headers, item }">
-        <td :colspan="headers.length" class="elevation-1">
+        <td :colspan="headers.length" class="elevation-1" style="border-left: 2mm solid #03A9F5;">
           <v-container class="text-left text-break">
             <v-img
               class="mx-1 my-1"
