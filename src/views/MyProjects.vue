@@ -48,7 +48,7 @@
       "
     >
       <v-img contain max-height="500" :src="require('@/../public/assets/noProjects.svg')" />
-      You have not a starred or joined any projects!
+      You have not starred or joined any projects!
     </h1>
     <CardDeck v-else-if="displayProjects.length > 0" :items="displayProjects" />
     <h1 v-else-if="displayProjects.length === 0">
