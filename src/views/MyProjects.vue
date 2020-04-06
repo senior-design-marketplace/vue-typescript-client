@@ -42,10 +42,18 @@
       </v-btn-toggle>
     </v-toolbar>
     <br />
-    <CardDeck v-if="displayProjects.length > 0" :items="displayProjects" />
-    <h1 v-if="displayProjects.length === 0">
+    <h1
+      v-if="
+        adminProjects.length === 0 && contribProjects.length === 0 && starredProjects.length === 0
+      "
+    >
       <v-img contain max-height="500" :src="require('@/../public/assets/noProjects.svg')" />
-      You are not on any projects!
+      You have not a starred or joined any projects!
+    </h1>
+    <CardDeck v-else-if="displayProjects.length > 0" :items="displayProjects" />
+    <h1 v-else-if="displayProjects.length === 0">
+      <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
+      No projects found that match those filters.
     </h1>
   </div>
 </template>
