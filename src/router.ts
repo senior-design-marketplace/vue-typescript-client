@@ -74,12 +74,12 @@ export default new Router({
       component: () => import('./views/Account.vue'),
     },
     {
-      path: '/notifications',
-      name: 'notifications',
+      path: '/inbox',
+      name: 'inbox',
       meta: {
         keepAlive: false,
       },
-      component: () => import('./views/Notifications.vue'),
+      component: () => import('./views/Inbox.vue'),
     },
     {
       path: '/project/:id',

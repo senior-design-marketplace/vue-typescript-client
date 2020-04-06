@@ -22,11 +22,11 @@
         <v-btn v-if="!isLoggedIn" @click="login" text class="item">Login</v-btn>
       </v-toolbar-items>
       <div class="d-none d-lg-flex">
-        <v-menu v-if="isLoggedIn && notifications.length > 0" open-on-hover offset-y>
+        <v-menu v-if="isLoggedIn && unread.length > 0" open-on-hover offset-y>
           <template v-slot:activator="{ on }">
             <span v-on="on">
-              <v-btn icon to="/notifications">
-                <v-badge color="red" overlap :content="notifications.length">
+              <v-btn icon to="/inbox">
+                <v-badge color="red" overlap :content="unread.length">
                   <v-icon>mdi-bell</v-icon>
                 </v-badge>
               </v-btn>
@@ -34,15 +34,13 @@
           </template>
           <v-list>
             <v-list-item-group>
-              <v-list-item v-for="(item, index) in notifications" :key="index">
+              <v-list-item v-for="(item, index) in unread" :key="index">
                 <v-list-item-content
                   v-if="
                     item.document.type === 'APPLICATION' &&
                       item.document.application.userId === $store.state.userDetails.cognitoUsername
                   "
-                  @click="
-                    $router.push(`/applications/${item.document.application.id}`).catch(err => {})
-                  "
+                  @click="handleApplication(item.id, item.document.application.id)"
                 >
                   <v-list-item-title class="text-right">
                     {{ displayType(item.document.type) }} sent to
@@ -72,11 +70,13 @@
             </v-list-item-group>
           </v-list>
         </v-menu>
-        <v-tooltip v-else-if="isLoggedIn && notifications.length === 0" top max-width="175">
+        <v-tooltip v-else-if="isLoggedIn && unread.length === 0" top max-width="175">
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" class="mx-3">mdi-bell</v-icon>
+            <v-btn icon to="/inbox" v-on="on">
+                  <v-icon>mdi-bell</v-icon>
+              </v-btn>
           </template>
-          <span>No notifications!</span>
+          <span>No new notifications!</span>
         </v-tooltip>
 
         <v-menu v-if="isLoggedIn" open-on-hover offset-y>
@@ -181,7 +181,7 @@
             </v-list-item>
           </template>
           <v-list>
-            <v-list-item v-for="(item, index) in notifications" :key="index">
+            <v-list-item v-for="(item, index) in unread" :key="index">
               <v-list-item-title :to="`projects/${item.document.application.projectId}`"
                 >{{ item.document.type }} status:
                 {{ item.document.application.status }}</v-list-item-title
@@ -235,6 +235,8 @@
 </template>
 
 <script>
+import apiCall from '@/apiCall';
+
 export default {
   data: () => ({
     drawer: false,
@@ -256,6 +258,22 @@ export default {
           return type;
       }
     },
+    handleApplication(notifId, AppId) {
+      this.$router.push(`/applications/${AppId}`).catch((err) => {});
+      this.markAsRead(notifId);
+    },
+    async markAsRead(id) {
+      const response = await apiCall.methods.patch(
+        `/users/${this.$store.state.userDetails.cognitoUsername}/notifications/${id}`,
+        '',
+        { read: true },
+        this.$route.fullPath,
+      );
+      if (response.status === 200) {
+        const index = this.$store.state.notifications.map(a => a.id).indexOf(id);
+        this.$store.state.notifications.splice(index, 1, response.data);
+      }
+    },
   },
   computed: {
     isLoggedIn() {
@@ -266,6 +284,9 @@ export default {
     },
     notifications() {
       return this.$store.state.notifications;
+    },
+    unread() {
+      return this.notifications.filter(a => !a.read);
     },
   },
 };
