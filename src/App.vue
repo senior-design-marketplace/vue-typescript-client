@@ -88,6 +88,10 @@ export default {
                 detail: 'administratorOn',
                 value: response.data.administratorOn,
               });
+              this.$store.commit('updateUserDetail', {
+                detail: 'starred',
+                value: response.data.starred,
+              });
             } else if (this.$store.getters.isLoggedIn) {
               this.$store.commit('setsavePath', this.$route.fullPath);
               apiCall.methods.authError();

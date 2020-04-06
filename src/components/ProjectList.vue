@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <Loading v-if="loading" value="Loading Projects"/>
+    <Loading v-if="loading && items.length === 0" value="Loading Projects"/>
     <h1 v-else-if="items.length === 0">
       <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
       No projects found that match those filters.
@@ -14,11 +14,9 @@
       class="elevation-1"
       item-key="id"
       no-data-text
-      loading-text="Loading projects..."
       :expanded="expanded"
       single-expand
       disable-pagination
-      :loading="loading"
     >
       <template v-slot:item="{ item, expand, isExpanded }">
         <tr style="cursor:pointer;">
@@ -42,13 +40,11 @@
           <td @click=$router.push(/project/+item.id) class="text-left text-break">
             {{ item.tagline }}
           </td>
-          <!-- <td>
-            <v-chip-group column>
-              <v-chip label v-for="tag in item.tags" :key="tag" class="noClick">
-                {{ tag }}
-              </v-chip>
-            </v-chip-group>
-          </td> -->
+          <td>
+            <v-btn icon @click="toggleStarred(item)">
+              <v-icon :color="starred(item.id) ? 'yellow accent-4' : 'grey'">mdi-star</v-icon>
+            </v-btn>
+          </td>
           <td @click=$router.push(/project/+item.id)>
             <v-tooltip v-if="onProject(item.id)" top max-width="175">
               <template v-slot:activator="{ on }">
@@ -129,6 +125,7 @@ export default {
         {
           text: 'Title',
           align: 'left',
+          width: '150px',
           sortable: false,
           value: 'title',
         },
@@ -139,10 +136,16 @@ export default {
           value: 'tagline',
         },
         {
-          text: 'Accepting Applications',
+          text: 'Starred',
           align: 'center',
+          width: '50px',
           sortable: false,
-          value: 'acceptionApps',
+        },
+        {
+          text: 'Status',
+          align: 'center',
+          width: '50px',
+          sortable: false,
         },
         {
           text: 'More',
@@ -164,6 +167,33 @@ export default {
     alreadyApplied(projectId) {
       const myPendingApps = this.myApps.filter(app => app.status === 'PENDING');
       return myPendingApps.map(app => app.projectId).includes(projectId);
+    },
+    starred(value) {
+      return this.$store.getters.isStarred(value);
+    },
+    async toggleStarred(item) {
+      if (!this.starred(item.id)) {
+        const response = await apiCall.methods.post(
+          `/users/${this.$store.state.userDetails.cognitoUsername}/stars/${item.id}`,
+          '',
+          {},
+          this.$route.fullPath,
+        );
+        if (response.status === 200) {
+          this.$store.state.userDetails.starred.push(item);
+        }
+      } else {
+        const response = await apiCall.methods.delete(
+          `/users/${this.$store.state.userDetails.cognitoUsername}/stars/${item.id}`,
+          '',
+          {},
+          this.$route.fullPath,
+        );
+        if (response.status === 200) {
+          const index = this.$store.state.userDetails.starred.map(a => a.id).indexOf(item.id);
+          this.$store.state.userDetails.starred.splice(index, 1);
+        }
+      }
     },
   },
   computed: {

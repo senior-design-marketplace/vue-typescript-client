@@ -25,6 +25,7 @@ export default new Vuex.Store({
       resumeLink: '',
       contributorOn: [],
       administratorOn: [],
+      starred: [],
     },
     filters: {
       sort: 'new',
@@ -90,6 +91,7 @@ export default new Vuex.Store({
         resumeLink: '',
         contributorOn: [],
         administratorOn: [],
+        starred: [],
       };
     },
     setsavePath: (state, path) => {
@@ -120,6 +122,10 @@ export default new Vuex.Store({
     },
     isContributor: state => (projectId) => {
       const projectIds = state.userDetails.contributorOn.map(a => a.id);
+      return projectIds.includes(projectId);
+    },
+    isStarred: state => (projectId) => {
+      const projectIds = state.userDetails.starred.map(a => a.id);
       return projectIds.includes(projectId);
     },
   },

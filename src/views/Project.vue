@@ -7,7 +7,7 @@
           <ProjectTitle
             v-bind:avatar="items.thumbnailLink"
             v-bind:title="items.title"
-            v-bind:starred="items.starred"
+            v-bind:starred="starred"
             v-bind:coverImg="items.coverLink"
             v-bind:acceptingApps="items.acceptingApplications"
             v-bind:onProject="onProject"
@@ -125,6 +125,9 @@ export default {
     },
     onProject() {
       return this.isAdmin || this.isContributor;
+    },
+    starred() {
+      return this.$store.getters.isStarred(this.$route.params.id);
     },
   },
 };

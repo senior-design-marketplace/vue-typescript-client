@@ -1,8 +1,14 @@
 <template :id="id">
   <v-hover v-slot:default="{ hover }">
-    <v-card min-width="350" max-width="350" min-height="350" class="mx-auto" :to=/project/+id
-    :elevation="hover ? 12 : 2" :ripple="false">
-      <v-container class="pa-1">
+    <v-card
+      min-width="350"
+      max-width="350"
+      min-height="350"
+      class="mx-auto"
+      :elevation="hover ? 12 : 2"
+      :ripple="false"
+    >
+      <v-container class="pa-1" @click="$router.push(`/project/${id}`)" style="cursor: pointer;">
         <v-item-group>
           <v-list-item>
             <v-avatar v-if="avatar != null" size="35">
@@ -15,11 +21,6 @@
             <v-list-item-content>
               <v-flex class="headline" v-text="title"></v-flex>
             </v-list-item-content>
-            <!-- <v-item v-slot:default="{ active, toggle }">
-              <v-btn icon @click="toggle">
-                <v-icon v-bind:color="active ? 'yellow accent-4' : 'grey'">mdi-star</v-icon>
-              </v-btn>
-            </v-item> -->
             <v-item v-if="onProject">
               <v-tooltip top max-width="175">
                 <template v-slot:activator="{ on }">
@@ -46,9 +47,7 @@
                   <span icon v-on="on">
                     <v-icon v-bind:color="acceptingApps ? 'success' : 'error'">
                       {{
-                        acceptingApps
-                        ? "mdi-sticker-check-outline"
-                        : "mdi-sticker-remove-outline"
+                        acceptingApps ? "mdi-sticker-check-outline" : "mdi-sticker-remove-outline"
                       }}
                     </v-icon>
                   </span>
@@ -80,14 +79,26 @@
           </v-card-text>
         </v-item-group>
       </v-container>
+      <v-btn
+        icon
+        absolute
+        color="white"
+        style="bottom: 0px; right: 0px;"
+        @click="toggleStarred"
+      >
+        <v-icon :color="starred ? 'yellow accent-4' : 'grey'">mdi-star</v-icon>
+      </v-btn>
     </v-card>
   </v-hover>
 </template>
 
 <script>
+import apiCall from '@/apiCall';
+
 export default {
   components: {},
   props: {
+    item: Object,
     id: String,
     avatar: String,
     title: String,
@@ -100,6 +111,32 @@ export default {
   data: () => ({
     maxChar: 250,
   }),
+  methods: {
+    async toggleStarred() {
+      if (!this.starred) {
+        const response = await apiCall.methods.post(
+          `/users/${this.$store.state.userDetails.cognitoUsername}/stars/${this.id}`,
+          '',
+          {},
+          this.$route.fullPath,
+        );
+        if (response.status === 200) {
+          this.$store.state.userDetails.starred.push(this.item);
+        }
+      } else {
+        const response = await apiCall.methods.delete(
+          `/users/${this.$store.state.userDetails.cognitoUsername}/stars/${this.id}`,
+          '',
+          {},
+          this.$route.fullPath,
+        );
+        if (response.status === 200) {
+          const index = this.$store.state.userDetails.starred.map(a => a.id).indexOf(this.id);
+          this.$store.state.userDetails.starred.splice(index, 1);
+        }
+      }
+    },
+  },
   computed: {
     randomCover() {
       return `https://picsum.photos/766/350?${this.title}`;
