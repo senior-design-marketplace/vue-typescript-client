@@ -62,15 +62,9 @@
           mdi-delete
         </v-icon>
       </v-btn>
-      <!-- <v-item-group>
-        <v-list-item>
-          <v-item v-slot:default="{ active, toggle }">
-            <v-btn icon @click="toggle">
-              <v-icon v-bind:color="active ? 'yellow accent-4' : 'grey'">mdi-star</v-icon>
-            </v-btn>
-          </v-item>
-        </v-list-item>
-      </v-item-group> -->
+      <v-btn icon @click="toggleStarred">
+        <v-icon :color="starred ? 'yellow accent-4' : 'grey'">mdi-star</v-icon>
+      </v-btn>
       <v-tooltip top max-width="175">
         <template v-slot:activator="{ on }">
           <v-btn v-if="onProject" icon v-on="on" @click="toggleAcceptingApps()">
@@ -163,11 +157,11 @@ export default {
   props: {
     avatar: String,
     title: String,
-    starred: Boolean,
     coverImg: String,
     acceptingApps: Boolean,
     onProject: Boolean,
     isAdmin: Boolean,
+    starred: Boolean,
   },
   data: () => ({
     thumbnailDialog: false,
@@ -219,6 +213,32 @@ export default {
       );
       if (response.status === 200) {
         this.$router.push('/');
+      }
+    },
+    async toggleStarred() {
+      if (!this.starred) {
+        const response = await apiCall.methods.post(
+          `/users/${this.$store.state.userDetails.cognitoUsername}/stars/${this.$route.params.id}`,
+          '',
+          {},
+          this.$route.fullPath,
+        );
+        if (response.status === 200) {
+          this.$store.state.userDetails.starred.push({ id: this.$route.params.id });
+        }
+      } else {
+        const response = await apiCall.methods.delete(
+          `/users/${this.$store.state.userDetails.cognitoUsername}/stars/${this.$route.params.id}`,
+          '',
+          {},
+          this.$route.fullPath,
+        );
+        if (response.status === 200) {
+          const index = this.$store.state.userDetails.starred
+            .map(a => a.id)
+            .indexOf(this.$route.params.id);
+          this.$store.state.userDetails.starred.splice(index, 1);
+        }
       }
     },
     toggleEditTitle() {

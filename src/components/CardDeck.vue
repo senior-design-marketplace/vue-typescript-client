@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <Loading v-if="loading" value="Loading Projects"/>
+    <Loading v-if="loading" value="Loading Projects" />
     <h1 v-else-if="items.length === 0">
       <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
       No projects found that match those filters.
@@ -17,10 +17,11 @@
         <v-row align="center">
           <v-col v-for="(item, index) in props.items" :key="index">
             <Card
+              v-bind:item="item"
               v-bind:id="item.id"
               v-bind:avatar="item.thumbnailLink"
               v-bind:title="item.title"
-              v-bind:starred="item.starred"
+              v-bind:starred="starred(item.id)"
               v-bind:coverImg="item.coverLink"
               v-bind:tagline="item.tagline"
               v-bind:tags="item.tags"
@@ -45,6 +46,11 @@ export default {
   props: {
     items: Array,
     loading: Boolean,
+  },
+  methods: {
+    starred(value) {
+      return this.$store.getters.isStarred(value);
+    },
   },
 };
 </script>
