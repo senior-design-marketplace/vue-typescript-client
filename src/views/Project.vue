@@ -13,6 +13,7 @@
             v-bind:onProject="onProject"
             v-bind:isAdmin="isAdmin"
             v-bind:history="items.history"
+            @adminPanel="adminPanel = !adminPanel"
           />
         </v-col>
         <v-col cols="12" sm="4">
@@ -57,6 +58,14 @@
         </v-tabs>
       </v-card>
     </span>
+    <AdminPanel
+      v-model="adminPanel"
+      :title="items.title"
+      :history="items.history"
+      :acceptingApps="items.acceptingApplications"
+      :contributors="items.contributors"
+      :administrators="items.administrators"
+    />
   </v-container>
 </template>
 
@@ -69,6 +78,7 @@ import ProjectMain from '@/components/ProjectMain.vue';
 import ContactInfo from '@/components/ContactInfo.vue';
 import Comments from '@/components/Comments.vue';
 import Apply from '@/components/Apply.vue';
+import AdminPanel from '@/components/AdminPanel.vue';
 
 export default {
   components: {
@@ -79,11 +89,13 @@ export default {
     ContactInfo,
     Comments,
     Apply,
+    AdminPanel,
   },
   data() {
     return {
       items: [],
       loading: true,
+      adminPanel: false,
     };
   },
   mounted() {
@@ -91,7 +103,6 @@ export default {
   },
   methods: {
     async getProjectData() {
-      this.loading = true;
       const response = await apiCall.methods.get(
         `/projects/${this.projectId}`,
         '',

@@ -4,8 +4,7 @@
       :items="history"
       :expanded.sync="expanded"
       item-key="id"
-      disable-pagination
-      hide-default-footer
+      :items-per-page="15"
       class="elevation-1"
     >
       <template v-slot:item="{ item, expand, isExpanded }">

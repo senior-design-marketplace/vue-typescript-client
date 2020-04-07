@@ -57,14 +57,9 @@
         <span>Edit title</span>
       </v-tooltip>
       <v-spacer></v-spacer>
-      <v-btn v-if="isAdmin" icon @click="adminPanel = true">
+      <v-btn v-if="isAdmin" icon @click="$emit('adminPanel')">
         <v-icon>
           mdi-cog
-        </v-icon>
-      </v-btn>
-      <v-btn v-if="isAdmin" icon @click="deleteDialog = true">
-        <v-icon>
-          mdi-delete
         </v-icon>
       </v-btn>
       <v-btn icon @click="toggleStarred">
@@ -72,14 +67,12 @@
       </v-btn>
       <v-tooltip top max-width="175">
         <template v-slot:activator="{ on }">
-          <v-btn v-if="onProject" icon v-on="on" @click="toggleAcceptingApps()">
-            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'error'">
-              {{ acceptingApps ? "mdi-sticker-check-outline" : "mdi-sticker-remove-outline" }}
-            </v-icon>
-            <v-progress-circular v-else color="primary" indeterminate />
-          </v-btn>
-          <span v-else icon v-on="on">
-            <v-icon v-if="!editAcceptingApps" v-bind:color="acceptingApps ? 'success' : 'error'">
+          <span icon v-on="on">
+            <v-icon
+              v-if="!editAcceptingApps"
+              class="mx-2"
+              v-bind:color="acceptingApps ? 'success' : 'error'"
+            >
               {{ acceptingApps ? "mdi-sticker-check-outline" : "mdi-sticker-remove-outline" }}
             </v-icon>
             <v-progress-circular v-else color="primary" indeterminate />
@@ -139,28 +132,16 @@
       :avatar="false"
       @file="hotswapCoverImage"
     />
-    <BigDecision
-      v-model="deleteDialog"
-      title="Delete Project"
-      :body="`Are you sure you want to delete ${title}? This permanent and irreversible.`"
-      :stringToType="title"
-      @confirm="deleteProject"
-    />
-    <AdminPanel v-model="adminPanel" :history="history" />
   </div>
 </template>
 
 <script>
 import apiCall from '@/apiCall';
-import BigDecision from '@/components/BigDecision.vue';
 import MediaUpload from '@/components/MediaUpload.vue';
-import AdminPanel from '@/components/AdminPanel.vue';
 
 export default {
   components: {
     MediaUpload,
-    BigDecision,
-    AdminPanel,
   },
   props: {
     avatar: String,
@@ -175,11 +156,9 @@ export default {
   data: () => ({
     thumbnailDialog: false,
     coverDialog: false,
-    deleteDialog: false,
     editTitle: false,
     newTitle: '',
     editAcceptingApps: false,
-    adminPanel: false,
     rules: {
       length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
     },
@@ -197,32 +176,6 @@ export default {
       if (response.status === 200) {
         this.editTitle = false;
         this.title = this.newTitle;
-      }
-    },
-    async toggleAcceptingApps() {
-      this.editAcceptingApps = true;
-      const response = await apiCall.methods.patch(
-        `/projects/${this.$route.params.id}`,
-        '',
-        {
-          acceptingApplications: !this.acceptingApps,
-        },
-        this.$route.fullPath,
-      );
-      if (response.status === 200) {
-        this.acceptingApps = !this.acceptingApps;
-      }
-      this.editAcceptingApps = false;
-    },
-    async deleteProject() {
-      const response = await apiCall.methods.delete(
-        `/projects/${this.$route.params.id}`,
-        '',
-        {},
-        this.$route.fullPath,
-      );
-      if (response.status === 200) {
-        this.$router.push('/');
       }
     },
     async toggleStarred() {
