@@ -12,6 +12,7 @@
             v-bind:acceptingApps="items.acceptingApplications"
             v-bind:onProject="onProject"
             v-bind:isAdmin="isAdmin"
+            v-bind:history="items.history"
           />
         </v-col>
         <v-col cols="12" sm="4">
@@ -39,7 +40,6 @@
         <v-tabs centered icons-and-text dark background-color="secondary">
           <v-tab>Project Board<v-icon>mdi-timeline</v-icon></v-tab>
           <v-tab>Comments<v-icon>mdi-comment-multiple</v-icon></v-tab>
-          <v-tab v-if="isAdmin">History<v-icon>mdi-history</v-icon></v-tab>
           <v-tab-item>
             <ProjectBoard
               v-model="items.boardItems"
@@ -53,9 +53,6 @@
               v-bind:comments="items.comments"
               v-bind:isAdmin="isAdmin"
             />
-          </v-tab-item>
-          <v-tab-item>
-            <AuditLog v-bind:history="items.history" />
           </v-tab-item>
         </v-tabs>
       </v-card>
@@ -72,7 +69,6 @@ import ProjectMain from '@/components/ProjectMain.vue';
 import ContactInfo from '@/components/ContactInfo.vue';
 import Comments from '@/components/Comments.vue';
 import Apply from '@/components/Apply.vue';
-import AuditLog from '@/components/AuditLog.vue';
 
 export default {
   components: {
@@ -83,7 +79,6 @@ export default {
     ContactInfo,
     Comments,
     Apply,
-    AuditLog,
   },
   data() {
     return {

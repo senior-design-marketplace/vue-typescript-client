@@ -57,6 +57,11 @@
         <span>Edit title</span>
       </v-tooltip>
       <v-spacer></v-spacer>
+      <v-btn v-if="isAdmin" icon @click="adminPanel = true">
+        <v-icon>
+          mdi-cog
+        </v-icon>
+      </v-btn>
       <v-btn v-if="isAdmin" icon @click="deleteDialog = true">
         <v-icon>
           mdi-delete
@@ -141,6 +146,7 @@
       :stringToType="title"
       @confirm="deleteProject"
     />
+    <AdminPanel v-model="adminPanel" :history="history" />
   </div>
 </template>
 
@@ -148,11 +154,13 @@
 import apiCall from '@/apiCall';
 import BigDecision from '@/components/BigDecision.vue';
 import MediaUpload from '@/components/MediaUpload.vue';
+import AdminPanel from '@/components/AdminPanel.vue';
 
 export default {
   components: {
     MediaUpload,
     BigDecision,
+    AdminPanel,
   },
   props: {
     avatar: String,
@@ -162,6 +170,7 @@ export default {
     onProject: Boolean,
     isAdmin: Boolean,
     starred: Boolean,
+    history: Array,
   },
   data: () => ({
     thumbnailDialog: false,
@@ -170,6 +179,7 @@ export default {
     editTitle: false,
     newTitle: '',
     editAcceptingApps: false,
+    adminPanel: false,
     rules: {
       length: len => v => (v || '').length <= len || `Invalid character length, must be less than ${len}`,
     },
