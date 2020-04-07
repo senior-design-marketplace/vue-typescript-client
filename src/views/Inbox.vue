@@ -56,18 +56,13 @@
           <tr
             v-if="
               ((view.includes('unread') && !item.read) || (view.includes('read') && item.read)) &&
-              item.document.type === 'APPLICATION' &&
-              item.document.application.userId === $store.state.userDetails.cognitoUsername
+                item.document.type === 'APPLICATION' &&
+                item.document.application.userId === $store.state.userDetails.cognitoUsername
             "
             class="text-left"
           >
             <v-list-item>
-              <v-list-item-content
-                style="cursor: pointer;"
-                @click="
-                  $router.push(`/applications/${item.document.application.id}`).catch((err) => {})
-                "
-              >
+              <v-list-item-content style="cursor: pointer;" @click="handleApplication(item)">
                 <v-list-item-title v-if="item.document.application.status == 'PENDING'">
                   {{ displayType(item.document.type) }} sent to
                   {{ item.document.application.projectId }}
@@ -102,19 +97,14 @@
           <tr
             v-if="
               ((view.includes('unread') && !item.read) || (view.includes('read') && item.read)) &&
-              item.document.type === 'APPLICATION' &&
-              item.document.application.userId !== $store.state.userDetails.cognitoUsername
+                item.document.type === 'APPLICATION' &&
+                item.document.application.userId !== $store.state.userDetails.cognitoUsername
             "
             class="text-left"
           >
             <v-list-item>
-              <v-list-item-content
-                style="cursor: pointer;"
-                @click="
-                  $router.push(`/applications/${item.document.application.id}`).catch((err) => {})
-                "
-              >
-                <v-list-item-title v-if="item.document.application.status == 'PENDING'">
+              <v-list-item-content style="cursor: pointer;" @click="handleApplication(item)">
+                <v-list-item-title v-if="item.document.application.status === 'PENDING'">
                   {{ displayType(item.document.type) }} from
                   {{ item.document.application.userId }} for
                   {{ item.document.application.projectId }} received
@@ -152,7 +142,7 @@
           <tr
             v-if="
               ((view.includes('unread') && !item.read) || (view.includes('read') && item.read)) &&
-              item.document.type === 'APPLICATION'
+                item.document.type === 'APPLICATION'
             "
           >
             <td style="border-left: 2mm solid #03a9f5;">
@@ -202,6 +192,14 @@ export default {
     },
     calendarTime(dateInput) {
       return moment(dateInput).calendar();
+    },
+    handleApplication(notif) {
+      if (notif.document.application.status === 'PENDING') {
+        this.$router.push(`/applications/${notif.document.application.id}`).catch((err) => {});
+      } else {
+        this.$router.push(`/project/${notif.document.application.projectId}`).catch((err) => {});
+      }
+      this.toggleRead(notif.id, false);
     },
     async toggleRead(id, currentValue) {
       const response = await apiCall.methods.patch(
