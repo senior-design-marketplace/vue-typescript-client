@@ -174,8 +174,8 @@ export default {
         this.$route.fullPath,
       );
       if (response.status === 200) {
+        this.$emit('update');
         this.editTitle = false;
-        this.title = this.newTitle;
       }
     },
     async toggleStarred() {

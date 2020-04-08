@@ -5,6 +5,7 @@
       <v-row>
         <v-col cols="12" sm="8">
           <ProjectTitle
+            @update="getProjectData"
             v-bind:avatar="items.thumbnailLink"
             v-bind:title="items.title"
             v-bind:starred="starred"
@@ -30,6 +31,7 @@
         </v-col>
       </v-row>
       <ProjectMain
+        @update="getProjectData"
         v-bind:tagline="items.tagline"
         v-bind:description="items.body"
         v-bind:majors="items.requestedMajors"
@@ -59,6 +61,7 @@
       </v-card>
     </span>
     <AdminPanel
+      @update="getProjectData"
       v-model="adminPanel"
       :title="items.title"
       :history="items.history"

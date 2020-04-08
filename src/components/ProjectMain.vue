@@ -275,7 +275,7 @@ export default {
       );
       if (response.status === 200) {
         this.editTagline = false;
-        this.tagline = this.newTagline;
+        this.$emit('update');
       }
     },
     async updateDescription() {
@@ -289,7 +289,7 @@ export default {
       );
       if (response.status === 200) {
         this.editDescription = false;
-        this.description = this.newDescription;
+        this.$emit('update');
       }
     },
     async updateMajors() {
@@ -301,7 +301,7 @@ export default {
       );
       if (response.status === 200) {
         this.editMajors = false;
-        this.majors = this.newMajors;
+        this.$emit('update');
       }
     },
     async updateTags() {
@@ -313,7 +313,7 @@ export default {
       );
       if (response.status === 200) {
         this.editTags = false;
-        this.tags = this.newTags;
+        this.$emit('update');
       }
     },
   },
