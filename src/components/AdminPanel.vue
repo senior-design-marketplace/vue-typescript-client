@@ -68,10 +68,12 @@
               </p>
             </v-container>
             <v-container v-else-if="view === 'members'" class="mt-9">
-              <ContactInfo
-                v-bind:contributors="contributors"
-                v-bind:administrators="administrators"
-              />
+              <v-card class="overflow-y-auto" flat :max-height="windowHeight * 0.75">
+                <MemberManagement
+                  v-bind:contributors="contributors"
+                  v-bind:administrators="administrators"
+                />
+              </v-card>
             </v-container>
             <v-container v-else-if="view === 'history'" class="mt-9">
               <v-card class="overflow-y-auto" flat :max-height="windowHeight * 0.75">
@@ -89,13 +91,13 @@
 import apiCall from '@/apiCall';
 import AuditLog from '@/components/AuditLog.vue';
 import BigDecision from '@/components/BigDecision.vue';
-import ContactInfo from '@/components/ContactInfo.vue';
+import MemberManagement from '@/components/MemberManagement.vue';
 
 export default {
   components: {
     AuditLog,
     BigDecision,
-    ContactInfo,
+    MemberManagement,
   },
   props: {
     title: String,
@@ -125,6 +127,7 @@ export default {
       );
       if (response.status === 200) {
         this.acceptingApps = !this.acceptingApps;
+        this.$emit('update');
       }
       this.editAcceptingApps = false;
     },
