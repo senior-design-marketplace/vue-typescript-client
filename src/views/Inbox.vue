@@ -54,14 +54,15 @@
       >
         <template v-slot:item="{ item, expand, isExpanded }">
           <tr
-            v-if="
-              ((view.includes('unread') && !item.read) || (view.includes('read') && item.read)) &&
-                item.document.type === 'APPLICATION' &&
-                item.document.application.userId === $store.state.userDetails.cognitoUsername
-            "
+            v-if="(view.includes('unread') && !item.read) || (view.includes('read') && item.read)"
             class="text-left"
           >
-            <v-list-item>
+            <v-list-item
+              v-if="
+                item.document.type === 'APPLICATION' &&
+                  item.document.application.userId === $store.state.userDetails.cognitoUsername
+              "
+            >
               <v-list-item-content style="cursor: pointer;" @click="handleApplication(item)">
                 <v-list-item-title v-if="item.document.application.status == 'PENDING'">
                   {{ displayType(item.document.type) }} sent to
@@ -92,17 +93,13 @@
                 </v-tooltip>
               </v-list-item-icon>
             </v-list-item>
-          </tr>
 
-          <tr
-            v-if="
-              ((view.includes('unread') && !item.read) || (view.includes('read') && item.read)) &&
+            <v-list-item
+              v-else-if="
                 item.document.type === 'APPLICATION' &&
-                item.document.application.userId !== $store.state.userDetails.cognitoUsername
-            "
-            class="text-left"
-          >
-            <v-list-item>
+                  item.document.application.userId !== $store.state.userDetails.cognitoUsername
+              "
+            >
               <v-list-item-content style="cursor: pointer;" @click="handleApplication(item)">
                 <v-list-item-title v-if="item.document.application.status === 'PENDING'">
                   {{ displayType(item.document.type) }} from
@@ -135,15 +132,38 @@
                 </v-tooltip>
               </v-list-item-icon>
             </v-list-item>
+
+            <v-list-item v-else>
+              <v-list-item-content style="cursor: pointer;">
+                <v-list-item-title>
+                  {{ displayType(item.document.type) }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ calendarTime(item.createdAt) }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+              <v-btn icon :value="isExpanded" @click="expand(!isExpanded)">
+                <v-icon>mdi-chevron-down</v-icon>
+              </v-btn>
+              <v-list-item-icon>
+                <v-tooltip top max-width="175">
+                  <template v-slot:activator="{ on }">
+                    <v-checkbox
+                      v-on="on"
+                      :input-value="item.read"
+                      @click.stop="toggleRead(item.id, item.read)"
+                    />
+                  </template>
+                  <span>Mark as {{ item.read ? "unread" : "read" }}</span>
+                </v-tooltip>
+              </v-list-item-icon>
+            </v-list-item>
           </tr>
         </template>
 
         <template v-slot:expanded-item="{ headers, item }">
           <tr
-            v-if="
-              ((view.includes('unread') && !item.read) || (view.includes('read') && item.read)) &&
-                item.document.type === 'APPLICATION'
-            "
+            v-if="(view.includes('unread') && !item.read) || (view.includes('read') && item.read)"
           >
             <td style="border-left: 2mm solid #03a9f5;">
               <v-container v-if="item.document.type === 'APPLICATION'" class="text-left">

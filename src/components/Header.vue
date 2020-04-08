@@ -189,10 +189,7 @@
           </template>
           <v-list>
             <v-list-item v-for="(item, index) in unread" :key="index">
-              <v-list-item-title :to="`projects/${item.document.application.projectId}`"
-                >{{ item.document.type }} status:
-                {{ item.document.application.status }}</v-list-item-title
-              >
+              <v-list-item-title>{{ item.document.type }} </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
