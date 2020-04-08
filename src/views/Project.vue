@@ -5,6 +5,7 @@
       <v-row>
         <v-col cols="12" sm="8">
           <ProjectTitle
+            @update="getProjectData"
             v-bind:avatar="items.thumbnailLink"
             v-bind:title="items.title"
             v-bind:starred="starred"
@@ -12,6 +13,8 @@
             v-bind:acceptingApps="items.acceptingApplications"
             v-bind:onProject="onProject"
             v-bind:isAdmin="isAdmin"
+            v-bind:history="items.history"
+            @adminPanel="adminPanel = !adminPanel"
           />
         </v-col>
         <v-col cols="12" sm="4">
@@ -28,6 +31,7 @@
         </v-col>
       </v-row>
       <ProjectMain
+        @update="getProjectData"
         v-bind:tagline="items.tagline"
         v-bind:description="items.body"
         v-bind:majors="items.requestedMajors"
@@ -39,7 +43,6 @@
         <v-tabs centered icons-and-text dark background-color="secondary">
           <v-tab>Project Board<v-icon>mdi-timeline</v-icon></v-tab>
           <v-tab>Comments<v-icon>mdi-comment-multiple</v-icon></v-tab>
-          <v-tab v-if="isAdmin">History<v-icon>mdi-history</v-icon></v-tab>
           <v-tab-item>
             <ProjectBoard
               v-model="items.boardItems"
@@ -54,12 +57,18 @@
               v-bind:isAdmin="isAdmin"
             />
           </v-tab-item>
-          <v-tab-item>
-            <AuditLog v-bind:history="items.history" />
-          </v-tab-item>
         </v-tabs>
       </v-card>
     </span>
+    <AdminPanel
+      @update="getProjectData"
+      v-model="adminPanel"
+      :title="items.title"
+      :history="items.history"
+      :acceptingApps="items.acceptingApplications"
+      :contributors="items.contributors"
+      :administrators="items.administrators"
+    />
   </v-container>
 </template>
 
@@ -72,7 +81,7 @@ import ProjectMain from '@/components/ProjectMain.vue';
 import ContactInfo from '@/components/ContactInfo.vue';
 import Comments from '@/components/Comments.vue';
 import Apply from '@/components/Apply.vue';
-import AuditLog from '@/components/AuditLog.vue';
+import AdminPanel from '@/components/AdminPanel.vue';
 
 export default {
   components: {
@@ -83,12 +92,13 @@ export default {
     ContactInfo,
     Comments,
     Apply,
-    AuditLog,
+    AdminPanel,
   },
   data() {
     return {
       items: [],
       loading: true,
+      adminPanel: false,
     };
   },
   mounted() {
@@ -96,7 +106,6 @@ export default {
   },
   methods: {
     async getProjectData() {
-      this.loading = true;
       const response = await apiCall.methods.get(
         `/projects/${this.projectId}`,
         '',

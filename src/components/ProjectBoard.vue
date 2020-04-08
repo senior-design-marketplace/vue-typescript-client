@@ -626,6 +626,9 @@ export default {
       },
     },
   },
+  mounted() {
+    this.addMediaTypes();
+  },
   watch: {
     async boardEntries() {
       this.addMediaTypes();

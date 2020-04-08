@@ -40,7 +40,7 @@
                     item.document.type === 'APPLICATION' &&
                       item.document.application.userId === $store.state.userDetails.cognitoUsername
                   "
-                  @click="handleApplication(item.id, item.document.application.id)"
+                  @click="handleApplication(item)"
                 >
                   <v-list-item-title class="text-right">
                     {{ displayType(item.document.type) }} sent to
@@ -50,19 +50,26 @@
                 </v-list-item-content>
                 <v-list-item-content
                   v-else-if="item.document.type === 'APPLICATION'"
-                  @click="
-                    $router.push(`/applications/${item.document.application.id}`).catch(err => {})
-                  "
+                  @click="handleApplication(item)"
                 >
-                  <v-list-item-title class="text-right">
-                      {{ displayType(item.document.type) }}
-                      from {{ item.document.application.userId }}
+                  <v-list-item-title
+                    v-if="item.document.application.status == 'PENDING'"
+                    class="text-right"
+                  >
+                    {{ displayType(item.document.type) }}
+                    from {{ item.document.application.userId }}
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-list-item-title>
+                  <v-list-item-title v-else class="text-right">
+                    {{ displayType(item.document.type) }}
+                    from {{ item.document.application.userId }} has been
+                    {{ item.document.application.status }}
                     <v-icon>mdi-chevron-right</v-icon>
                   </v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-content v-else>
                   <v-list-item-title class="text-right">
-                      {{ displayType(item.document.type) }}
+                    {{ displayType(item.document.type) }}
                     <v-icon>mdi-chevron-right</v-icon>
                   </v-list-item-title>
                 </v-list-item-content>
@@ -73,8 +80,8 @@
         <v-tooltip v-else-if="isLoggedIn && unread.length === 0" top max-width="175">
           <template v-slot:activator="{ on }">
             <v-btn icon to="/inbox" v-on="on">
-                  <v-icon>mdi-bell</v-icon>
-              </v-btn>
+              <v-icon>mdi-bell</v-icon>
+            </v-btn>
           </template>
           <span>No new notifications!</span>
         </v-tooltip>
@@ -182,10 +189,7 @@
           </template>
           <v-list>
             <v-list-item v-for="(item, index) in unread" :key="index">
-              <v-list-item-title :to="`projects/${item.document.application.projectId}`"
-                >{{ item.document.type }} status:
-                {{ item.document.application.status }}</v-list-item-title
-              >
+              <v-list-item-title>{{ item.document.type }} </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -258,9 +262,13 @@ export default {
           return type;
       }
     },
-    handleApplication(notifId, AppId) {
-      this.$router.push(`/applications/${AppId}`).catch((err) => {});
-      this.markAsRead(notifId);
+    handleApplication(notif) {
+      if (notif.document.application.status === 'PENDING') {
+        this.$router.push(`/applications/${notif.document.application.id}`).catch((err) => {});
+      } else {
+        this.$router.push(`/project/${notif.document.application.projectId}`).catch((err) => {});
+      }
+      this.markAsRead(notif.id);
     },
     async markAsRead(id) {
       const response = await apiCall.methods.patch(

@@ -1,17 +1,16 @@
 <template>
-  <v-container fluid style="max-width: 600px;">
+  <v-container fluid style="max-width: 800px;">
     <v-data-table
       :items="history"
       :expanded.sync="expanded"
       item-key="id"
+      :items-per-page="15"
       class="elevation-1"
-      disable-pagination
-      hide-default-footer
     >
       <template v-slot:item="{ item, expand, isExpanded }">
         <tr @click="expand(!isExpanded)" style="cursor: pointer;" class="text-left">
           <td>
-            {{ displayType(item.type) }} by {{ item.initiateId }}
+            <b>{{ displayType(item.type) }}</b> by {{ item.initiateId }}
             <br />
             {{ calendarTime(item.createdAt) }}
           </td>
@@ -43,13 +42,16 @@
               class="text-left"
             >
               <span v-if="differenceKey(item.before, item.after) === 'title'">
-                Title updated from "{{ item.before.title }}" to "{{ item.after.title }}"
+                <b>Title</b> updated from "{{ item.before.title }}" <br />
+                <b>to</b> "{{ item.after.title }}"
               </span>
               <span v-else-if="differenceKey(item.before, item.after) === 'tagline'">
-                Tagline updated from "{{ item.before.tagline }}" to "{{ item.after.tagline }}"
+                <b>Tagline</b> updated from "{{ item.before.tagline }}" <br />
+                <b>to</b> "{{ item.after.tagline }}"
               </span>
               <span v-else-if="differenceKey(item.before, item.after) === 'body'">
-                Description updated from "{{ item.before.body }}" to "{{ item.after.body }}"
+                <b>Description</b> updated from "{{ item.before.body }}" <br />
+                <b>to</b> "{{ item.after.body }}"
               </span>
               <span v-else-if="differenceKey(item.before, item.after) === 'acceptingApplications'">
                 <span v-if="!item.after.acceptingApplications"> Not </span>
@@ -120,9 +122,40 @@
               :colspan="headers.length"
               class="text-left"
             >
-              Entry that was created {{ calendarTime(item.before.createdAt) }} updated from "{{
-                item.before.document.body
-              }}" to "{{ item.after.document.body }}"
+              <b>Board entry</b> that was created {{ calendarTime(item.before.createdAt) }} updated
+              from "{{ item.before.document.body }}" <br />
+              <b>to </b> "{{ item.after.document.body }}"
+            </v-container>
+
+            <v-container
+              v-else-if="item.type === 'ENTRY_DELETED'"
+              :colspan="headers.length"
+              class="text-left"
+            >
+              Board Entry Type: {{ item.before.document.mediaType }} <br />
+              <span v-if="item.before.document.type === 'TEXT'">
+                Body: {{ item.before.document.body }}
+              </span>
+              <span v-else>
+                <v-img
+                  v-if="item.before.document.mediaType === 'IMAGE'"
+                  :src="item.before.document.mediaLink"
+                  min-height="350"
+                  max-height="350"
+                  contain
+                />
+                <VuePlyr
+                  v-else-if="item.before.document.mediaType === 'VIDEO'"
+                  :emit="['enterfullscreen', 'exitfullscreen']"
+                  @enterfullscreen="fullscreen = true"
+                  @exitfullscreen="fullscreen = false"
+                >
+                  <video
+                    :src="item.before.document.mediaLink"
+                    :style="!fullscreen ? 'max-height:350px;' : ''"
+                  />
+                </VuePlyr>
+              </span>
             </v-container>
 
             <v-container v-else :colspan="headers.length" class="text-left">
@@ -172,6 +205,8 @@ export default {
           return 'Board Entry Created';
         case 'ENTRY_UPDATED':
           return 'Board Entry Updated';
+        case 'ENTRY_DELETED':
+          return 'Board Entry Deleted';
         default:
           return type;
       }
