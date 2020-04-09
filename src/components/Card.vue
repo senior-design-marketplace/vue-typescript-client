@@ -1,13 +1,6 @@
 <template :id="id">
   <v-hover v-slot:default="{ hover }">
-    <v-card
-      min-width="350"
-      max-width="350"
-      min-height="350"
-      class="mx-auto"
-      :elevation="hover ? 12 : 2"
-      :ripple="false"
-    >
+    <v-card width="350" height="350" class="mx-auto" :elevation="hover ? 12 : 2" :ripple="false">
       <v-container class="pa-1" @click="$router.push(`/project/${id}`)" style="cursor: pointer;">
         <v-item-group>
           <v-list-item>
@@ -70,22 +63,16 @@
             </v-overlay>
           </v-img>
           <v-card-text>
-            <div v-if="tagline != null">
-              <div v-text="tagline"></div>
-            </div>
-            <v-chip-group column>
-              <v-chip label v-for="tag in tags" :key="tag" class="noClick">{{ tag }}</v-chip>
-            </v-chip-group>
+            <div v-if="tagline != null" v-text="tagline" class="line-clamp" />
+            <!-- <v-chip-group column>
+              <v-chip label v-for="tag in tags" :key="tag" style="pointer-events: none;">
+                {{ tag }}
+              </v-chip>
+            </v-chip-group> -->
           </v-card-text>
         </v-item-group>
       </v-container>
-      <v-btn
-        icon
-        absolute
-        color="white"
-        style="bottom: 0px; right: 0px;"
-        @click="toggleStarred"
-      >
+      <v-btn icon absolute color="white" style="bottom: 0px; right: 0px;" @click="toggleStarred">
         <v-icon :color="starred ? 'yellow accent-4' : 'grey'">mdi-star</v-icon>
       </v-btn>
     </v-card>
@@ -158,7 +145,10 @@ export default {
 </script>
 
 <style>
-.noClick {
-  pointer-events: none;
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
