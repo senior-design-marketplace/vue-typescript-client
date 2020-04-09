@@ -1,4 +1,4 @@
-# marqetplace
+# marqetplace.
 
 ## Project setup
 ```
