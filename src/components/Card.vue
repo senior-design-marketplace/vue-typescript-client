@@ -20,7 +20,10 @@
               </v-avatar>
 
               <v-list-item-content>
-                <v-flex class="headline" v-text="title"></v-flex>
+                <v-flex
+                  :class="hover ? 'headline' : 'headline text-truncate'"
+                  v-text="title"
+                ></v-flex>
               </v-list-item-content>
               <v-item v-if="onProject">
                 <v-tooltip top max-width="175">
