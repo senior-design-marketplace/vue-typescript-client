@@ -1,7 +1,20 @@
 <template>
   <div>
+    <v-btn
+      v-if="isLoggedIn && $route.fullPath !== '/create'"
+      to="/create"
+      color="secondary"
+      fab
+      x-large
+      dark
+      fixed
+      bottom
+      right
+    >
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
     <v-app-bar dark height="100" color="secondary">
-      <v-app-bar-nav-icon @click="drawer = true" class="d-flex d-lg-none"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = true" class="d-flex d-md-none"></v-app-bar-nav-icon>
       <v-container>
         <router-link to="/">
           <v-img
@@ -13,15 +26,15 @@
         </router-link>
       </v-container>
       <v-spacer></v-spacer>
-      <v-toolbar-items class="d-none d-lg-flex">
+      <v-toolbar-items class="d-none d-md-flex">
         <v-btn text class="item" to="/">Projects</v-btn>
         <v-btn v-if="isLoggedIn" text class="item" to="/my-projects">My Projects</v-btn>
-        <v-btn v-if="isLoggedIn" text class="item" to="/create">Create Project</v-btn>
+        <!-- <v-btn v-if="isLoggedIn" text class="item" to="/create">Create Project</v-btn> -->
         <v-btn v-if="isLoggedIn" text class="item" to="/applications">Applications</v-btn>
-        <v-btn text class="item" to="/about">About</v-btn>
+        <v-btn v-if="!isLoggedIn" text class="item" to="/about">About</v-btn>
         <v-btn v-if="!isLoggedIn" @click="login" text class="item">Login</v-btn>
       </v-toolbar-items>
-      <div class="d-none d-lg-flex">
+      <div class="d-flex">
         <v-menu v-if="isLoggedIn && unread.length > 0" open-on-hover offset-y>
           <template v-slot:activator="{ on }">
             <span v-on="on">
@@ -104,6 +117,9 @@
             <v-list-item to="/account">
               <v-list-item-title>My Profile</v-list-item-title>
             </v-list-item>
+            <v-list-item to="/about">
+              <v-list-item-title>About</v-list-item-title>
+            </v-list-item>
             <v-list-item @click="logout">
               <v-list-item-title>Logout</v-list-item-title>
             </v-list-item>
@@ -113,7 +129,14 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute temporary>
-      <v-toolbar v-if="isLoggedIn" class="px-2" to="/account" dark color="secondary">
+      <v-toolbar
+        v-if="isLoggedIn"
+        class="px-2"
+        @click="$router.push('/account').catch((err) => {drawer = false;});"
+        dark
+        color="secondary"
+        style="cursor: pointer;"
+      >
         <v-list-item-avatar>
           <v-img
             v-if="$store.state.userDetails.thumbnailLink !== null"
@@ -176,23 +199,15 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-menu v-if="isLoggedIn" open-on-click transition="slide-y-transition" offset-y>
-          <template v-slot:activator="{ on }">
-            <v-list-item link v-on="on">
-              <v-list-item-icon>
-                <v-icon>mdi-bell</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Notifications</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
-          <v-list>
-            <v-list-item v-for="(item, index) in unread" :key="index">
-              <v-list-item-title>{{ item.document.type }} </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <v-list-item link v-if="isLoggedIn" to="/inbox">
+          <v-list-item-icon>
+            <v-icon>mdi-bell</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Notifications</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
 
         <v-list-item link to="/about">
           <v-list-item-icon>
