@@ -8,9 +8,19 @@
       </h1>
     </v-sheet>
     <br />
-    <AppsForApproval v-if="forApproval.length > 0" :applications="forApproval" />
+    <div v-if="forApproval.length > 0">
+      <v-sheet>
+        <h2>Applications for Approval</h2>
+      </v-sheet>
+      <AppsForApproval :applications="forApproval" />
+    </div>
     <br />
-    <MyApplications v-if="myApps.length > 0" :applications="myApps" />
+    <div v-if="myApps.length > 0">
+      <v-sheet>
+        <h2>My Applications</h2>
+      </v-sheet>
+      <MyApplications :applications="myApps" />
+    </div>
   </v-container>
 </template>
 <script>

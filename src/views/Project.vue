@@ -68,6 +68,7 @@
       :acceptingApps="items.acceptingApplications"
       :contributors="items.contributors"
       :administrators="items.administrators"
+      :applications="forApproval"
     />
   </v-container>
 </template>
@@ -137,6 +138,10 @@ export default {
     },
     starred() {
       return this.$store.getters.isStarred(this.$route.params.id);
+    },
+    forApproval() {
+      if (this.items.applications === undefined) return [];
+      return this.items.applications.filter(app => app.status === 'PENDING');
     },
   },
 };

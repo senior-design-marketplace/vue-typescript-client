@@ -1,8 +1,5 @@
 <template>
   <v-container>
-    <v-sheet>
-      <h2>My Applications</h2>
-    </v-sheet>
     <v-data-table
       :headers="headers"
       :items="applications"
