@@ -6,7 +6,7 @@
       max-height="500"
       :src="require('@/../public/assets/500.svg')"
     />
-    <v-sheet>
+    <v-sheet :style="$store.state.darkmode ? 'background-color: #121212;' : ''">
       <h1>
         {{ $route.params.type }} Error
         <br />

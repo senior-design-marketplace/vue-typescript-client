@@ -65,7 +65,15 @@
       <v-btn icon @click="toggleStarred">
         <v-icon :color="starred ? 'yellow accent-4' : 'grey'">mdi-star</v-icon>
       </v-btn>
-      <v-tooltip top max-width="175">
+      <v-tooltip v-if="alreadyApplied" top max-width="175">
+        <template v-slot:activator="{ on }">
+          <span icon v-on="on">
+            <v-icon color="warning">mdi-sticker-minus-outline</v-icon>
+          </span>
+        </template>
+        <span>You have a pending application to this project.</span>
+      </v-tooltip>
+      <v-tooltip v-else top max-width="175">
         <template v-slot:activator="{ on }">
           <span icon v-on="on">
             <v-icon
@@ -222,6 +230,15 @@ export default {
     newTitleInvalid() {
       if (this.newTitle === null) return true;
       return this.newTitle.length === 0 || this.newTitle.length > 64;
+    },
+    myApps() {
+      return this.$store.state.applications.filter(
+        app => app.userId === this.$store.state.userDetails.cognitoUsername,
+      );
+    },
+    alreadyApplied() {
+      const myPendingApps = this.myApps.filter(app => app.status === 'PENDING');
+      return myPendingApps.map(app => app.projectId).includes(this.$route.params.id);
     },
   },
 };

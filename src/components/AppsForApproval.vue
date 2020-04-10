@@ -1,8 +1,5 @@
 <template>
   <v-container>
-    <v-sheet>
-      <h2>Applications for Approval</h2>
-    </v-sheet>
     <v-data-table
       :headers="headers"
       :items="applications"
@@ -31,8 +28,7 @@
               {{ item.status }}
             </v-chip>
           </td>
-          <td @click=$router.push(/project/+item.projectId)>{{ new Date(item.createdAt) }}</td>
-          <td @click=$router.push(/project/+item.projectId)>{{ new Date(item.updatedAt) }}</td>
+          <td @click=$router.push(/project/+item.projectId)>{{ calendarTime(item.createdAt) }}</td>
           <td v-if="item.note !== null">
             <v-btn  icon @click="expand(!isExpanded)">
               <v-icon> mdi-chevron-down </v-icon>
@@ -144,6 +140,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import apiCall from '@/apiCall';
 
 export default {
@@ -180,12 +177,6 @@ export default {
           sortable: false,
         },
         {
-          text: 'Last Updated',
-          align: 'center',
-          value: 'updatedAt',
-          sortable: false,
-        },
-        {
           text: 'Note',
           align: 'center',
           value: 'actions',
@@ -203,6 +194,9 @@ export default {
     };
   },
   methods: {
+    calendarTime(dateInput) {
+      return moment(dateInput).calendar();
+    },
     async replyApplication(item, decision) {
       this.selectItem(item);
       const response = await apiCall.methods.post(

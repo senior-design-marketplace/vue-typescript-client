@@ -16,6 +16,11 @@
                     Member Management
                   </v-list-item-title>
                 </v-list-item>
+                <v-list-item value="applications">
+                  <v-list-item-title>
+                    Applications
+                  </v-list-item-title>
+                </v-list-item>
                 <v-list-item value="history">
                   <v-list-item-title>
                     History
@@ -75,6 +80,21 @@
                 />
               </v-card>
             </v-container>
+            <v-container v-else-if="view === 'applications'" class="mt-9">
+              <v-card class="overflow-y-auto" flat :max-height="windowHeight * 0.75">
+                <v-sheet v-if="applications.length === 0">
+                  <h1>
+                    <v-img
+                      contain
+                      max-height="500"
+                      :src="require('@/../public/assets/noResults.svg')"
+                    />
+                    You're all caught up!
+                  </h1>
+                </v-sheet>
+                <AppsForApproval v-else v-bind:applications="applications" />
+              </v-card>
+            </v-container>
             <v-container v-else-if="view === 'history'" class="mt-9">
               <v-card class="overflow-y-auto" flat :max-height="windowHeight * 0.75">
                 <AuditLog v-bind:history="history" />
@@ -92,12 +112,14 @@ import apiCall from '@/apiCall';
 import AuditLog from '@/components/AuditLog.vue';
 import BigDecision from '@/components/BigDecision.vue';
 import MemberManagement from '@/components/MemberManagement.vue';
+import AppsForApproval from '@/components/AppsForApproval.vue';
 
 export default {
   components: {
     AuditLog,
     BigDecision,
     MemberManagement,
+    AppsForApproval,
   },
   props: {
     title: String,
@@ -106,6 +128,7 @@ export default {
     acceptingApps: Boolean,
     contributors: Array,
     administrators: Array,
+    applications: Array,
   },
   data() {
     return {
