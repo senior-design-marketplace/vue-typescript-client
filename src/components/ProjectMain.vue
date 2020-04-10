@@ -26,7 +26,6 @@
         />
         <v-container v-else style="max-width: 900px;">
           <v-textarea
-            class="mx-1"
             label="Tagline"
             counter="256"
             :rows="1"
@@ -41,7 +40,7 @@
         <span style="float: right;" class="text-left">
           <v-btn
             :disabled="newDescriptionInvalid"
-            v-if="editDescription || description === null"
+            v-if="editDescription || (description === null && onProject)"
             icon
             @click="updateDescription()"
           >
@@ -65,9 +64,8 @@
           class="text-left"
           v-text="description"
         />
-        <v-container v-else style="max-width: 900px;">
+        <v-container v-else-if="onProject" style="max-width: 900px;">
           <v-textarea
-            class="mx-1"
             label="Description"
             counter="2048"
             :rows="1"
