@@ -1,7 +1,6 @@
 <template>
   <v-container>
-    <h1>Create Project</h1>
-    <br />
+    <br /><br /><br />
     <v-hover v-if="step === 0" v-slot:default="{ hover }">
       <v-card
         class="mx-auto"
@@ -11,12 +10,8 @@
         :elevation="hover ? 12 : 4"
         :ripple="false"
       >
-        <h1>
-          <v-img contain max-height="500" :src="require('@/../public/assets/createProject.svg')" />
-          <v-btn color="primary" outlined>
-            <h1>Get Started</h1>
-          </v-btn>
-        </h1>
+        <v-img contain max-height="500" :src="require('@/../public/assets/createProject.svg')" />
+        <h1><h2>Get Started</h2></h1>
         <br />
       </v-card>
     </v-hover>
@@ -127,12 +122,8 @@
         :elevation="hover ? 12 : 4"
         :ripple="false"
       >
-        <h1>
-          <v-img contain max-height="500" :src="require('@/../public/assets/createProject.svg')" />
-          <v-btn color="primary" outlined>
-            <h1>Finish</h1>
-          </v-btn>
-        </h1>
+        <v-img contain max-height="500" :src="require('@/../public/assets/createProject.svg')" />
+        <h1><h2>Finish</h2></h1>
         <br />
       </v-card>
     </v-hover>

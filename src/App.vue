@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :dark="this.$store.state.darkmode">
     <div id="app">
       <Header />
       <keep-alive>
@@ -20,6 +20,7 @@ export default {
     Header,
   },
   updated() {
+    this.$vuetify.theme.dark = this.$store.state.darkmode;
     this.pullToken();
   },
   methods: {

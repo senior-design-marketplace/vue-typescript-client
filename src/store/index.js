@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     savePath: '/',
+    darkmode: false,
     majors: [],
     tags: [],
     notifications: [],
@@ -99,6 +100,10 @@ export default new Vuex.Store({
     },
     resetSavePath: (state) => {
       state.savePath = '';
+    },
+
+    toggleDarkMode: (state) => {
+      state.darkmode = !state.darkmode;
     },
 
     setMajors: (state, majors) => {

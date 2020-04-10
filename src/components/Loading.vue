@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <br /><br /><br /><br /><br />
-    <h1>
+    <h1 class="white--text">
       <v-progress-circular
         :size="width"
         width="7"

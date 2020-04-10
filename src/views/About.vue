@@ -1,7 +1,9 @@
 <template>
   <v-container style="max-width: 1185px;">
     <br />
-    <h1>About Us</h1>
+    <v-sheet>
+      <h1>About Us</h1>
+    </v-sheet>
     <br />
     <v-row>
       <v-col cols="12" sm="8">
@@ -81,7 +83,7 @@
                 <img :src="require('@/../public/assets/Gregg.png')" height="50px" />
               </v-avatar>
             </v-btn>
-&nbsp;
+            &nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Eirik'">
               <v-avatar size="75">
                 <img :src="require('@/../public/assets/Eirik.jpg')" height="50px" />
@@ -94,38 +96,38 @@
             <v-btn fab x-large dark v-on:click="shown = 'Herb'">
               <v-avatar size="75">
                 <img :src="require('@/../public/assets/Herb.jpg')" height="50px" />
-              </v-avatar>
-            </v-btn>&nbsp;
+              </v-avatar> </v-btn
+            >&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Ruthy'">
               <v-avatar size="75">
                 <img :src="require('@/../public/assets/Ruthy.jpg')" height="50px" />
-              </v-avatar>
-            </v-btn>&nbsp;
+              </v-avatar> </v-btn
+            >&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Jason'">
               <v-avatar size="75">
                 <img :src="require('@/../public/assets/Jason.jpg')" height="50px" />
-              </v-avatar>
-            </v-btn>&nbsp;
+              </v-avatar> </v-btn
+            >&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Mark'">
               <v-avatar size="75">
                 <img :src="require('@/../public/assets/Mark.jpg')" height="50px" />
-              </v-avatar>
-            </v-btn>&nbsp;
+              </v-avatar> </v-btn
+            >&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Julia'">
               <v-avatar size="75">
                 <img :src="require('@/../public/assets/Julia.jpg')" height="50px" />
-              </v-avatar>
-            </v-btn>&nbsp;
+              </v-avatar> </v-btn
+            >&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Jakub'">
               <v-avatar size="75">
                 <img :src="require('@/../public/assets/Jakub.jpg')" height="50px" />
-              </v-avatar>
-            </v-btn>&nbsp;
+              </v-avatar> </v-btn
+            >&nbsp;
             <v-btn fab x-large dark v-on:click="shown = 'Tyler'">
               <v-avatar size="75">
                 <img :src="require('@/../public/assets/Tyler.jpg')" height="50px" />
-              </v-avatar>
-            </v-btn>&nbsp;
+              </v-avatar> </v-btn
+            >&nbsp;
             <br />
             <br />
 
@@ -151,14 +153,11 @@
               <v-card-text>
                 <div>
                   Major: Software Engineering
-                  <br />Graduation Year: 2020
-                  <br />Clubs/involvements: I have worked at the
-                  Maritime Security Center at Stevens since 2018
-                  assisting research in drones, remote sensing,
-                  and homeland security.
-                  <br />Interests/passions: Gaming/VR, Coding, Flying Drones,
-                  Electric Scooters, Model Trains
-                  <br />Job after: GTP Analyst at UBS
+                  <br />Graduation Year: 2020 <br />Clubs/involvements: I have worked at the
+                  Maritime Security Center at Stevens since 2018 assisting research in drones,
+                  remote sensing, and homeland security. <br />Interests/passions: Gaming/VR,
+                  Coding, Flying Drones, Electric Scooters, Model Trains <br />Job after: GTP
+                  Analyst at UBS
                 </div>
               </v-card-text>
             </v-card>
@@ -169,13 +168,11 @@
               <v-card-text>
                 <div>
                   Major: Software Engineering
-                  <br />Graduation Year: 2020
-                  <br />Clubs/involvements: SWE, SWICS, Amnesty International, Poetry Club, Software
-                  Engineering Club
-                  <br />Interests/passions: Barre (fusion of pilates+yoga+ballet), cooking,
-                  paddle-boarding, options trading, biking, theatre
-                  <br />Job after: Will be in the Technology Advisory Program at EY (Ernst & Young)
-                  <br />Inspirational quote:
+                  <br />Graduation Year: 2020 <br />Clubs/involvements: SWE, SWICS, Amnesty
+                  International, Poetry Club, Software Engineering Club <br />Interests/passions:
+                  Barre (fusion of pilates+yoga+ballet), cooking, paddle-boarding, options trading,
+                  biking, theatre <br />Job after: Will be in the Technology Advisory Program at EY
+                  (Ernst & Young) <br />Inspirational quote:
                 </div>
               </v-card-text>
             </v-card>
@@ -186,14 +183,12 @@
               <v-card-text>
                 <div>
                   Major: Software Engineering
-                  <br />Graduation Year: 2020
-                  <br />Clubs/involvements: I was involved with the Student Government,
-                  Lacrosse club, Sigma Phi Epsilon, and Russian club.
-                  <br />Interests/passions: I enjoy reading and learning new things.
-                  I also enjoy spending time with people and exercising.
-                  <br />Job after: I dont have a job after college yet
-                  <br />Inspirational quote: "College is the time to push
-                  yourself, try new and challenging things"
+                  <br />Graduation Year: 2020 <br />Clubs/involvements: I was involved with the
+                  Student Government, Lacrosse club, Sigma Phi Epsilon, and Russian club.
+                  <br />Interests/passions: I enjoy reading and learning new things. I also enjoy
+                  spending time with people and exercising. <br />Job after: I dont have a job after
+                  college yet <br />Inspirational quote: "College is the time to push yourself, try
+                  new and challenging things"
                 </div>
               </v-card-text>
             </v-card>
@@ -203,18 +198,14 @@
               <v-card-title>Mark Freeman</v-card-title>
               <v-card-text>
                 <div>
-                  Major: Software Engineering
-                  Graduation Year: May 2020
-                  <br />Clubs/involvements: I helped lead a series of
-                  on-campus hackathons to further the
-                  entrepreneurial interests of Stevens students. I also work in the machine
-                  laboratory, where we assist students with bringing engineering concepts into
-                  reality through manufacturing.
-                  <br />Interests/passions: I am interested in woodworking, machining, and applied
-                  electronics outside of Stevens.
-                  <br />Job after: I plan to continue on to graduate school
-                  if I am admitted. If not, I
-                  will join Amazon as an SDE I for the ReCommerce platform.
+                  Major: Software Engineering Graduation Year: May 2020
+                  <br />Clubs/involvements: I helped lead a series of on-campus hackathons to
+                  further the entrepreneurial interests of Stevens students. I also work in the
+                  machine laboratory, where we assist students with bringing engineering concepts
+                  into reality through manufacturing. <br />Interests/passions: I am interested in
+                  woodworking, machining, and applied electronics outside of Stevens. <br />Job
+                  after: I plan to continue on to graduate school if I am admitted. If not, I will
+                  join Amazon as an SDE I for the ReCommerce platform.
                   <br />
                 </div>
               </v-card-text>
@@ -226,16 +217,13 @@
               <v-card-text>
                 <div>
                   Major: Engineering Management
-                  <br />Graduation Year: May 2020
-                  <br />Clubs/involvements: I was an Engineering Management Co-op student
-                  and worked at companies including Movado,
-                  McKinsey, NBCUniversal, and AllianceBernstein.
-                  <br />Interests/passions: I was also involved in the performing arts
-                  community on campus through Stevens Dramatic Society and Debaun PAC.
-                  <br />Job after: After graduation, I will be starting my career as an
-                  Analyst with Slalom Consulting.
-                  <br />Inspirational quote: "Nobody's perfect. I gotta work it- again
-                  and again 'til I get it right."
+                  <br />Graduation Year: May 2020 <br />Clubs/involvements: I was an Engineering
+                  Management Co-op student and worked at companies including Movado, McKinsey,
+                  NBCUniversal, and AllianceBernstein. <br />Interests/passions: I was also involved
+                  in the performing arts community on campus through Stevens Dramatic Society and
+                  Debaun PAC. <br />Job after: After graduation, I will be starting my career as an
+                  Analyst with Slalom Consulting. <br />Inspirational quote: "Nobody's perfect. I
+                  gotta work it- again and again 'til I get it right."
                 </div>
               </v-card-text>
             </v-card>
@@ -246,15 +234,13 @@
               <v-card-text>
                 <div>
                   Major: Engineering Management
-                  <br />Graduation Year: May 2020
-                  <br />Clubs/involvements: I was involved with the Stevens Society of
-                  Automotive Engineers and Chi Phi fraternity.
+                  <br />Graduation Year: May 2020 <br />Clubs/involvements: I was involved with the
+                  Stevens Society of Automotive Engineers and Chi Phi fraternity.
                   <br />Interests/passions: In my free time, I like to ride BMX and snowboard.
-                  <br />Job after: I plan to receive my Master's degree in Financial Analytics
-                  from Stevens before 2021, and would like to
-                  start a career in finance upon completion.
-                  <br />Inspirational quote: "Fifty percent of something is better
-                  than a hundred percent of nothing."
+                  <br />Job after: I plan to receive my Master's degree in Financial Analytics from
+                  Stevens before 2021, and would like to start a career in finance upon completion.
+                  <br />Inspirational quote: "Fifty percent of something is better than a hundred
+                  percent of nothing."
                 </div>
               </v-card-text>
             </v-card>
@@ -265,11 +251,9 @@
               <v-card-text>
                 <div>
                   Major: Engineering Management
-                  <br />Graduation Year: May 2020
-                  <br />Clubs/involvements: Chi Phi
-                  <br />Interests/passions: Working out, hanging out with my cat, Jarvis
-                  <br />Job after: Still Looking
-                  <br />Inspirational quote: in the works
+                  <br />Graduation Year: May 2020 <br />Clubs/involvements: Chi Phi
+                  <br />Interests/passions: Working out, hanging out with my cat, Jarvis <br />Job
+                  after: Still Looking <br />Inspirational quote: in the works
                 </div>
               </v-card-text>
             </v-card>

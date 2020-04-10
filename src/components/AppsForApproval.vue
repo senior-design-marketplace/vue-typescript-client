@@ -1,6 +1,8 @@
 <template>
   <v-container>
-    <h2>Applications for Approval</h2>
+    <v-sheet>
+      <h2>Applications for Approval</h2>
+    </v-sheet>
     <v-data-table
       :headers="headers"
       :items="applications"
@@ -22,7 +24,7 @@
             <v-chip
               label
               :color="
-              item.status === 'PENDING' ? 'yellow accent-3'
+              item.status === 'PENDING' ? 'warning'
               : item.status === 'ACCEPTED' ? 'success' : 'error'"
               style="cursor:pointer;"
             >

@@ -2,7 +2,9 @@
   <v-container>
     <v-row>
       <v-col cols="12" sm="3">
-        <h1>My Profile</h1>
+        <v-sheet>
+          <h1>My Profile</h1>
+        </v-sheet>
         <v-hover v-slot:default="{ hover }" style="cursor:pointer;">
           <v-avatar
             @click.stop="avatarDialog = true"
@@ -19,6 +21,7 @@
         <p />
       </v-col>
       <v-card min-width="875">
+        <v-switch style="float: right;" class="mx-7" v-model="darkmode" label="Dark Mode" />
         <v-container>
           <v-row class="text-left">
             <v-col cols="12">
@@ -195,6 +198,15 @@ export default {
     },
   },
   computed: {
+    darkmode: {
+      get() {
+        return this.$store.state.darkmode;
+      },
+      set() {
+        this.$store.commit('toggleDarkMode');
+        this.$vuetify.theme.dark = this.$store.state.darkmode;
+      },
+    },
     thumbnailLink() {
       return this.$store.state.userDetails.thumbnailLink;
     },
