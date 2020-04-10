@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-sheet>
+    <v-sheet :style="$store.state.darkmode ? 'background-color: #121212;' : ''">
       <h2>Applications for Approval</h2>
     </v-sheet>
     <v-data-table

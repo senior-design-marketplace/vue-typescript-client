@@ -1,10 +1,12 @@
 <template>
   <v-container style="max-width: 1185px;">
     <br />
-    <h1 v-if="forApproval.length == 0 && myApps.length == 0">
-      <v-img contain max-height="500" :src="require('@/../public/assets/noApps.svg')" />
-      You currently have no applications.
-    </h1>
+    <v-sheet :style="$store.state.darkmode ? 'background-color: #121212;' : ''">
+      <h1 v-if="forApproval.length == 0 && myApps.length == 0">
+        <v-img contain max-height="500" :src="require('@/../public/assets/noApps.svg')" />
+        You currently have no applications.
+      </h1>
+    </v-sheet>
     <br />
     <AppsForApproval v-if="forApproval.length > 0" :applications="forApproval" />
     <br />

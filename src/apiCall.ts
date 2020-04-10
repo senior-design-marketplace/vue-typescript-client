@@ -16,6 +16,7 @@ export default {
           value: true,
           text: 'Session expired. Redirecting to login.',
           src: '500.svg',
+          dark: store.state.darkmode,
         },
       }).$mount();
       document.body.appendChild(vm.$el);
@@ -31,6 +32,7 @@ export default {
           value: true,
           text: errorText,
           src: '500.svg',
+          dark: store.state.darkmode,
         },
       }).$mount();
       document.body.appendChild(vm.$el);

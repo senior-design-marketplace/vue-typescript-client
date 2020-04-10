@@ -42,19 +42,29 @@
       </v-btn-toggle>
     </v-toolbar>
     <br />
-    <h1
+    <v-sheet
       v-if="
-        adminProjects.length === 0 && contribProjects.length === 0 && starredProjects.length === 0
+        adminProjects.length === 0
+        && contribProjects.length === 0
+        && starredProjects.length === 0
       "
+      :style="$store.state.darkmode ? 'background-color: #121212;' : ''"
     >
-      <v-img contain max-height="500" :src="require('@/../public/assets/noProjects.svg')" />
-      You have not starred or joined any projects!
-    </h1>
+      <h1>
+        <v-img contain max-height="500" :src="require('@/../public/assets/noProjects.svg')" />
+        You have not starred or joined any projects!
+      </h1>
+    </v-sheet>
     <CardDeck v-else-if="displayProjects.length > 0" :items="displayProjects" />
-    <h1 v-else-if="displayProjects.length === 0">
-      <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
-      No projects found that match those filters.
-    </h1>
+    <v-sheet
+      v-else-if="displayProjects.length === 0"
+      :style="$store.state.darkmode ? 'background-color: #121212;' : ''"
+    >
+      <h1>
+        <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
+        No projects found that match those filters.
+      </h1>
+    </v-sheet>
   </div>
 </template>
 
@@ -74,9 +84,7 @@ export default {
     displayProjects() {
       let display = [];
       if (this.view.includes('admin')) {
-        const uniqueAdmin = this.adminProjects.filter(
-          b => !display.map(a => a.id).includes(b.id),
-        );
+        const uniqueAdmin = this.adminProjects.filter(b => !display.map(a => a.id).includes(b.id));
         display = display.concat(uniqueAdmin);
       }
       if (this.view.includes('contrib')) {

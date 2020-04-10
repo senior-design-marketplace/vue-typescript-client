@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="show" max-width="600" persistent>
+  <v-dialog :dark="dark" :value="show" max-width="600" persistent>
     <v-card>
       <h1>
         <v-img contain max-height="500" :src="require(`@/../public/assets/${src}`)" />
@@ -17,6 +17,7 @@ export default {
     value: Boolean,
     text: String,
     src: String,
+    dark: Boolean,
   },
   data() {
     return {

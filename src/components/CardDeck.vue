@@ -1,10 +1,15 @@
 <template>
   <v-container>
     <Loading v-if="loading" value="Loading Projects" />
-    <h1 v-else-if="items.length === 0">
-      <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
-      No projects found that match those filters.
-    </h1>
+    <v-sheet
+      v-else-if="items.length === 0"
+      :style="$store.state.darkmode ? 'background-color: #121212;' : ''"
+    >
+      <h1>
+        <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
+        No projects found that match those filters.
+      </h1>
+    </v-sheet>
     <v-data-iterator
       :items="items"
       hide-default-footer

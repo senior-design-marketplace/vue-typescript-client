@@ -127,7 +127,7 @@
         <br />
       </v-card>
     </v-hover>
-    <ErrorDialog v-model="created" text="Project Created!" src="createProject.svg" />
+    <ErrorDialog v-model="created" text="Project Created!" src="createProject.svg"/>
   </v-container>
 </template>
 

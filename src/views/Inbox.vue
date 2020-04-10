@@ -31,18 +31,33 @@
     </v-toolbar>
     <br />
     <v-container style="max-width: 1185px;">
-      <h1 v-if="read.length === 0 && unread.length === 0">
-        <v-img contain max-height="500" :src="require('@/../public/assets/noProjects.svg')" />
-        You have never received a notification!
-      </h1>
-      <h1 v-else-if="unread.length === 0 && !view.includes('read')">
-        <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
-        You're all caught up!
-      </h1>
-      <h1 v-else-if="view.length === 0">
-        <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
-        No notifications found that match those filters.
-      </h1>
+      <v-sheet
+        v-if="read.length === 0 && unread.length === 0"
+        :style="$store.state.darkmode ? 'background-color: #121212;' : ''"
+      >
+        <h1>
+          <v-img contain max-height="500" :src="require('@/../public/assets/noProjects.svg')" />
+          You have never received a notification!
+        </h1>
+      </v-sheet>
+      <v-sheet
+        v-else-if="unread.length === 0 && !view.includes('read')"
+        :style="$store.state.darkmode ? 'background-color: #121212;' : ''"
+      >
+        <h1>
+          <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
+          You're all caught up!
+        </h1>
+      </v-sheet>
+      <v-sheet
+        v-else-if="view.length === 0"
+        :style="$store.state.darkmode ? 'background-color: #121212;' : ''"
+      >
+        <h1>
+          <v-img contain max-height="500" :src="require('@/../public/assets/noResults.svg')" />
+          No notifications found that match those filters.
+        </h1>
+      </v-sheet>
       <v-data-table
         v-else
         :items="notifications"

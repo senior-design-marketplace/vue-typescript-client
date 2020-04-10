@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" sm="3">
-        <v-sheet>
+        <v-sheet :style="$store.state.darkmode ? 'background-color: #121212;' : ''">
           <h1>My Profile</h1>
         </v-sheet>
         <v-hover v-slot:default="{ hover }" style="cursor:pointer;">
