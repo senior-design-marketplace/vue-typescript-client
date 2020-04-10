@@ -108,7 +108,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 
 #app {
   font-family: "Open Sans", "Avenir", Helvetica, Arial, sans-serif;
