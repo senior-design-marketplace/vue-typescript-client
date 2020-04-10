@@ -2,7 +2,9 @@
 
 exports[`About Renders correctly 1`] = `
 <v-container-stub tag="div"><br>
-  <h1>About Us</h1> <br>
+  <v-sheet-stub tag="div">
+    <h1>About Us</h1>
+  </v-sheet-stub> <br>
   <v-row-stub tag="div">
     <v-col-stub cols="12" sm="8" tag="div">
       <div>

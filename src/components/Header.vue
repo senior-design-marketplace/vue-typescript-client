@@ -3,10 +3,9 @@
     <v-btn
       v-if="isLoggedIn && $route.fullPath !== '/create'"
       to="/create"
-      color="secondary"
+      color="primary"
       fab
       x-large
-      dark
       fixed
       bottom
       right
