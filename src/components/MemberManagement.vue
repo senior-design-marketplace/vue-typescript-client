@@ -9,8 +9,20 @@
               <v-icon v-else dark>mdi-account-circle</v-icon>
             </v-avatar>
           </td>
-          <td class="text-left">{{ item.firstName }} {{ item.lastName }}</td>
-          <td class="text-left">{{ item.id }}</td>
+          <td
+            @click="$router.push(`/profile/${item.id}`)"
+            style="cursor: pointer;"
+            class="text-left"
+          >
+            {{ item.firstName }} {{ item.lastName }}
+          </td>
+          <td
+            @click="$router.push(`/profile/${item.id}`)"
+            style="cursor: pointer;"
+            class="text-left"
+          >
+            {{ item.id }}
+          </td>
           <td>
             <v-icon :color="isAdvisor(item.id) ? 'purple darken-2' : 'grey lighten-1'">
               mdi-school
@@ -33,7 +45,11 @@
             </v-btn>
           </td>
           <td>
-            <v-dialog max-width="500px" v-if="item.id !== $store.state.userDetails.cognitoUsername">
+            <v-dialog
+              v-model="kickDialog"
+              max-width="500px"
+              v-if="item.id !== $store.state.userDetails.cognitoUsername"
+            >
               <template v-slot:activator="{ on }">
                 <v-btn v-on="on" icon>
                   <v-icon>
@@ -75,6 +91,7 @@ export default {
   },
   data() {
     return {
+      kickDialog: false,
       headers: [
         {
           text: ' ',
@@ -178,6 +195,7 @@ export default {
       );
       if (response.status === 200) {
         this.$emit('update');
+        this.kickDialog = false;
       }
     },
   },

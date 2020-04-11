@@ -10,27 +10,33 @@
     >
       <template v-slot:item="{ item, expand, isExpanded }">
         <tr style="cursor:pointer;">
-          <td @click=$router.push(/project/+item.projectId)>
+          <td @click="$router.push(`/profile/${item.userId}`)">
             <v-avatar size="36" color="primary">
               <v-img v-if="item.thumbnailLink !== undefined" :src="item.thumbnailLink" />
               <v-icon v-else dark>mdi-account-circle</v-icon>
             </v-avatar>
           </td>
-          <td @click=$router.push(/project/+item.projectId)>{{ item.userId }}</td>
-          <td @click=$router.push(/project/+item.projectId)>
+          <td @click="$router.push(`/profile/${item.userId}`)">{{ item.userId }}</td>
+          <td @click="$router.push(`/profile/${item.userId}`)">
             <v-chip
               label
               :color="
-              item.status === 'PENDING' ? 'warning'
-              : item.status === 'ACCEPTED' ? 'success' : 'error'"
+                item.status === 'PENDING'
+                  ? 'warning'
+                  : item.status === 'ACCEPTED'
+                  ? 'success'
+                  : 'error'
+              "
               style="cursor:pointer;"
             >
               {{ item.status }}
             </v-chip>
           </td>
-          <td @click=$router.push(/project/+item.projectId)>{{ calendarTime(item.createdAt) }}</td>
+          <td @click="$router.push(`/profile/${item.userId}`)">
+            {{ calendarTime(item.createdAt) }}
+          </td>
           <td v-if="item.note !== null">
-            <v-btn  icon @click="expand(!isExpanded)">
+            <v-btn icon @click="expand(!isExpanded)">
               <v-icon> mdi-chevron-down </v-icon>
             </v-btn>
           </td>
@@ -59,13 +65,13 @@
                         {{ item.projectId.substring(0, 1).toLowerCase() }}
                       </span>
                     </v-avatar>
-                    {{item.projectId}}
+                    {{ item.projectId }}
                     <br />
                     <v-avatar size="36" color="primary">
                       <v-img v-if="item.thumbnailLink !== undefined" :src="item.thumbnailLink" />
                       <v-icon v-else dark>mdi-account-circle</v-icon>
                     </v-avatar>
-                    {{item.userId}}
+                    {{ item.userId }}
                   </v-container>
                   <v-btn @click="replyApplication(item, 'ACCEPTED')" color="success">
                     <h2>Accept</h2>
@@ -89,13 +95,13 @@
                         {{ item.projectId.substring(0, 1).toLowerCase() }}
                       </span>
                     </v-avatar>
-                    {{item.projectId}}
+                    {{ item.projectId }}
                     <br />
                     <v-avatar size="36" color="primary">
                       <v-img v-if="item.thumbnailLink !== undefined" :src="item.thumbnailLink" />
                       <v-icon v-else dark>mdi-account-circle</v-icon>
                     </v-avatar>
-                    {{item.userId}}
+                    {{ item.userId }}
                   </v-container>
                   <v-btn @click="replyApplication(item, 'REJECTED')" color="error">
                     <h2>Reject</h2>
@@ -126,8 +132,8 @@
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length" class="elevation-1">
           <v-container class="text-left" style="overflow-wrap: break-word;">
-            <h4>
-              {{item.userId}}'s Note:
+            <h4 @click="$router.push(`/profile/${item.userId}`)" style="cursor: pointer;">
+              {{ item.userId }}'s Note:
             </h4>
             <v-container style="white-space: pre-line;">
               {{ item.note }}
@@ -207,6 +213,7 @@ export default {
       );
       if (response.status === 200) {
         this.selectedItem.status = decision;
+        this.$emit('update');
       }
     },
     selectItem(item) {

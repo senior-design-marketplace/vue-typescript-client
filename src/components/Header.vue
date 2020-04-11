@@ -101,8 +101,8 @@
         <v-menu v-if="isLoggedIn" open-on-hover offset-y>
           <template v-slot:activator="{ on }">
             <span v-on="on">
-              <v-btn icon to="/account">
-                <v-list-item-avatar to="/account" icon class="mx-1" style="cursor:pointer;">
+              <v-btn icon to="/profile">
+                <v-list-item-avatar to="/profile" icon class="mx-1" style="cursor:pointer;">
                   <v-img
                     v-if="$store.state.userDetails.thumbnailLink !== null"
                     :src="$store.state.userDetails.thumbnailLink"
@@ -113,7 +113,7 @@
             </span>
           </template>
           <v-list>
-            <v-list-item to="/account">
+            <v-list-item to="/profile">
               <v-list-item-title>My Profile</v-list-item-title>
             </v-list-item>
             <v-list-item to="/about">
@@ -131,7 +131,7 @@
       <v-toolbar
         v-if="isLoggedIn"
         class="px-2"
-        @click="$router.push('/account').catch((err) => {drawer = false;});"
+        @click="$router.push('/profile').catch((err) => {drawer = false;});"
         dark
         color="secondary"
         style="cursor: pointer;"
@@ -218,7 +218,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link v-if="isLoggedIn" to="/account">
+        <v-list-item link v-if="isLoggedIn" to="/profile">
           <v-list-item-icon>
             <v-icon>mdi-account-circle</v-icon>
           </v-list-item-icon>

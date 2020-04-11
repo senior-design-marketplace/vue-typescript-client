@@ -75,6 +75,7 @@
             <v-container v-else-if="view === 'members'" class="mt-9">
               <v-card class="overflow-y-auto" flat :max-height="windowHeight * 0.75">
                 <MemberManagement
+                  @update="$emit('update')"
                   v-bind:contributors="contributors"
                   v-bind:administrators="administrators"
                 />
@@ -87,12 +88,16 @@
                     <v-img
                       contain
                       max-height="500"
-                      :src="require('@/../public/assets/noResults.svg')"
+                      :src="require('@/../public/assets/noApps.svg')"
                     />
                     You're all caught up!
                   </h1>
                 </v-sheet>
-                <AppsForApproval v-else v-bind:applications="applications" />
+                <AppsForApproval
+                  v-else
+                  @update="$emit('update')"
+                  v-bind:applications="applications"
+                />
               </v-card>
             </v-container>
             <v-container v-else-if="view === 'history'" class="mt-9">
