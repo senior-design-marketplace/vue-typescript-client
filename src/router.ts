@@ -58,12 +58,20 @@ export default new Router({
       component: () => import('./views/About.vue'),
     },
     {
-      path: '/account',
-      name: 'account',
+      path: '/profile',
+      name: 'profile',
       meta: {
         keepAlive: false,
       },
-      component: () => import('./views/Account.vue'),
+      component: () => import('./views/Profile.vue'),
+    },
+    {
+      path: '/profile/:id',
+      name: 'profile',
+      meta: {
+        keepAlive: false,
+      },
+      component: () => import('./views/Profile.vue'),
     },
     {
       path: '/debug',
@@ -71,7 +79,7 @@ export default new Router({
       meta: {
         keepAlive: false,
       },
-      component: () => import('./views/Account.vue'),
+      component: () => import('./views/Profile.vue'),
     },
     {
       path: '/inbox',

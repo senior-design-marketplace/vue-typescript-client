@@ -5,7 +5,11 @@
         <template v-slot:label="{ item }">
           <v-card class="text-left">
             <v-card-title class="subtitle-2">
-              {{ relativeTime(item.createdAt) }} by {{ item.userId }}
+              <span
+                @click="$router.push(`/profile/${item.userId}`)"
+                style="cursor: pointer;"
+                v-text="`${relativeTime(item.createdAt)} by ${item.userId}`"
+              />
               <v-spacer />
               <v-btn v-if="isLoggedIn && replies !== item.id" icon @click="editReply(item.id)">
                 <v-icon>mdi-reply</v-icon>
@@ -46,7 +50,7 @@
                           <v-card-title class="subtitle-2">
                             {{ relativeTime(item.createdAt) }} by {{ item.userId }}
                           </v-card-title>
-                          <v-container v-text="item.body" style="white-space: pre-line;"/>
+                          <v-container v-text="item.body" style="white-space: pre-line;" />
                         </v-card>
                         <v-divider inset />
                       </template>
