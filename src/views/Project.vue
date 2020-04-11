@@ -25,6 +25,7 @@
           />
           <p />
           <ContactInfo
+            v-bind:title="items.title"
             v-bind:contributors="items.contributors"
             v-bind:administrators="items.administrators"
           />
