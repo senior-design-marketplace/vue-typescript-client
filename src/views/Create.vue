@@ -510,6 +510,7 @@ export default {
             this.oneCompleted = true;
           }
         });
+      this.loading = false;
     },
     async updateTitle() {
       this.loading = true;
