@@ -1,9 +1,43 @@
 <template>
   <v-card>
     <v-container>
-      <v-treeview :items="nestedComments" open-all>
-        <template v-slot:label="{ item }">
-          <v-card class="text-left">
+      <v-treeview :items="nestedComments" open-all :open="shown" expand-icon>
+        <template v-slot:prepend="{ item }">
+          <div
+            flat
+            :style="
+              `
+              position: absolute;
+              top: 0;
+              overflow: visible;
+              height: ${barLength(item.id)}px;
+              width: 35px;
+              cursor: pointer;
+              z-index: 2;
+              border-left: 3mm solid ${indentColor(item.indent)};
+              border-top: 1px solid ${indentColor(item.indent)};
+              border-bottom: 1px solid ${indentColor(item.indent)};
+            `
+            "
+            @click="toggleHide(item.id)"
+          >
+            <v-icon small :class="shown.includes(item.id) ? 'my-2' : 'my-4'">
+              {{ shown.includes(item.id) ? "mdi-minus" : "mdi-plus" }}
+            </v-icon>
+          </div>
+        </template>
+        <template v-slot:label="{ item, open }">
+          <v-card
+            class="text-left"
+            :style="
+              `
+              position:relative;
+              left: -3px;
+              border-bottom: 1px solid ${indentColor(item.indent)};
+              border-top: 1px solid ${indentColor(item.indent)};
+            `
+            "
+          >
             <v-card-title class="subtitle-2">
               <span
                 @click="$router.push(`/profile/${item.userId}`)"
@@ -11,63 +45,72 @@
                 v-text="`${relativeTime(item.createdAt)} by ${item.userId}`"
               />
               <v-spacer />
-              <v-btn v-if="isLoggedIn && replies !== item.id" icon @click="editReply(item.id)">
-                <v-icon>mdi-reply</v-icon>
-              </v-btn>
-              <v-btn v-else-if="isLoggedIn" icon @click="editReply(item.id)">
-                <v-icon>mdi-cancel</v-icon>
-              </v-btn>
+              <div v-if="open || shown.includes(item.id)">
+                <v-btn v-if="isLoggedIn && replies !== item.id" icon @click="editReply(item.id)">
+                  <v-icon>mdi-reply</v-icon>
+                </v-btn>
+                <v-btn v-else-if="isLoggedIn" icon @click="editReply(item.id)">
+                  <v-icon>mdi-cancel</v-icon>
+                </v-btn>
 
-              <v-btn
-                v-if="edits !== item.id && isLoggedIn && postedComment(item.id)"
-                icon
-                @click="editEdit(item.id)"
-              >
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-              <v-btn
-                v-else-if="isLoggedIn && postedComment(item.id)"
-                icon
-                @click="editEdit(item.id)"
-              >
-                <v-icon>mdi-cancel</v-icon>
-              </v-btn>
+                <v-btn
+                  v-if="edits !== item.id && isLoggedIn && postedComment(item.id)"
+                  icon
+                  @click="editEdit(item.id)"
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+                <v-btn
+                  v-else-if="isLoggedIn && postedComment(item.id)"
+                  icon
+                  @click="editEdit(item.id)"
+                >
+                  <v-icon>mdi-cancel</v-icon>
+                </v-btn>
 
-              <v-dialog v-if="isLoggedIn && (isAdmin || postedComment(item.id))" max-width="500px">
-                <template v-slot:activator="{ on }">
-                  <v-btn v-on="on" icon>
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-title>
-                    Delete comment and all replies?
-                  </v-card-title>
-                  <v-card-text>
-                    <v-treeview :items="new Array(item)">
-                      <template v-slot:label="{ item }">
-                        <v-card class="text-left">
-                          <v-card-title class="subtitle-2">
-                            {{ relativeTime(item.createdAt) }} by {{ item.userId }}
-                          </v-card-title>
-                          <v-container v-text="item.body" style="white-space: pre-line;" />
-                        </v-card>
-                        <v-divider inset />
-                      </template>
-                    </v-treeview>
-                    <v-btn @click="deleteComment(item.id)">
-                      <h2>Delete</h2>
+                <v-dialog
+                  v-if="isLoggedIn && (isAdmin || postedComment(item.id))"
+                  max-width="500px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" icon>
+                      <v-icon>mdi-delete</v-icon>
                     </v-btn>
-                  </v-card-text>
-                </v-card>
-              </v-dialog>
+                  </template>
+                  <v-card>
+                    <v-card-title>
+                      Delete comment and all replies?
+                    </v-card-title>
+                    <v-card-text>
+                      <v-treeview :items="new Array(item)">
+                        <template v-slot:label="{ item }">
+                          <v-card class="text-left">
+                            <v-card-title class="subtitle-2">
+                              {{ relativeTime(item.createdAt) }} by {{ item.userId }}
+                            </v-card-title>
+                            <v-container v-text="item.body" style="white-space: pre-line;" />
+                          </v-card>
+                          <v-divider inset />
+                        </template>
+                      </v-treeview>
+                      <v-btn @click="deleteComment(item.id)">
+                        <h2>Delete</h2>
+                      </v-btn>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
+              </div>
             </v-card-title>
             <v-container
-              v-if="edits !== item.id"
+              v-if="(open || shown.includes(item.id)) && edits !== item.id"
               v-text="item.body"
               style="white-space: pre-line;"
             />
-            <v-container v-else>
+            <div
+              v-else-if="open || shown.includes(item.id)"
+              class="mb-3"
+              style="max-width: 700px; left: 0px;"
+            >
               <v-textarea
                 class="mx-1"
                 rows="5"
@@ -83,8 +126,12 @@
                   >Edit</v-btn
                 >
               </v-row>
-            </v-container>
-            <v-container v-if="replies === item.id">
+            </div>
+            <div
+              v-if="(open || shown.includes(item.id)) && replies === item.id"
+              class="mb-3"
+              style="max-width: 700px;"
+            >
               <v-textarea
                 class="mx-1"
                 rows="5"
@@ -101,25 +148,26 @@
                   >Reply</v-btn
                 >
               </v-row>
-            </v-container>
+            </div>
           </v-card>
-          <v-divider inset />
         </template>
       </v-treeview>
       <br />
-      <v-container style="max-width: 700px;">
-        <v-textarea
-          v-model="comment"
-          outlined
-          name="newComment"
-          label="New Comment"
-          counter="256"
-          :rules="[rules.length(256)]"
-        ></v-textarea>
-        <v-row justify="end">
-          <v-btn :disabled="commentInvalid(comment)" @click="postComment()">Submit</v-btn>
-        </v-row>
-      </v-container>
+      <v-card flat style=" z-index: 3;">
+        <v-container style="max-width: 700px;">
+          <v-textarea
+            v-model="comment"
+            outlined
+            name="newComment"
+            label="New Comment"
+            counter="256"
+            :rules="[rules.length(256)]"
+          ></v-textarea>
+          <v-row justify="end">
+            <v-btn :disabled="commentInvalid(comment)" @click="postComment()">Submit</v-btn>
+          </v-row>
+        </v-container>
+      </v-card>
     </v-container>
   </v-card>
 </template>
@@ -138,6 +186,7 @@ export default {
     return {
       id: uuid(),
       comment: null,
+      shown: [],
       replyText: null,
       editText: null,
       edits: null,
@@ -150,6 +199,31 @@ export default {
   methods: {
     relativeTime(dateInput) {
       return moment(dateInput).fromNow();
+    },
+    indentColor(indent) {
+      const steps = 12;
+      const r = (3 / steps) * (12 - indent) + 0;
+      const g = (169 / steps) * (12 - indent) + 9;
+      const b = (245 / steps) * (12 - indent) + 12;
+      return `rgb(${r},${g},${b})`;
+    },
+    barLength(id) {
+      let length = 56;
+      if (this.shown.includes(id)) {
+        length += 62;
+        if (this.replies === id) {
+          length += 228;
+        }
+        if (this.edits === id) {
+          length += 180;
+        }
+      }
+      return length;
+    },
+    toggleHide(id) {
+      const index = this.shown.indexOf(id);
+      if (index === -1) this.shown.push(id);
+      else this.shown.splice(index, 1);
     },
     editReply(id) {
       if (this.replies !== id) {
@@ -233,9 +307,8 @@ export default {
       }
     },
   },
-  watch: {
-    comments() {},
-    nestedComments() {},
+  mounted() {
+    this.shown = this.comments.map(a => a.id);
   },
   computed: {
     isLoggedIn() {
@@ -255,8 +328,10 @@ export default {
         list[i].reply = null;
         node = list[i];
         if (node.parentId !== null) {
+          node.indent = list[map[node.parentId]].indent + 1;
           list[map[node.parentId]].children.push(node);
         } else {
+          node.indent = 0;
           roots.push(node);
         }
       }
