@@ -30,15 +30,23 @@
             </v-list>
           </v-col>
           <v-col cols="12" sm="9">
-            <v-btn class="ma-3" style="float: right;" icon @click="show = !show">
+            <v-btn large class="ma-3" style="float: right;" icon @click="show = !show">
               <v-icon>mdi-close</v-icon>
             </v-btn>
-            <v-container v-if="view === 'general'" class="mt-9">
+            <v-container v-if="view === 'general'" class="mt-9 ml-10 text-left">
+              <p>
+                Edit in project creator:
+                <v-btn large icon :to="`/create/${this.$route.params.id}`">
+                  <v-icon>
+                    mdi-arrow-right-bold-box
+                  </v-icon>
+                </v-btn>
+              </p>
               <p>
                 Click to toggle whether the project is accepting applications:
                 <v-tooltip top max-width="175">
                   <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on" @click="toggleAcceptingApps()">
+                    <v-btn large icon v-on="on" @click="toggleAcceptingApps()">
                       <v-icon
                         v-if="!editAcceptingApps"
                         v-bind:color="acceptingApps ? 'success' : 'error'"
@@ -56,7 +64,7 @@
               </p>
               <p>
                 Delete Project:
-                <v-btn icon @click="deleteDialog = true">
+                <v-btn large icon @click="deleteDialog = true">
                   <v-icon>
                     mdi-delete
                   </v-icon>
