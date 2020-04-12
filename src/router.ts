@@ -34,6 +34,14 @@ export default new Router({
       component: () => import('./views/Create.vue'),
     },
     {
+      path: '/create/:id',
+      name: 'create/id',
+      meta: {
+        keepAlive: false,
+      },
+      component: () => import('./views/Create.vue'),
+    },
+    {
       path: '/applications',
       name: 'applications',
       meta: {
