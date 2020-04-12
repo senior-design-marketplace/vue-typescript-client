@@ -265,7 +265,7 @@
                         title="Thumbnail Upload"
                         types="image/jpeg, image/png"
                         :avatar="true"
-                        @file="getProjectData"
+                        @file="hotswapThumbnail"
                       />
                     </v-container>
                   </v-col>
@@ -301,7 +301,7 @@
                         title="Cover Image Upload"
                         types="image/jpeg, image/png"
                         :avatar="false"
-                        @file="getProjectData"
+                        @file="hotswapCoverImage"
                       />
                     </v-card>
                   </v-col>
@@ -468,6 +468,12 @@ export default {
       this.projectDetails.coverLink = `${this.projectDetails.coverLink}?noCache=${Math.round(
         Math.random() * 10000,
       )}`;
+    },
+    hotswapThumbnail(file) {
+      this.projectDetails.thumbnailLink = URL.createObjectURL(file);
+    },
+    hotswapCoverImage(file) {
+      this.projectDetails.coverLink = URL.createObjectURL(file);
     },
     async getProjectData() {
       this.loading = true;
