@@ -86,7 +86,7 @@
                 <v-list-item-title v-else>
                   {{ displayType(item.document.type) }} to
                   {{ item.document.application.projectId }} has been
-                  {{ item.document.application.status }}
+                  {{ displayType(item.document.application.status) }}
                 </v-list-item-title>
                 <v-list-item-subtitle>
                   {{ calendarTime(item.createdAt) }}
@@ -125,7 +125,83 @@
                   {{ displayType(item.document.type) }} from
                   {{ item.document.application.userId }} for
                   {{ item.document.application.projectId }} has been
-                  {{ item.document.application.status }}
+                  {{ displayType(item.document.application.status) }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ calendarTime(item.createdAt) }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+              <v-btn icon :value="isExpanded" @click="expand(!isExpanded)">
+                <v-icon>mdi-chevron-down</v-icon>
+              </v-btn>
+              <v-list-item-icon>
+                <v-tooltip top max-width="175">
+                  <template v-slot:activator="{ on }">
+                    <v-checkbox
+                      v-on="on"
+                      :input-value="item.read"
+                      @click.stop="toggleRead(item.id, item.read)"
+                    />
+                  </template>
+                  <span>Mark as {{ item.read ? "unread" : "read" }}</span>
+                </v-tooltip>
+              </v-list-item-icon>
+            </v-list-item>
+
+            <v-list-item
+              v-else-if="
+                item.document.type === 'INVITE' &&
+                  item.document.invite.targetId === $store.state.userDetails.cognitoUsername
+              "
+            >
+              <v-list-item-content style="cursor: pointer;" @click="handleInvite(item)">
+                <v-list-item-title v-if="item.document.invite.status == 'PENDING'">
+                  {{ displayType(item.document.type) }} received from
+                  {{ item.document.invite.initiateId }} for
+                  {{ item.document.invite.projectId }}
+                </v-list-item-title>
+                <v-list-item-title v-else>
+                  {{ displayType(item.document.type) }} from
+                  {{ item.document.invite.initiateId }} for {{ item.document.invite.projectId }} has
+                  been
+                  {{ displayType(item.document.invite.status) }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ calendarTime(item.createdAt) }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+              <v-btn icon :value="isExpanded" @click="expand(!isExpanded)">
+                <v-icon>mdi-chevron-down</v-icon>
+              </v-btn>
+              <v-list-item-icon>
+                <v-tooltip top max-width="175">
+                  <template v-slot:activator="{ on }">
+                    <v-checkbox
+                      v-on="on"
+                      :input-value="item.read"
+                      @click.stop="toggleRead(item.id, item.read)"
+                    />
+                  </template>
+                  <span>Mark as {{ item.read ? "unread" : "read" }}</span>
+                </v-tooltip>
+              </v-list-item-icon>
+            </v-list-item>
+
+            <v-list-item
+              v-else-if="
+                item.document.type === 'INVITE' &&
+                  item.document.invite.targetId !== $store.state.userDetails.cognitoUsername
+              "
+            >
+              <v-list-item-content style="cursor: pointer;" @click="handleInvite(item)">
+                <v-list-item-title v-if="item.document.invite.status === 'PENDING'">
+                  {{ displayType(item.document.type) }} to {{ item.document.invite.targetId }} for
+                  {{ item.document.invite.projectId }} sent
+                </v-list-item-title>
+                <v-list-item-title v-else>
+                  {{ displayType(item.document.type) }} to {{ item.document.invite.targetId }} for
+                  {{ item.document.invite.projectId }} has been
+                  {{ displayType(item.document.invite.status) }}
                 </v-list-item-title>
                 <v-list-item-subtitle>
                   {{ calendarTime(item.createdAt) }}
@@ -187,11 +263,23 @@
                   >Status: Pending<br
                 /></span>
                 <span v-else>
-                  Status: {{ item.document.application.status }} by
-                  {{ item.document.application.responderId }}<br />
+                  Status: {{ displayType(item.document.application.status) }} by
+                  {{ item.document.application.targetId }}<br />
                 </span>
                 Note: {{ item.document.application.note }}
                 <v-icon v-if="item.document.application.note === null"> mdi-close </v-icon>
+              </v-container>
+
+              <v-container v-else-if="item.document.type === 'INVITE'" class="text-left">
+                Project: {{ item.document.invite.projectId }} <br />
+                <span v-if="item.document.invite.status === 'PENDING'">Status: Pending<br /></span>
+                <span v-else>
+                  Status: {{ displayType(item.document.invite.status) }} by
+                  {{ item.document.invite.targetId }}<br />
+                </span>
+                Role: {{ displayType(item.document.invite.role) }} <br />
+                Note: {{ item.document.invite.note }}
+                <v-icon v-if="item.document.invite.note === null"> mdi-close </v-icon>
               </v-container>
 
               <v-container v-else :colspan="headers.length" class="text-left">
@@ -221,6 +309,18 @@ export default {
       switch (type) {
         case 'APPLICATION':
           return 'Application';
+        case 'INVITE':
+          return 'Invite';
+        case 'PENDING':
+          return 'Pending';
+        case 'ACCEPTED':
+          return 'Accepted';
+        case 'REJECTED':
+          return 'Rejected';
+        case 'ADMINISTRATOR':
+          return 'Administrator';
+        case 'CONTRIBUTOR':
+          return 'Aontributor';
         default:
           return type;
       }
@@ -235,6 +335,16 @@ export default {
         this.$router.push(`/project/${notif.document.application.projectId}`).catch((err) => {});
       }
       this.toggleRead(notif.id, false);
+    },
+    handleInvite(notif) {
+      if (notif.document.invite.status === 'PENDING') {
+        this.$router
+          .push(`/dashboard/invites/${notif.document.invite.id}`)
+          .catch((err) => {});
+      } else {
+        this.$router.push(`/project/${notif.document.invite.projectId}`).catch((err) => {});
+      }
+      this.markAsRead(notif.id);
     },
     async toggleRead(id, currentValue) {
       const response = await apiCall.methods.patch(
