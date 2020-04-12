@@ -49,6 +49,16 @@
                 <v-btn v-if="isLoggedIn && replies !== item.id" icon @click="editReply(item.id)">
                   <v-icon>mdi-reply</v-icon>
                 </v-btn>
+                <v-tooltip v-else-if="!isLoggedIn && replies !== item.id" top max-width="175">
+                  <template v-slot:activator="{ on }">
+                    <div v-on="on">
+                      <v-btn :disabled="true" icon>
+                        <v-icon>mdi-reply</v-icon>
+                      </v-btn>
+                    </div>
+                  </template>
+                  <span>You need to be logged in to reply!</span>
+                </v-tooltip>
                 <v-btn v-else-if="isLoggedIn" icon @click="editReply(item.id)">
                   <v-icon>mdi-cancel</v-icon>
                 </v-btn>
