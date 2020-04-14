@@ -424,6 +424,11 @@ export default {
       thumbnailDialog: false,
       coverDialog: false,
       editAcceptingApps: false,
+      titleTimeout: undefined,
+      taglineTimeout: undefined,
+      bodyTimeout: undefined,
+      majorsTimeout: undefined,
+      tagsTimeout: undefined,
       projectDetails: {
         id: '',
         title: '',
@@ -586,33 +591,35 @@ export default {
     },
     async updateMajors() {
       this.loading = true;
-      await apiCall.methods
-        .put(
-          `/projects/${this.$route.params.id}/majors`,
-          '',
-          this.projectDetails.requestedMajors,
-          this.$route.fullPath,
-        )
-        .then((response) => {
-          if (response.status === 200) {
-            this.getProjectData();
-          }
-        });
+      clearTimeout(this.majorsTimeout);
+      this.majorsTimeout = setTimeout(() => {
+        apiCall.methods
+          .put(
+            `/projects/${this.$route.params.id}/majors`,
+            '',
+            this.projectDetails.requestedMajors,
+            this.$route.fullPath,
+          )
+          .then((response) => {
+            this.loading = false;
+          });
+      }, 3000);
     },
     async updateTags() {
       this.loading = true;
-      await apiCall.methods
-        .put(
-          `/projects/${this.$route.params.id}/tags`,
-          '',
-          this.projectDetails.tags,
-          this.$route.fullPath,
-        )
-        .then((response) => {
-          if (response.status === 200) {
-            this.getProjectData();
-          }
-        });
+      clearTimeout(this.tagsTimeout);
+      this.tagsTimeout = setTimeout(() => {
+        apiCall.methods
+          .put(
+            `/projects/${this.$route.params.id}/tags`,
+            '',
+            this.projectDetails.tags,
+            this.$route.fullPath,
+          )
+          .then((response) => {
+            this.loading = false;
+          });
+      }, 3000);
     },
     async toggleAcceptingApps() {
       this.loading = true;

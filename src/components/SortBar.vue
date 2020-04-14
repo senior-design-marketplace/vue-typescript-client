@@ -192,6 +192,7 @@ export default {
   data() {
     return {
       sortList: ['new', 'popular'],
+      titleTimeout: undefined,
       advisorTimeout: undefined,
     };
   },
