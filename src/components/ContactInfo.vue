@@ -145,19 +145,15 @@
         <v-row v-if="numberOfPages !== 1" class="mx-2" align="center" justify="center">
           <v-btn
             icon
-            dark
-            color="secondary"
             class="mx-1"
             @click="formerPage()"
             :disabled="page === 1"
           >
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
-          <span class="mx-1 secondary--text"> Page {{ page }}/{{ numberOfPages }} </span>
+          <span class="mx-1"> Page {{ page }}/{{ numberOfPages }} </span>
           <v-btn
             icon
-            dark
-            color="secondary"
             class="mx-1"
             @click="nextPage()"
             :disabled="page === numberOfPages"
@@ -201,7 +197,8 @@ export default {
       leaveDialog: false,
       page: 1,
       itemsPerPage: 6,
-      hovered: true,
+      hovered: false,
+      interval: undefined,
     };
   },
   methods: {
@@ -246,7 +243,8 @@ export default {
     },
   },
   mounted() {
-    const interval = setInterval(() => {
+    clearInterval(this.interval);
+    this.interval = setInterval(() => {
       if (!this.hovered && this.numberOfPages > 1) {
         if (this.page + 1 <= this.numberOfPages) {
           this.page += 1;

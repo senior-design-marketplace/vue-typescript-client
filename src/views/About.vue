@@ -135,7 +135,14 @@
               <img :src="require('@/../public/assets/Gregg.png')" height="250px" />
               <v-card-title>Dr. Gregg Vesonder</v-card-title>
               <v-card-text>
-                <div>Short Description</div>
+                <div>
+                  Gregg Vesonder is an Industry Professor in Software Engineering and Cyber-Physical
+                  Systems at Stevens Institute of Technology. He also serves as an Adjunct Professor
+                  at the University of Pennsylvania in Computer and Information Science. Prior to
+                  this role he served as Executive Director of the Cloud Platforms Research
+                  Department at AT&T Labs Research. His Department at AT&T Labs Research focused
+                  both on Cloud Platforms and Mobile and Pervasive Systems.
+                </div>
               </v-card-text>
             </v-card>
 
@@ -143,7 +150,14 @@
               <img :src="require('@/../public/assets/Eirik.jpg')" height="250px" />
               <v-card-title>Eirik Hole</v-card-title>
               <v-card-text>
-                <div>Short Description</div>
+                <div>
+                  Eirik Hole came to Stevens from HOOD Consulting in Munich, Germany where he was
+                  implementing Systems Engineering and Requirement Management methodology and tools,
+                  mainly in the automotive industry. Before that he was a Systems Engineer in the
+                  aerospace and defense industry as well as a pre-sales consultant in the
+                  introduction and application of Systems Engineering tools. Professor Hole received
+                  an MSc Aerospace Engineering from the University of Stuttgart, Germany.
+                </div>
               </v-card-text>
             </v-card>
 
@@ -172,7 +186,7 @@
                   International, Poetry Club, Software Engineering Club <br />Interests/passions:
                   Barre (fusion of pilates+yoga+ballet), cooking, paddle-boarding, options trading,
                   biking, theatre <br />Job after: Will be in the Technology Advisory Program at EY
-                  (Ernst & Young) <br />Inspirational quote:
+                  (Ernst & Young)
                 </div>
               </v-card-text>
             </v-card>
@@ -253,7 +267,7 @@
                   Major: Engineering Management
                   <br />Graduation Year: May 2020 <br />Clubs/involvements: Chi Phi
                   <br />Interests/passions: Working out, hanging out with my cat, Jarvis <br />Job
-                  after: Still Looking <br />Inspirational quote: in the works
+                  after: Still Looking
                 </div>
               </v-card-text>
             </v-card>

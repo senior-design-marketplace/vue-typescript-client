@@ -123,7 +123,7 @@ export default new Router({
     },
     {
       path: '/profile/:id',
-      name: 'profile',
+      name: 'profile/id',
       meta: {
         keepAlive: false,
       },

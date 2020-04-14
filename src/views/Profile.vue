@@ -1,5 +1,5 @@
 <template>
-  <v-container style="max-width: 1250px; height: 100%">
+  <v-container class="mt-10" style="max-width: 1250px; height: 100%">
     <Loading v-if="loading" value="Loading Profile" />
     <div v-else>
       <v-card style="width: 100%; height: 100%">
