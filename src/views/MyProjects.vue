@@ -44,9 +44,7 @@
     <br />
     <v-sheet
       v-if="
-        adminProjects.length === 0
-        && contribProjects.length === 0
-        && starredProjects.length === 0
+        adminProjects.length === 0 && contribProjects.length === 0 && starredProjects.length === 0
       "
       :style="$store.state.darkmode ? 'background-color: #121212;' : ''"
     >
@@ -74,11 +72,24 @@ import CardDeck from '@/components/CardDeck.vue';
 export default {
   data() {
     return {
-      view: ['admin', 'contrib'],
+      view: [],
     };
   },
   components: {
     CardDeck,
+  },
+  mounted() {
+    if (
+      this.adminProjects.length > 0
+      || this.contribProjects.length > 0
+      || this.starredProjects.length > 0
+    ) {
+      if (this.adminProjects.length + this.contribProjects.length < this.starredProjects.length) this.view.push('starred');
+      else {
+        if (this.adminProjects.length > 0) this.view.push('admin');
+        if (this.contribProjects.length > 0) this.view.push('contrib');
+      }
+    }
   },
   computed: {
     displayProjects() {
@@ -102,12 +113,15 @@ export default {
       return display;
     },
     adminProjects() {
+      if (this.$store.state.userDetails.administratorOn === undefined) return [];
       return this.$store.state.userDetails.administratorOn;
     },
     contribProjects() {
+      if (this.$store.state.userDetails.contributorOn === undefined) return [];
       return this.$store.state.userDetails.contributorOn;
     },
     starredProjects() {
+      if (this.$store.state.userDetails.starred === undefined) return [];
       return this.$store.state.userDetails.starred;
     },
   },

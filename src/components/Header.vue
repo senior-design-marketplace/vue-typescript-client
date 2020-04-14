@@ -27,9 +27,8 @@
       <v-spacer></v-spacer>
       <v-toolbar-items class="d-none d-md-flex">
         <v-btn text class="item" to="/">Projects</v-btn>
-        <v-btn v-if="isLoggedIn" text class="item" to="/my-projects">My Projects</v-btn>
+        <v-btn v-if="isLoggedIn" text class="item" to="/dashboard">Dashboard</v-btn>
         <!-- <v-btn v-if="isLoggedIn" text class="item" to="/create">Create Project</v-btn> -->
-        <v-btn v-if="isLoggedIn" text class="item" to="/applications">Applications</v-btn>
         <v-btn v-if="!isLoggedIn" text class="item" to="/about">About</v-btn>
         <v-btn v-if="!isLoggedIn" @click="login" text class="item">Login</v-btn>
       </v-toolbar-items>
@@ -37,7 +36,7 @@
         <v-menu v-if="isLoggedIn && unread.length > 0" open-on-hover offset-y>
           <template v-slot:activator="{ on }">
             <span v-on="on">
-              <v-btn icon to="/inbox">
+              <v-btn icon @click="$router.push('/dashboard/inbox')">
                 <v-badge color="red" overlap :content="unread.length">
                   <v-icon>mdi-bell</v-icon>
                 </v-badge>
@@ -75,10 +74,44 @@
                   <v-list-item-title v-else class="text-right">
                     {{ displayType(item.document.type) }}
                     from {{ item.document.application.userId }} has been
-                    {{ item.document.application.status }}
+                    {{ displayType(item.document.application.status) }}
                     <v-icon>mdi-chevron-right</v-icon>
                   </v-list-item-title>
                 </v-list-item-content>
+
+                <v-list-item-content
+                  v-else-if="
+                    item.document.type === 'INVITE' &&
+                      item.document.invite.targetId === $store.state.userDetails.cognitoUsername
+                  "
+                  @click="handleInvite(item)"
+                >
+                  <v-list-item-title class="text-right">
+                    {{ displayType(item.document.type) }} received from
+                    {{ item.document.invite.initiateId }}
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content
+                  v-else-if="item.document.type === 'INVITE'"
+                  @click="handleInvite(item)"
+                >
+                  <v-list-item-title
+                    v-if="item.document.invite.status == 'PENDING'"
+                    class="text-right"
+                  >
+                    {{ displayType(item.document.type) }}
+                    sent to {{ item.document.invite.targetId }}
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-list-item-title>
+                  <v-list-item-title v-else class="text-right">
+                    {{ displayType(item.document.type) }}
+                    to {{ item.document.invite.targetId }} has been
+                    {{ displayType(item.document.invite.status) }}
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-list-item-title>
+                </v-list-item-content>
+
                 <v-list-item-content v-else>
                   <v-list-item-title class="text-right">
                     {{ displayType(item.document.type) }}
@@ -91,7 +124,7 @@
         </v-menu>
         <v-tooltip v-else-if="isLoggedIn && unread.length === 0" top max-width="175">
           <template v-slot:activator="{ on }">
-            <v-btn icon to="/inbox" v-on="on">
+            <v-btn icon to="/dashboard/inbox" v-on="on">
               <v-icon>mdi-bell</v-icon>
             </v-btn>
           </template>
@@ -131,7 +164,11 @@
       <v-toolbar
         v-if="isLoggedIn"
         class="px-2"
-        @click="$router.push('/profile').catch((err) => {drawer = false;});"
+        @click="
+          $router.push('/profile').catch(err => {
+            drawer = false;
+          })
+        "
         dark
         color="secondary"
         style="cursor: pointer;"
@@ -168,17 +205,17 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link v-if="isLoggedIn" to="/my-projects">
+        <v-list-item link v-if="isLoggedIn" to="/dashboard">
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>My Projects</v-list-item-title>
+            <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link v-if="isLoggedIn" to="/create">
+        <!-- <v-list-item link v-if="isLoggedIn" to="/create">
           <v-list-item-icon>
             <v-icon>mdi-plus</v-icon>
           </v-list-item-icon>
@@ -186,35 +223,23 @@
           <v-list-item-content>
             <v-list-item-title>Create Project</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item> -->
 
-        <v-list-item link v-if="isLoggedIn" to="/applications">
-          <v-list-item-icon>
-            <v-icon>mdi-file-multiple</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>Applications</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item link v-if="isLoggedIn" to="/inbox">
+        <v-list-item
+          link
+          v-if="isLoggedIn"
+          @click="
+            $router.push('/dashboard/inbox').catch(err => {
+              drawer = false;
+            })
+          "
+        >
           <v-list-item-icon>
             <v-icon>mdi-bell</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
             <v-list-item-title>Notifications</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item link to="/about">
-          <v-list-item-icon>
-            <v-icon>mdi-information</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>About</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -225,6 +250,16 @@
 
           <v-list-item-content>
             <v-list-item-title>My Profile</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link to="/about">
+          <v-list-item-icon>
+            <v-icon>mdi-information</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>About</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -272,15 +307,35 @@ export default {
       switch (type) {
         case 'APPLICATION':
           return 'Application';
+        case 'INVITE':
+          return 'Invite';
+        case 'PENDING':
+          return 'pending';
+        case 'ACCEPTED':
+          return 'accepted';
+        case 'REJECTED':
+          return 'rejected';
         default:
           return type;
       }
     },
     handleApplication(notif) {
       if (notif.document.application.status === 'PENDING') {
-        this.$router.push(`/applications/${notif.document.application.id}`).catch((err) => {});
+        this.$router
+          .push(`/dashboard/applications/${notif.document.application.id}`)
+          .catch((err) => {});
       } else {
         this.$router.push(`/project/${notif.document.application.projectId}`).catch((err) => {});
+      }
+      this.markAsRead(notif.id);
+    },
+    handleInvite(notif) {
+      if (notif.document.invite.status === 'PENDING') {
+        this.$router
+          .push(`/dashboard/invites/${notif.document.invite.id}`)
+          .catch((err) => {});
+      } else {
+        this.$router.push(`/project/${notif.document.invite.projectId}`).catch((err) => {});
       }
       this.markAsRead(notif.id);
     },
