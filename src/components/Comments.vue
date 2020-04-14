@@ -2,30 +2,6 @@
   <v-card>
     <v-container>
       <v-treeview :items="nestedComments" open-all :open="shown" expand-icon>
-        <template v-slot:prepend="{ item }">
-          <div
-            flat
-            :style="
-              `
-              position: absolute;
-              top: 0;
-              overflow: visible;
-              height: ${barLength(item.id)}px;
-              width: 35px;
-              cursor: pointer;
-              z-index: 2;
-              border-left: 3mm solid ${indentColor(item.indent)};
-              border-top: 1px solid ${indentColor(item.indent)};
-              border-bottom: 1px solid ${indentColor(item.indent)};
-            `
-            "
-            @click="toggleHide(item.id)"
-          >
-            <v-icon small :class="shown.includes(item.id) ? 'my-2' : 'my-4'">
-              {{ shown.includes(item.id) ? "mdi-minus" : "mdi-plus" }}
-            </v-icon>
-          </div>
-        </template>
         <template v-slot:label="{ item, open }">
           <v-card
             class="text-left"
@@ -38,6 +14,27 @@
             `
             "
           >
+            <div
+              flat
+              :style="
+                `
+              position: absolute;
+              top: 0;
+              overflow: visible;
+              height: 100%;
+              width: 30px;
+              cursor: pointer;
+              z-index: 2;
+              border-left: 4mm solid ${indentColor(item.indent)};
+            `
+              "
+              @click="toggleHide(item.id)"
+            >
+              <v-icon small :class="shown.includes(item.id) ? 'my-2' : 'my-4'">
+                {{ shown.includes(item.id) ? "mdi-minus" : "mdi-plus" }}
+              </v-icon>
+            </div>
+            <div class="ml-5">
             <v-card-title class="subtitle-2">
               <span
                 @click="$router.push(`/profile/${item.userId}`)"
@@ -159,6 +156,7 @@
                 >
               </v-row>
             </div>
+            </div>
           </v-card>
         </template>
       </v-treeview>
@@ -216,19 +214,6 @@ export default {
       const g = (169 / steps) * (12 - indent) + 9;
       const b = (245 / steps) * (12 - indent) + 12;
       return `rgb(${r},${g},${b})`;
-    },
-    barLength(id) {
-      let length = 56;
-      if (this.shown.includes(id)) {
-        length += 62;
-        if (this.replies === id) {
-          length += 228;
-        }
-        if (this.edits === id) {
-          length += 180;
-        }
-      }
-      return length;
     },
     toggleHide(id) {
       const index = this.shown.indexOf(id);

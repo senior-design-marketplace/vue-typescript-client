@@ -26,6 +26,8 @@
             step="1"
             :editable="oneCompleted"
             :edit-icon="oneCompleted ? 'mdi-check' : 'mdi-close'"
+            error-icon="mdi-minus"
+            :rules="[() => !oneUnsaved]"
           >
             Basics
           </v-stepper-step>
@@ -35,6 +37,8 @@
             step="2"
             :editable="oneCompleted"
             :edit-icon="twoCompleted ? 'mdi-check' : 'mdi-close'"
+            error-icon="mdi-minus"
+            :rules="[() => !twoUnsaved]"
           >
             Tags & Majors
           </v-stepper-step>
@@ -61,10 +65,14 @@
           <v-stepper-content step="1">
             <v-toolbar dense class="mx-3">
               <v-toolbar-title>
-                <v-icon v-if="!loading" color="success">
-                  mdi-check
-                </v-icon>
-                <v-progress-circular v-else color="primary" indeterminate />
+                <v-progress-circular v-if="loading" color="primary" indeterminate />
+                <v-tooltip v-else-if="oneUnsaved" top max-width="175">
+                  <template v-slot:activator="{ on }">
+                    <v-icon v-on="on" color="warning">mdi-minus</v-icon>
+                  </template>
+                  <span>You have unsaved changes.</span>
+                </v-tooltip>
+                <v-icon v-else color="success">mdi-check</v-icon>
                 The Basics
               </v-toolbar-title>
             </v-toolbar>
@@ -108,7 +116,7 @@
                     label="Title"
                     v-model="projectDetails.title"
                     :rules="[rules.length(64)]"
-                    @input="updateTitle"
+                    @input="oneUnsaved = true"
                   />
                   <v-textarea
                     class="mx-1"
@@ -118,7 +126,7 @@
                     label="Tagline"
                     v-model="projectDetails.tagline"
                     :rules="[rules.length(256)]"
-                    @input="updateTagline"
+                    @input="oneUnsaved = true"
                   />
                   <v-textarea
                     class="mx-1"
@@ -128,7 +136,7 @@
                     label="Description"
                     v-model="projectDetails.body"
                     :rules="[rules.length(2048)]"
-                    @input="updateDescription"
+                    @input="oneUnsaved = true"
                   />
                 </v-container>
               </v-card>
@@ -141,17 +149,26 @@
             >
               <h1>Create & Continue</h1>
             </v-btn>
-            <v-btn v-else color="primary" :disabled="basicsInvalid" @click="step = 2">
-              <h1>Continue</h1>
-            </v-btn>
+            <div v-else>
+              <v-btn color="primary" :disabled="basicsInvalid" @click="submitOne">
+                <h1>Submit</h1>
+              </v-btn>
+              <v-btn class="mx-1" @click="step = 2">
+                <h1>Skip</h1>
+              </v-btn>
+            </div>
           </v-stepper-content>
           <v-stepper-content step="2">
             <v-toolbar dense class="mx-3">
               <v-toolbar-title>
-                <v-icon v-if="!loading" color="success">
-                  mdi-check
-                </v-icon>
-                <v-progress-circular v-else color="primary" indeterminate />
+                <v-progress-circular v-if="loading" color="primary" indeterminate />
+                <v-tooltip v-else-if="twoUnsaved" top max-width="175">
+                  <template v-slot:activator="{ on }">
+                    <v-icon v-on="on" color="warning">mdi-minus</v-icon>
+                  </template>
+                  <span>You have unsaved changes.</span>
+                </v-tooltip>
+                <v-icon v-else color="success">mdi-check</v-icon>
                 Tags & Majors
               </v-toolbar-title>
             </v-toolbar>
@@ -166,7 +183,7 @@
                     clearable
                     label="Majors"
                     multiple
-                    @change="updateMajors"
+                    @change="twoUnsaved = true"
                   >
                     <template v-slot:selection="data">
                       <v-chip
@@ -195,7 +212,7 @@
                     clearable
                     label="Tags"
                     multiple
-                    @change="updateTags"
+                    @change="twoUnsaved = true"
                   >
                     <template v-slot:selection="data">
                       <v-chip
@@ -218,8 +235,8 @@
                   </v-autocomplete>
                 </v-container>
               </v-card>
-              <v-btn color="primary" class="mx-1" @click="step = 3" :disabled="!twoCompleted">
-                <h1>Continue</h1>
+              <v-btn color="primary" class="mx-1" @click="submitTwo">
+                <h1>Submit</h1>
               </v-btn>
               <v-btn class="mx-1" @click="step = 3">
                 <h1>Skip</h1>
@@ -229,10 +246,8 @@
           <v-stepper-content step="3">
             <v-toolbar dense class="mx-3">
               <v-toolbar-title>
-                <v-icon v-if="!loading" color="success">
-                  mdi-check
-                </v-icon>
-                <v-progress-circular v-else color="primary" indeterminate />
+                <v-progress-circular v-if="loading" color="primary" indeterminate />
+                <v-icon v-else color="success">mdi-check</v-icon>
                 Media
               </v-toolbar-title>
             </v-toolbar>
@@ -320,7 +335,7 @@
                 </v-container>
               </v-card>
               <v-btn color="primary" class="mx-1" @click="step = 4">
-                <h1>Continue</h1>
+                <h1>Submit</h1>
               </v-btn>
               <v-btn class="mx-1" @click="step = 4">
                 <h1>Skip</h1>
@@ -330,10 +345,8 @@
           <v-stepper-content step="4">
             <v-toolbar dense class="mx-3">
               <v-toolbar-title>
-                <v-icon v-if="!loading" color="success">
-                  mdi-check
-                </v-icon>
-                <v-progress-circular v-else color="primary" indeterminate />
+                <v-progress-circular v-if="loading" color="primary" indeterminate />
+                <v-icon v-else color="success">mdi-check</v-icon>
                 Member Management
               </v-toolbar-title>
             </v-toolbar>
@@ -371,7 +384,7 @@
                 </v-container>
               </v-card>
               <v-btn color="primary" class="mx-1" @click="step = 5">
-                <h1>Continue</h1>
+                <h1>Submit</h1>
               </v-btn>
               <v-btn class="mx-1" @click="step = 5">
                 <h1>Skip</h1>
@@ -421,6 +434,8 @@ export default {
       step: 0,
       id: uuid(),
       loading: false,
+      oneUnsaved: false,
+      twoUnsaved: false,
       thumbnailDialog: false,
       coverDialog: false,
       editAcceptingApps: false,
@@ -459,12 +474,12 @@ export default {
     removeMajor(item) {
       const index = this.projectDetails.requestedMajors.indexOf(item);
       if (index >= 0) this.projectDetails.requestedMajors.splice(index, 1);
-      this.updateMajors();
+      this.twoUnsaved = true;
     },
     removeTag(item) {
       const index = this.projectDetails.tags.indexOf(item);
       if (index >= 0) this.projectDetails.tags.splice(index, 1);
-      this.updateTags();
+      this.twoUnsaved = true;
     },
     noCacheImages() {
       this.projectDetails.thumbnailLink = `${
@@ -479,6 +494,18 @@ export default {
     },
     hotswapCoverImage(file) {
       this.projectDetails.coverLink = URL.createObjectURL(file);
+    },
+    async submitOne() {
+      await Promise.all([this.updateTitle(), this.updateTagline(), this.updateDescription()]);
+      this.oneUnsaved = false;
+      await this.getProjectData();
+      this.step = 2;
+    },
+    async submitTwo() {
+      await Promise.all([this.updateMajors(), this.updateTags()]);
+      this.twoUnsaved = false;
+      await this.getProjectData();
+      this.step = 3;
     },
     async getProjectData() {
       this.loading = true;
@@ -526,100 +553,62 @@ export default {
     async updateTitle() {
       this.loading = true;
       if (this.projectDetails.title !== '') {
-        clearTimeout(this.titleTimeout);
-        this.titleTimeout = setTimeout(() => {
-          apiCall.methods
-            .patch(
-              `/projects/${this.$route.params.id}`,
-              '',
-              {
-                title: this.projectDetails.title,
-              },
-              this.$route.fullPath,
-            )
-            .then((response) => {
-              if (response.status === 200) {
-                this.getProjectData();
-              }
-            });
-        }, 1000);
+        return apiCall.methods.patch(
+          `/projects/${this.$route.params.id}`,
+          '',
+          {
+            title: this.projectDetails.title,
+          },
+          this.$route.fullPath,
+        );
       }
+      return null;
     },
     async updateTagline() {
       this.loading = true;
       if (this.projectDetails.tagline !== '') {
-        clearTimeout(this.taglineTimeout);
-        this.taglineTimeout = setTimeout(() => {
-          apiCall.methods
-            .patch(
-              `/projects/${this.$route.params.id}`,
-              '',
-              {
-                tagline: this.projectDetails.tagline,
-              },
-              this.$route.fullPath,
-            )
-            .then((response) => {
-              if (response.status === 200) {
-                this.getProjectData();
-              }
-            });
-        }, 1000);
+        return apiCall.methods.patch(
+          `/projects/${this.$route.params.id}`,
+          '',
+          {
+            tagline: this.projectDetails.tagline,
+          },
+          this.$route.fullPath,
+        );
       }
+      return null;
     },
     async updateDescription() {
       this.loading = true;
-      if (this.projectDetails.body !== '') {
-        clearTimeout(this.bodyTimeout);
-        this.bodyTimeout = setTimeout(() => {
-          apiCall.methods
-            .patch(
-              `/projects/${this.$route.params.id}`,
-              '',
-              {
-                body: this.projectDetails.body,
-              },
-              this.$route.fullPath,
-            )
-            .then((response) => {
-              if (response.status === 200) {
-                this.getProjectData();
-              }
-            });
-        }, 1000);
+      if (this.projectDetails.body !== '' && this.projectDetails.body !== null) {
+        return apiCall.methods.patch(
+          `/projects/${this.$route.params.id}`,
+          '',
+          {
+            body: this.projectDetails.body,
+          },
+          this.$route.fullPath,
+        );
       }
+      return null;
     },
     async updateMajors() {
       this.loading = true;
-      clearTimeout(this.majorsTimeout);
-      this.majorsTimeout = setTimeout(() => {
-        apiCall.methods
-          .put(
-            `/projects/${this.$route.params.id}/majors`,
-            '',
-            this.projectDetails.requestedMajors,
-            this.$route.fullPath,
-          )
-          .then((response) => {
-            this.loading = false;
-          });
-      }, 3000);
+      return apiCall.methods.put(
+        `/projects/${this.$route.params.id}/majors`,
+        '',
+        this.projectDetails.requestedMajors,
+        this.$route.fullPath,
+      );
     },
     async updateTags() {
       this.loading = true;
-      clearTimeout(this.tagsTimeout);
-      this.tagsTimeout = setTimeout(() => {
-        apiCall.methods
-          .put(
-            `/projects/${this.$route.params.id}/tags`,
-            '',
-            this.projectDetails.tags,
-            this.$route.fullPath,
-          )
-          .then((response) => {
-            this.loading = false;
-          });
-      }, 3000);
+      return apiCall.methods.put(
+        `/projects/${this.$route.params.id}/tags`,
+        '',
+        this.projectDetails.tags,
+        this.$route.fullPath,
+      );
     },
     async toggleAcceptingApps() {
       this.loading = true;
