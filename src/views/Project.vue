@@ -1,6 +1,17 @@
 <template>
   <v-container style="max-width: 1185px;">
+    <div class="hello" @click="$router.push(`/project/${projectDetails.id}`)">
+      <facebook :url="url" scale="3"></facebook>
+      <twitter :url="url" title="Check me on Github" scale="3"></twitter>
+      <linkedin :url="url" scale="3"></linkedin>
+      <whats-app :url="url" title="Hello" scale="3"></whats-app>
+      <pinterest :url="url" scale="3"></pinterest>
+      <reddit :url="url" scale="3" title="My Github"></reddit>
+      <google :url="url" scale="3"></google>
+      <email :url="url" subject="Hello" scale="3"></email>
+    </div>
     <Loading v-if="loading" value="Loading Project" />
+
     <span v-else>
       <v-row>
         <v-col cols="12" sm="8">
@@ -41,10 +52,17 @@
         v-bind:onProject="onProject"
       />
       <p />
+
       <v-card>
         <v-tabs centered icons-and-text dark background-color="secondary">
-          <v-tab>Project Board<v-icon>mdi-timeline</v-icon></v-tab>
-          <v-tab>Comments<v-icon>mdi-comment-multiple</v-icon></v-tab>
+          <v-tab>
+            Project Board
+            <v-icon>mdi-timeline</v-icon>
+          </v-tab>
+          <v-tab>
+            Comments
+            <v-icon>mdi-comment-multiple</v-icon>
+          </v-tab>
           <v-tab-item>
             <ProjectBoard
               v-model="items.boardItems"
@@ -76,6 +94,17 @@
 </template>
 
 <script>
+import {
+  Facebook,
+  Twitter,
+  Linkedin,
+  Pinterest,
+  Reddit,
+  Telegram,
+  WhatsApp,
+  Email,
+  Google,
+} from 'vue-socialmedia-share';
 import apiCall from '@/apiCall';
 import Loading from '@/components/Loading.vue';
 import ProjectBoard from '@/components/ProjectBoard.vue';
@@ -96,9 +125,21 @@ export default {
     Comments,
     Apply,
     AdminPanel,
+    Facebook,
+    Twitter,
+    Linkedin,
+    Pinterest,
+    Reddit,
+    WhatsApp,
+    Email,
+    Google,
   },
   data() {
     return {
+      // url: `marqetplace.com/project/${projectDetails.id}`,
+      // url: 'marqetplace.xyz',
+      // url: `/project/${projectDetails.id}`,
+      // url: '$router.push(`/project/${projectDetails.id}`)',
       items: [],
       loading: true,
       adminPanel: false,
@@ -148,3 +189,24 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+h1,
+h2 {
+  font-weight: normal;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+.hello > span {
+  padding: 1em;
+}
+</style>
