@@ -100,7 +100,6 @@ import {
   Linkedin,
   Pinterest,
   Reddit,
-  Telegram,
   WhatsApp,
   Email,
   Google,
