@@ -31,18 +31,52 @@
           <v-progress-circular v-if="loading" indeterminate color="primary" />
         </v-card-title>
         <v-card-text class="text-left">
-          Write your application note below. You may want to include things such as:
-          <ul>
-            <li>why you want to be on the project</li>
-            <li>what your strengths are</li>
-            <li>a link to your resume</li>
-          </ul>
+          Complete the follow questions below to submit your applecation
+          <v-textarea
+            outlined
+            v-model="why"
+            name="why be on this project"
+            label="List why you want to be on this project"
+            counter="256"
+            :disabled="loading"
+            :rules="[rules.length(256)]"
+          ></v-textarea>
+          <br />
+          <v-textarea
+            outlined
+            v-model="skills"
+            name="Skills"
+            label="What skills and strengths would make you essential to this project"
+            counter="256"
+            :disabled="loading"
+            :rules="[rules.length(256)]"
+          ></v-textarea>
+          <br />
+          <v-textarea
+            outlined
+            v-model="experience"
+            name="Past work experience"
+            label="Please disccuss any past work experience you could bring to this project"
+            counter="256"
+            :disabled="loading"
+            :rules="[rules.length(256)]"
+          ></v-textarea>
+          <br />
+          <v-textarea
+            outlined
+            v-model="resume"
+            name="Resume"
+            label="Please link your resume here/other valuable information(Github, Solidworks, etc)"
+            counter="256"
+            :disabled="loading"
+            :rules="[rules.length(256)]"
+          ></v-textarea>
           <br />
           <v-textarea
             outlined
             v-model="note"
-            name="Note"
-            label="Note"
+            name="Any aditional comments"
+            label="Additional comments"
             counter="256"
             :disabled="loading"
             :rules="[rules.length(256)]"
@@ -84,6 +118,10 @@ export default {
       dialog: false,
       loading: false,
       note: null,
+      why: null,
+      experience: null,
+      skills: null,
+      resume: null,
       sent: false,
       sentTime: undefined,
       sentDialog: 0,
