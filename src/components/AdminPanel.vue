@@ -63,6 +63,18 @@
                 </v-tooltip>
               </p>
               <p>
+                Export Project Board to Excel:
+                <v-btn large icon :disabled="boardItems.length===0" @click="exportBoard()">
+                  <v-icon>mdi-export</v-icon>
+                </v-btn>
+              </p>
+              <p>
+                Export Applications to Excel:
+                <v-btn large icon :disabled="applications.length===0" @click="exportApps()">
+                  <v-icon>mdi-export</v-icon>
+                </v-btn>
+              </p>
+              <p>
                 Delete Project:
                 <v-btn large icon @click="deleteDialog = true">
                   <v-icon>
@@ -142,6 +154,7 @@ export default {
     contributors: Array,
     administrators: Array,
     applications: Array,
+    boardItems: Array,
   },
   data() {
     return {
@@ -151,6 +164,20 @@ export default {
     };
   },
   methods: {
+    exportBoard() {
+      const workbook = new Excel.Workbook();
+      const boardbook = workbook.addSheet('Project Board');
+      boardbook.columns = [{ header: 'Project board', width: 10 }];
+
+      boardbook.addRows(boardItems);
+    },
+    exportApps() {
+      const workbook = new Excel.Workbook();
+      const appsbook = workbook.addWorksheet('Applications');
+      appsbook.columns = [{ header: 'Applications', width: 10 }];
+
+      appsbook.addRows(applications);
+    },
     async toggleAcceptingApps() {
       this.editAcceptingApps = true;
       const response = await apiCall.methods.patch(

@@ -89,6 +89,7 @@
       :contributors="items.contributors"
       :administrators="items.administrators"
       :applications="forApproval"
+      :boardItems="items.boardItems"
     />
   </v-container>
 </template>
