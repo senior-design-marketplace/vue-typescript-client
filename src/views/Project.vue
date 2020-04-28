@@ -1,14 +1,13 @@
 <template>
   <v-container style="max-width: 1185px;">
-    <div class="hello" @click="$router.push(`/project/${projectDetails.id}`)">
-      <facebook :url="url" scale="3"></facebook>
-      <twitter :url="url" title="Check me on Github" scale="3"></twitter>
-      <linkedin :url="url" scale="3"></linkedin>
-      <whats-app :url="url" title="Hello" scale="3"></whats-app>
-      <pinterest :url="url" scale="3"></pinterest>
-      <reddit :url="url" scale="3" title="My Github"></reddit>
-      <google :url="url" scale="3"></google>
-      <email :url="url" subject="Hello" scale="3"></email>
+    <div>
+      <facebook :url="url" class="mx-2" style="cursor:pointer;" scale="3"></facebook>
+      <twitter :url="url" class="mx-2" style="cursor:pointer;" scale="3"></twitter>
+      <whats-app :url="url" class="mx-2" style="cursor:pointer;" scale="3"></whats-app>
+      <pinterest :url="url" class="mx-2" style="cursor:pointer;" scale="3"></pinterest>
+      <reddit :url="url" class="mx-2" style="cursor:pointer;" scale="3"></reddit>
+      <google :url="url" class="mx-2" style="cursor:pointer;" scale="3"></google>
+      <email :url="url" class="mx-2" style="cursor:pointer;" scale="3"></email>
     </div>
     <Loading v-if="loading" value="Loading Project" />
 
@@ -98,7 +97,6 @@
 import {
   Facebook,
   Twitter,
-  Linkedin,
   Pinterest,
   Reddit,
   WhatsApp,
@@ -127,7 +125,6 @@ export default {
     AdminPanel,
     Facebook,
     Twitter,
-    Linkedin,
     Pinterest,
     Reddit,
     WhatsApp,
@@ -136,10 +133,7 @@ export default {
   },
   data() {
     return {
-      // url: `marqetplace.com/project/${projectDetails.id}`,
-      // url: 'marqetplace.xyz',
-      // url: `/project/${projectDetails.id}`,
-      // url: '$router.push(`/project/${projectDetails.id}`)',
+      url: `https://www.marqetplace.xyz/project/${this.$route.params.id}`,
       items: [],
       loading: true,
       adminPanel: false,
@@ -189,24 +183,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-.hello > span {
-  padding: 1em;
-}
-</style>
