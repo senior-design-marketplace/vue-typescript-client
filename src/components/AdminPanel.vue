@@ -63,6 +63,28 @@
                 </v-tooltip>
               </p>
               <p>
+                Export Project Board to Excel:
+                <v-btn
+                  large
+                  icon
+                  :disabled="boardItems.length===0 || boardItems === undefined"
+                  @click="exportBoard()"
+                >
+                  <v-icon>mdi-export</v-icon>
+                </v-btn>
+              </p>
+              <p>
+                Export Applications to Excel:
+                <v-btn
+                  large
+                  icon
+                  :disabled="applications.length===0 || applications === undefined"
+                  @click="exportApps()"
+                >
+                  <v-icon>mdi-export</v-icon>
+                </v-btn>
+              </p>
+              <p>
                 Delete Project:
                 <v-btn large icon @click="deleteDialog = true">
                   <v-icon>
@@ -121,6 +143,8 @@
 </template>
 
 <script>
+import { saveAs } from 'file-saver';
+import XLSX from 'xlsx';
 import apiCall from '@/apiCall';
 import AuditLog from '@/components/AuditLog.vue';
 import BigDecision from '@/components/BigDecision.vue';
@@ -142,6 +166,7 @@ export default {
     contributors: Array,
     administrators: Array,
     applications: Array,
+    boardItems: Array,
   },
   data() {
     return {
@@ -151,6 +176,47 @@ export default {
     };
   },
   methods: {
+    exportBoard() {
+      const wb = XLSX.utils.book_new();
+      wb.Props = {
+        Title: 'Project Board',
+      };
+      wb.SheetNames.push('BoardItems');
+      const flattened = this.boardItems;
+      for (let i = 0; i < flattened.length; i += 1) {
+        flattened[i].type = flattened[i].document.type;
+        if (flattened[i].document.body !== undefined) {
+          flattened[i].body = flattened[i].document.body;
+        } else if (flattened[i].document.mediaLink !== undefined) {
+          flattened[i].body = flattened[i].document.mediaLink;
+        }
+        delete flattened[i].document;
+      }
+      const ws = XLSX.utils.json_to_sheet(flattened);
+      wb.Sheets.BoardItems = ws;
+
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+      saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream' }), 'BoardItems.xlsx');
+    },
+    exportApps() {
+      const wb = XLSX.utils.book_new();
+      wb.Props = {
+        Title: 'Applications',
+        Subject: 'Applications',
+      };
+      wb.SheetNames.push('Applications');
+      const ws = XLSX.utils.json_to_sheet(this.applications);
+      wb.Sheets.Applications = ws;
+
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+      saveAs(new Blob([this.s2ab(wbout)], { type: 'application/octet-stream' }), 'Applications.xlsx');
+    },
+    s2ab(s) {
+      const buf = new ArrayBuffer(s.length);
+      const view = new Uint8Array(buf);
+      for (let i = 0; i < s.length; i += 1) view[i] = s.charCodeAt(i) & 0xFF; // eslint-disable-line
+      return buf;
+    },
     async toggleAcceptingApps() {
       this.editAcceptingApps = true;
       const response = await apiCall.methods.patch(
