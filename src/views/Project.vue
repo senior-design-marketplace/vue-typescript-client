@@ -1,6 +1,7 @@
 <template>
   <v-container style="max-width: 1185px;">
     <Loading v-if="loading" value="Loading Project" />
+
     <span v-else>
       <v-row>
         <v-col cols="12" sm="8">
@@ -32,6 +33,7 @@
           />
         </v-col>
       </v-row>
+
       <ProjectMain
         @update="getProjectData"
         v-bind:tagline="items.tagline"
@@ -40,11 +42,19 @@
         v-bind:tags="items.tags"
         v-bind:onProject="onProject"
       />
+
       <p />
+
       <v-card>
         <v-tabs centered icons-and-text dark background-color="secondary">
-          <v-tab>Project Board<v-icon>mdi-timeline</v-icon></v-tab>
-          <v-tab>Comments<v-icon>mdi-comment-multiple</v-icon></v-tab>
+          <v-tab>
+            Project Board
+            <v-icon>mdi-timeline</v-icon>
+          </v-tab>
+          <v-tab>
+            Comments
+            <v-icon>mdi-comment-multiple</v-icon>
+          </v-tab>
           <v-tab-item>
             <ProjectBoard
               v-model="items.boardItems"
@@ -71,11 +81,29 @@
       :contributors="items.contributors"
       :administrators="items.administrators"
       :applications="forApproval"
+      :boardItems="items.boardItems"
     />
+    <p />
+      <div>
+        <facebook :url="url" class="mx-2" style="cursor:pointer;" scale="3"></facebook>
+        <twitter :url="url" class="mx-2" style="cursor:pointer;" scale="3"></twitter>
+        <whats-app :url="url" class="mx-2" style="cursor:pointer;" scale="3"></whats-app>
+        <pinterest :url="url" class="mx-2" style="cursor:pointer;" scale="3"></pinterest>
+        <reddit :url="url" class="mx-2" style="cursor:pointer;" scale="3"></reddit>
+        <email :url="url" class="mx-2" style="cursor:pointer;" scale="3"></email>
+      </div>
   </v-container>
 </template>
 
 <script>
+import {
+  Facebook,
+  Twitter,
+  Pinterest,
+  Reddit,
+  WhatsApp,
+  Email,
+} from 'vue-socialmedia-share';
 import apiCall from '@/apiCall';
 import Loading from '@/components/Loading.vue';
 import ProjectBoard from '@/components/ProjectBoard.vue';
@@ -96,9 +124,16 @@ export default {
     Comments,
     Apply,
     AdminPanel,
+    Facebook,
+    Twitter,
+    Pinterest,
+    Reddit,
+    WhatsApp,
+    Email,
   },
   data() {
     return {
+      url: `https://www.marqetplace.xyz/project/${this.$route.params.id}`,
       items: [],
       loading: true,
       adminPanel: false,
