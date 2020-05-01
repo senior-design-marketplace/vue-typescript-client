@@ -1,14 +1,5 @@
 <template>
   <v-container style="max-width: 1185px;">
-    <div>
-      <facebook :url="url" class="mx-2" style="cursor:pointer;" scale="3"></facebook>
-      <twitter :url="url" class="mx-2" style="cursor:pointer;" scale="3"></twitter>
-      <whats-app :url="url" class="mx-2" style="cursor:pointer;" scale="3"></whats-app>
-      <pinterest :url="url" class="mx-2" style="cursor:pointer;" scale="3"></pinterest>
-      <reddit :url="url" class="mx-2" style="cursor:pointer;" scale="3"></reddit>
-      <google :url="url" class="mx-2" style="cursor:pointer;" scale="3"></google>
-      <email :url="url" class="mx-2" style="cursor:pointer;" scale="3"></email>
-    </div>
     <Loading v-if="loading" value="Loading Project" />
 
     <span v-else>
@@ -42,6 +33,7 @@
           />
         </v-col>
       </v-row>
+
       <ProjectMain
         @update="getProjectData"
         v-bind:tagline="items.tagline"
@@ -50,6 +42,7 @@
         v-bind:tags="items.tags"
         v-bind:onProject="onProject"
       />
+
       <p />
 
       <v-card>
@@ -90,6 +83,15 @@
       :applications="forApproval"
       :boardItems="items.boardItems"
     />
+    <p />
+      <div>
+        <facebook :url="url" class="mx-2" style="cursor:pointer;" scale="3"></facebook>
+        <twitter :url="url" class="mx-2" style="cursor:pointer;" scale="3"></twitter>
+        <whats-app :url="url" class="mx-2" style="cursor:pointer;" scale="3"></whats-app>
+        <pinterest :url="url" class="mx-2" style="cursor:pointer;" scale="3"></pinterest>
+        <reddit :url="url" class="mx-2" style="cursor:pointer;" scale="3"></reddit>
+        <email :url="url" class="mx-2" style="cursor:pointer;" scale="3"></email>
+      </div>
   </v-container>
 </template>
 
@@ -101,7 +103,6 @@ import {
   Reddit,
   WhatsApp,
   Email,
-  Google,
 } from 'vue-socialmedia-share';
 import apiCall from '@/apiCall';
 import Loading from '@/components/Loading.vue';
@@ -129,7 +130,6 @@ export default {
     Reddit,
     WhatsApp,
     Email,
-    Google,
   },
   data() {
     return {
