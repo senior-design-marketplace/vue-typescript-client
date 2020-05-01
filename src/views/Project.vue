@@ -71,19 +71,18 @@
           </v-tab-item>
         </v-tabs>
       </v-card>
-    </span>
-    <AdminPanel
-      @update="getProjectData"
-      v-model="adminPanel"
-      :title="items.title"
-      :history="items.history"
-      :acceptingApps="items.acceptingApplications"
-      :contributors="items.contributors"
-      :administrators="items.administrators"
-      :applications="forApproval"
-      :boardItems="items.boardItems"
-    />
-    <p />
+      <AdminPanel
+        @update="getProjectData"
+        v-model="adminPanel"
+        :title="items.title"
+        :history="items.history"
+        :acceptingApps="items.acceptingApplications"
+        :contributors="items.contributors"
+        :administrators="items.administrators"
+        :applications="forApproval"
+        :boardItems="items.boardItems"
+      />
+      <p />
       <div>
         <facebook :url="url" class="mx-2" style="cursor:pointer;" scale="3"></facebook>
         <twitter :url="url" class="mx-2" style="cursor:pointer;" scale="3"></twitter>
@@ -92,6 +91,7 @@
         <reddit :url="url" class="mx-2" style="cursor:pointer;" scale="3"></reddit>
         <email :url="url" class="mx-2" style="cursor:pointer;" scale="3"></email>
       </div>
+    </span>
   </v-container>
 </template>
 
